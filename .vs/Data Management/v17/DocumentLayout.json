@@ -7,24 +7,28 @@
       "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\database\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\database\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\modules\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\modlet\\modletserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\modlet\\modletserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\configuration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\data\\configuration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,32 +38,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\User.cs",
-              "RelativeDocumentMoniker": "Shared\\Database\\User.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\User.cs",
-              "RelativeToolTip": "Shared\\Database\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAABAAAA",
+              "Title": "Authentication.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Authentication.cs",
+              "RelativeDocumentMoniker": "Shared\\Modules\\Authentication.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Authentication.cs [Design]",
+              "RelativeToolTip": "Shared\\Modules\\Authentication.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:41:09.94Z",
+              "WhenOpened": "2024-02-28T15:18:23.64Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IModlet.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
+              "RelativeDocumentMoniker": "UT.Data\\Modlet\\IModlet.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
+              "RelativeToolTip": "UT.Data\\Modlet\\IModlet.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-28T15:14:03.976Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Program.cs",
-              "RelativeDocumentMoniker": "Server\\Program.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Program.cs",
-              "RelativeToolTip": "Server\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 5,
+              "Title": "ModletServer.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\ModletServer.cs",
+              "RelativeDocumentMoniker": "UT.Data\\Modlet\\ModletServer.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\ModletServer.cs",
+              "RelativeToolTip": "UT.Data\\Modlet\\ModletServer.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAApwCwAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:43:59.459Z",
+              "WhenOpened": "2024-02-28T15:13:54.565Z",
               "EditorCaption": ""
             },
             {
@@ -70,35 +86,35 @@
               "RelativeDocumentMoniker": "Shared\\Modules\\Authentication.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Authentication.cs",
               "RelativeToolTip": "Shared\\Modules\\Authentication.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABcAAAAVAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:38:54.622Z",
+              "WhenOpened": "2024-02-28T15:07:51.851Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IModlet.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
-              "RelativeDocumentMoniker": "UT.Data\\Modlet\\IModlet.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
-              "RelativeToolTip": "UT.Data\\Modlet\\IModlet.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\User.cs",
+              "RelativeDocumentMoniker": "Shared\\Database\\User.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\User.cs",
+              "RelativeToolTip": "Shared\\Database\\User.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAIA8wCAAAABRAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:38:23.972Z",
+              "WhenOpened": "2024-02-28T15:07:51.863Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ModletServer.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\ModletServer.cs",
-              "RelativeDocumentMoniker": "UT.Data\\Modlet\\ModletServer.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\ModletServer.cs",
-              "RelativeToolTip": "UT.Data\\Modlet\\ModletServer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJQAAAAAAAAA",
+              "DocumentIndex": 6,
+              "Title": "Configuration.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\Configuration.cs",
+              "RelativeDocumentMoniker": "Server\\Data\\Configuration.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\Configuration.cs",
+              "RelativeToolTip": "Server\\Data\\Configuration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:37:00.379Z",
+              "WhenOpened": "2024-02-28T15:08:20.469Z",
               "EditorCaption": ""
             },
             {
@@ -109,7 +125,7 @@
               "RelativeDocumentMoniker": "Server\\Data\\App.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
               "RelativeToolTip": "Server\\Data\\App.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAApwDkAAAAnAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAH4AAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T13:34:32.883Z",
               "EditorCaption": ""
