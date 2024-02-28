@@ -38,11 +38,13 @@ namespace Server.Data
             }
 
             ModletServer server = new(addresses.ToArray(), this.configuration.Port);
+            Dictionary<string, object> configuration = [];
+            configuration.Add("Port", this.configuration.Port);
 
             IModlet[] list = Modlet.Load(null);
             foreach(IModlet mod in list)
             {
-                server.Register(mod);
+                server.Register(mod, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
