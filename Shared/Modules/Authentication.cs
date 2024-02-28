@@ -8,9 +8,13 @@ using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
-    [Position(int.MinValue, [typeof(DatabaseAccess)])]
+    [Position(int.MinValue)]
     public class Authentication : CustomForm, IModlet
     {
+        #region Constants
+        public const string AuthenticationKey = "0x44ff731a";
+        #endregion //Constants
+
         #region Members
         private Label? lbl_username;
         private Label? lbl_password;
@@ -29,17 +33,18 @@ namespace Shared.Modules
         #endregion //Enums
 
         #region Implementations
-        void IModlet.OnServerConfiguration(ref Dictionary<string, object> configuration)
+        void IModlet.OnServerConfiguration(ref Dictionary<string, object?> configuration)
         {
             if(configuration == null)
             {
                 throw new Exception("Configuration error (NULL)");
             }
-            if(!configuration.ContainsKey("DBC"))
+            if(!configuration.ContainsKey("DBC") || configuration["DBC"] == null || configuration["DBC"] is not IDatabaseConnection db)
             {
                 throw new Exception("Cannot find configuration key 'DBC'");
             }
-            this.dbc = (IDatabaseConnection)configuration["DBC"];
+
+            this.dbc = db;
         }
 
         void IModlet.OnClientConfiguration(ModletClient client)

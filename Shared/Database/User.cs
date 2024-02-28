@@ -30,8 +30,8 @@ namespace Shared.Database
         #region Public Methods
         public static User? Authenticate(IDatabaseConnection dbc, string username, string password)
         {
-            string uName = Aes.Encrypt(username, DatabaseAccess.AuthenticationKey);
-            string uPass = Aes.Encrypt(password, DatabaseAccess.AuthenticationKey);
+            string uName = Aes.Encrypt(username, Authentication.AuthenticationKey);
+            string uPass = Aes.Encrypt(password, Authentication.AuthenticationKey);
             Query query = new Query(dbc).Select<User, int?>(x => x.Field_Id).From<User>().Where<User>(x => x.Field_Username == uName && x.Field_Password == uPass);
 
             var x = query.Execute();
