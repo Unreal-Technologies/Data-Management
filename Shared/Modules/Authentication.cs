@@ -8,7 +8,7 @@ using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
-    [Position(int.MinValue, new Type[] { typeof(DatabaseAccess) })]
+    [Position(int.MinValue, [typeof(DatabaseAccess)])]
     public class Authentication : CustomForm, IModlet
     {
         #region Members
@@ -18,6 +18,7 @@ namespace Shared.Modules
         private TextBox? tb_password;
         private Button? btn_login;
         private ModletClient? client;
+        private IDatabaseConnection dbc;
         #endregion //Members
 
         #region Enums
@@ -28,6 +29,19 @@ namespace Shared.Modules
         #endregion //Enums
 
         #region Implementations
+        void IModlet.OnServerConfiguration(ref Dictionary<string, object> configuration)
+        {
+            if(configuration == null)
+            {
+                throw new Exception("Configuration error (NULL)");
+            }
+            if(!configuration.ContainsKey("DBC"))
+            {
+                throw new Exception("Cannot find configuration key 'DBC'");
+            }
+            this.dbc = (IDatabaseConnection)configuration["DBC"];
+        }
+
         void IModlet.OnClientConfiguration(ModletClient client)
         {
             this.client = client;
@@ -59,9 +73,7 @@ namespace Shared.Modules
 
                     string username = auth.Item1;
                     string password = auth.Item2;
-                    Mysql dbc = new Mysql();
-
-                    User? user = User.Authenticate(dbc, username, password);
+                    User? user = User.Authenticate(this.dbc, username, password);
                     if (user == null)
                     {
                         return Packet<bool, string?>.Encode(false, "No DB Yet, Cannot validate user '" + username + "'");

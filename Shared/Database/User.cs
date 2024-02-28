@@ -28,11 +28,11 @@ namespace Shared.Database
         #endregion //Members
 
         #region Public Methods
-        public static User? Authenticate(UT.Data.DBE.IQueryable dbc, string username, string password)
+        public static User? Authenticate(IDatabaseConnection dbc, string username, string password)
         {
             string uName = Aes.Encrypt(username, DatabaseAccess.AuthenticationKey);
             string uPass = Aes.Encrypt(password, DatabaseAccess.AuthenticationKey);
-            Query query = (new Query(dbc)).Select<User, int?>(x => x.Field_Id).From<User>().Where<User>(x => x.Field_Username == uName && x.Field_Password == uPass);
+            Query query = new Query(dbc).Select<User, int?>(x => x.Field_Id).From<User>().Where<User>(x => x.Field_Username == uName && x.Field_Password == uPass);
 
             var x = query.Execute();
             return null;
