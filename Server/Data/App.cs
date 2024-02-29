@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Data.Common;
-using System.Net;
+﻿using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using UT.Data;
 using UT.Data.Attributes;
@@ -11,12 +8,13 @@ using UT.Data.DBE;
 using UT.Data.IO;
 using UT.Data.IO.Assemblies;
 using UT.Data.Modlet;
-using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace Server.Data
 {
     internal partial class App
     {
+        private const int Padding = 96;
+
         #region Members
         private Configuration? configuration;
         #endregion //Members
@@ -25,8 +23,10 @@ namespace Server.Data
         public App()
         {
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
+            ExtendedConsole.BoxMode(true, App.Padding);
             ExtendedConsole.WriteLine("Version <yellow>"+ version.ToString() + "</yellow>");
             ExtendedConsole.WriteLine("© Unreal Technologies <yellow>" + DateTime.Now.Year.ToString() + "</yellow>");
+            ExtendedConsole.BoxMode(false);
 
             List<IPAddress> addresses = new(Network.LocalIPv4(NetworkInterfaceType.Ethernet))
             {
@@ -45,12 +45,14 @@ namespace Server.Data
             configuration.Add("DBC", App.GetDbc(this.configuration));
 
             IModlet[] list = Modlet.Load(null);
+            ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)
             {
                 server.Register(mod, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
+            ExtendedConsole.BoxMode(false);
 
             server.Start();
         }
@@ -68,11 +70,25 @@ namespace Server.Data
         private static IDatabaseConnection? GetDbc(Configuration configuration)
         {
             Type? t = Type.GetType(configuration.Dbc.Type);
-            if(t == null)
+            if (t == null)
             {
                 return null;
             }
+            IPAddress ip = IPAddress.Parse(configuration.Dbc.IP);
+
+            ExtendedConsole.BoxMode(true, App.Padding);
+            ExtendedConsole.WriteLine("Checking <yellow>" + t.Name + "</yellow> server connection on <yellow>" + ip.ToString() + ":" + configuration.Dbc.Port + "</yellow>");
+            if(!Network.IsServerReachable(ip, configuration.Dbc.Port))
+            {
+                ExtendedConsole.WriteLine("<red>Cannot reach server</red>");
+                ExtendedConsole.BoxMode(false);
+                return null;
+            }
+            ExtendedConsole.WriteLine("<green>Server OK</green>");
+
+            
             IDatabaseConnection? dbc = Activator.CreateInstance(t) as IDatabaseConnection;
+            ExtendedConsole.BoxMode(false);
 
             return dbc;
         }
@@ -139,7 +155,7 @@ namespace Server.Data
                 return App.GetDbcConnectionInfo_Dbserver(dbc, defaults);
             }
 
-            ExtendedConsole.WriteLine("Wich server is running the " + dbc.Name + " database (default '<green>" + portDefault + "</green>'):");
+            ExtendedConsole.WriteLine("Wich port is the " + dbc.Name + " server running on (default '<green>" + portDefault + "</green>'):");
             string? portString = Console.ReadLine();
 
             if (portString == null || portString == String.Empty)
