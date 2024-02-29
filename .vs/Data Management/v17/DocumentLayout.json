@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\extendedconsole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\extendedconsole.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\configuration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,24 +30,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "ExtendedConsole.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\ExtendedConsole.cs",
+              "RelativeDocumentMoniker": "UT.Data\\ExtendedConsole.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\ExtendedConsole.cs",
+              "RelativeToolTip": "UT.Data\\ExtendedConsole.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-29T12:11:04.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Configuration.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\Configuration.cs",
               "RelativeDocumentMoniker": "Server\\Data\\Configuration.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\Configuration.cs",
               "RelativeToolTip": "Server\\Data\\Configuration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAApAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T19:05:49.619Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "IDatabaseConnection.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\IDatabaseConnection.cs",
               "RelativeDocumentMoniker": "UT.Data\\DBE\\IDatabaseConnection.cs",
@@ -56,26 +73,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Mysql.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\Mysql.cs",
               "RelativeDocumentMoniker": "UT.Data\\DBE\\Mysql.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\Mysql.cs",
               "RelativeToolTip": "UT.Data\\DBE\\Mysql.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAdAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T17:59:21.908Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "App.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
               "RelativeDocumentMoniker": "Server\\Data\\App.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
               "RelativeToolTip": "Server\\Data\\App.cs",
-              "ViewState": "AQIAAEwAAAAAAAAAAAAYwGMAAAARAAAA",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAQwEYAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-02-28T13:34:32.883Z",
               "EditorCaption": ""
