@@ -41,10 +41,10 @@ namespace Shared.Modules
             }
             if(!configuration.ContainsKey("DBC") || configuration["DBC"] == null || configuration["DBC"] is not IDatabaseConnection db)
             {
-                throw new Exception("Cannot find configuration key 'DBC'");
+                //throw new Exception("Cannot find configuration key 'DBC'");
             }
 
-            this.dbc = db;
+            //this.dbc = db;
         }
 
         void IModlet.OnClientConfiguration(ModletClient client)

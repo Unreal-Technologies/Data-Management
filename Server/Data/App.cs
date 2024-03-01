@@ -13,16 +13,22 @@ namespace Server.Data
 {
     internal partial class App
     {
+        #region Constants
         private const int Padding = 96;
+        #endregion //Constants
 
         #region Members
         private Configuration? configuration;
+        private readonly ModletServer? server;
+        private readonly IDatabaseConnection? dbc;
         #endregion //Members
 
         #region Constructors
         public App()
         {
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
+            
             ExtendedConsole.BoxMode(true, App.Padding);
             ExtendedConsole.WriteLine("Version <yellow>"+ version.ToString() + "</yellow>");
             ExtendedConsole.WriteLine("© Unreal Technologies <yellow>" + DateTime.Now.Year.ToString() + "</yellow>");
@@ -41,8 +47,9 @@ namespace Server.Data
 
             ModletServer server = new(addresses.ToArray(), this.configuration.Port);
             Dictionary<string, object?> configuration = [];
+            this.dbc = App.GetDbc(this.configuration);
             configuration.Add("Port", this.configuration.Port);
-            configuration.Add("DBC", App.GetDbc(this.configuration));
+            configuration.Add("DBC", this.dbc);
 
             IModlet[] list = Modlet.Load(null);
             ExtendedConsole.BoxMode(true, App.Padding);
@@ -54,9 +61,18 @@ namespace Server.Data
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
             ExtendedConsole.BoxMode(false);
 
+            this.server = server;
             server.Start();
         }
         #endregion //Constructors
+
+        #region Events
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
+        {
+            this.server?.Stop();
+            this.dbc?.Close();
+        }
+        #endregion //Events
 
         #region Public Methods
 
@@ -86,11 +102,29 @@ namespace Server.Data
             }
             ExtendedConsole.WriteLine("<green>Server OK</green>");
 
-            
-            IDatabaseConnection? dbc = Activator.CreateInstance(t) as IDatabaseConnection;
+            if (Activator.CreateInstance(t) is not IDatabaseConnection dbc)
+            {
+                ExtendedConsole.WriteLine("<red>Error Initializing DB</red>");
+                ExtendedConsole.BoxMode(false);
+                return null;
+            }
+            dbc.OnException += Dbc_OnException;
+
+            ExtendedConsole.WriteLine("Connecting to database '<yellow>" + configuration.Dbc.Db + "</yellow>'");
+            if (dbc.Open(ip, configuration.Dbc.Port, configuration.Dbc.Db, configuration.Dbc.Username, configuration.Dbc.Password))
+            {
+                ExtendedConsole.WriteLine("Connection <green>OK</green>");
+            }
+
             ExtendedConsole.BoxMode(false);
 
             return dbc;
+        }
+
+        private static void Dbc_OnException(Exception mex)
+        {
+            ExtendedConsole.WriteLine("<red>"+mex.Message+"</red>");
+            ExtendedConsole.WriteLine("<darkred>" + mex.InnerException?.Message + "</darkred>");
         }
 
         private void LoadConfig()
@@ -219,7 +253,7 @@ namespace Server.Data
                 throw new NotImplementedException();
             }
 
-            if(!dbcInstance.Connect(serverInfo.Item1, serverInfo.Item2, dbString, userString, passString))
+            if(!dbcInstance.Open(serverInfo.Item1, serverInfo.Item2, dbString, userString, passString))
             {
                 ExtendedConsole.WriteLine("<red>Can't connect to database '" + dbString + "'</red>");
                 return App.GetDbcConnectionInfo_Db(dbc, defaults, serverInfo);
