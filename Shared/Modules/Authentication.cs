@@ -33,18 +33,28 @@ namespace Shared.Modules
         #endregion //Enums
 
         #region Implementations
-        void IModlet.OnServerConfiguration(ref Dictionary<string, object?> configuration)
+        void IModlet.OnServerInstallation(IDatabaseConnection? dbc)
         {
-            if(configuration == null)
+            if(dbc == null)
             {
-                throw new Exception("Configuration error (NULL)");
-            }
-            if(!configuration.ContainsKey("DBC") || configuration["DBC"] == null || configuration["DBC"] is not IDatabaseConnection db)
-            {
-                //throw new Exception("Cannot find configuration key 'DBC'");
+                return;
             }
 
-            //this.dbc = db;
+            Person.CreateOrUpdate(dbc);
+            User.CreateOrUpdate(dbc);
+        }
+
+        void IModlet.OnServerConfiguration(IDatabaseConnection? dbc, ref Dictionary<string, object?> configuration)
+        {
+            if(dbc == null)
+            {
+                throw new Exception("No Database Access");
+            }
+
+            Person.CreateOrUpdate(dbc); //temp 4 build
+            User.CreateOrUpdate(dbc); //temp 4 build
+
+            this.dbc = dbc;
         }
 
         void IModlet.OnClientConfiguration(ModletClient client)

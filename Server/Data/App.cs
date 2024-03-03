@@ -21,6 +21,7 @@ namespace Server.Data
         private Configuration? configuration;
         private readonly ModletServer? server;
         private readonly IDatabaseConnection? dbc;
+        private bool installationMode = false;
         #endregion //Members
 
         #region Constructors
@@ -49,13 +50,16 @@ namespace Server.Data
             Dictionary<string, object?> configuration = [];
             this.dbc = App.GetDbc(this.configuration);
             configuration.Add("Port", this.configuration.Port);
-            configuration.Add("DBC", this.dbc);
 
             IModlet[] list = Modlet.Load(null);
             ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)
             {
-                server.Register(mod, ref configuration);
+                if(this.installationMode)
+                {
+                    mod.OnServerInstallation(this.dbc);
+                }
+                server.Register(mod, this.dbc, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
@@ -132,6 +136,7 @@ namespace Server.Data
             LocalConfig lc = new("Configuration");
             if (!lc.Exists)
             {
+                this.installationMode = true;
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Configuration Missing.");

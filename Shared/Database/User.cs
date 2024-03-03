@@ -6,7 +6,7 @@ using UT.Data.Encryption;
 
 namespace Shared.Database
 {
-    [Description("DmCore.User")]
+    [Description("Shared-User")]
     public class User : Table<User, int>
     {
         #region Properties
