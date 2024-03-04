@@ -51,6 +51,9 @@ namespace Server.Data
             this.dbc = App.GetDbc(this.configuration);
             configuration.Add("Port", this.configuration.Port);
 
+            this.installationMode = true;
+            ExtendedConsole.WriteLine("remove installation mode boolean override");
+
             IModlet[] list = Modlet.Load(null);
             ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)

@@ -3,6 +3,7 @@ using UT.Data.Attributes;
 using UT.Data.DBE;
 using UT.Data.DBE.Attributes;
 using UT.Data.Encryption;
+using DefaultAttribute = UT.Data.DBE.Attributes.DefaultAttribute;
 
 namespace Shared.Database
 {
@@ -15,7 +16,8 @@ namespace Shared.Database
         public Person? Object_Person { get { return Person.Single(this.personId); } set { this.personId = value?.GetPrimary(); } }
         public int? Field_PersonId { get { return this.personId; } set { this.personId = value; } }
         public int? Field_Id { get { return this.id; } set { this.id = value; } }
-        public bool? Field_Enabled { get { return this.enabled; } set { this.enabled = value; } }
+        public DateTime Field_Start { get { return this.start; } set { this.start = value; } }
+        public DateTime Field_End { get { return this.end; } set { this.end = value; } }
         #endregion //Properties
 
         #region Members
@@ -24,7 +26,10 @@ namespace Shared.Database
         private int? personId;
         [PrimaryKey]
         private int? id;
-        private bool? enabled;
+        [Default("now()"), Date]
+        private DateTime start;
+        [Default("now()"), Date]
+        private DateTime end;
         #endregion //Members
 
         #region Public Methods

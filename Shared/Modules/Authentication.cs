@@ -42,6 +42,16 @@ namespace Shared.Modules
 
             Person.CreateOrUpdate(dbc);
             User.CreateOrUpdate(dbc);
+
+            Person person = new()
+            {
+                Field_Firstname = "Admin",
+                Field_Lastname = "Admin"
+            };
+            if(dbc.Save<Person>(ref person, true))
+            {
+                throw new NotImplementedException();
+            }
         }
 
         void IModlet.OnServerConfiguration(IDatabaseConnection? dbc, ref Dictionary<string, object?> configuration)
@@ -50,10 +60,6 @@ namespace Shared.Modules
             {
                 throw new Exception("No Database Access");
             }
-
-            Person.CreateOrUpdate(dbc); //temp 4 build
-            User.CreateOrUpdate(dbc); //temp 4 build
-
             this.dbc = dbc;
         }
 
