@@ -19,10 +19,9 @@ namespace Shared.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Firstname = table.Column<string>(type: "longtext", nullable: false),
-                    Lastname = table.Column<string>(type: "longtext", nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Firstname = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
+                    Lastname = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     TransStartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
                 },
@@ -36,11 +35,12 @@ namespace Shared.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Username = table.Column<string>(type: "longtext", nullable: false),
-                    Password = table.Column<string>(type: "longtext", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Username = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
+                    Password = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
+                    PersonId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Start = table.Column<DateTime>(type: "date", nullable: false),
+                    End = table.Column<DateTime>(type: "date", nullable: false),
                     TransStartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.ComputedColumn)
                 },

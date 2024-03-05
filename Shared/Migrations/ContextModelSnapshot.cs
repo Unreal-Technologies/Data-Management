@@ -21,17 +21,19 @@ namespace Shared.Migrations
 
             modelBuilder.Entity("Shared.EFC.Tables.Person", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<DateTime>("TransStartDate")
                         .ValueGeneratedOnAddOrUpdate()
@@ -44,16 +46,23 @@ namespace Shared.Migrations
 
             modelBuilder.Entity("Shared.EFC.Tables.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("date");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("TransStartDate")
                         .ValueGeneratedOnAddOrUpdate()
@@ -61,7 +70,8 @@ namespace Shared.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
 
                     b.HasKey("Id");
 
