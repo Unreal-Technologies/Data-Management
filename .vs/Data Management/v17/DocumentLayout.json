@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\dbe\\mysql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\dbe\\idatabaseconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\dbe\\idatabaseconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\dbe\\tableinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\dbe\\tableinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\shared\\efc\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\modules\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\authentication.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\database\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\database\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\shared\\efc\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\tables\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\shared\\efc\\tables\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\tables\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\modlet\\imodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\ut.data\\extendeddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\extendeddbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\ut.data\\attributes\\defaultattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\attributes\\defaultattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,98 +38,93 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TableInfo.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\TableInfo.cs",
-              "RelativeDocumentMoniker": "UT.Data\\DBE\\TableInfo.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\TableInfo.cs",
-              "RelativeToolTip": "UT.Data\\DBE\\TableInfo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-03T14:36:27.954Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Mysql.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\Mysql.cs",
-              "RelativeDocumentMoniker": "UT.Data\\DBE\\Mysql.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\Mysql.cs",
-              "RelativeToolTip": "UT.Data\\DBE\\Mysql.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAAwDAAAAAbAAAA",
+              "Title": "Context.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Context.cs",
+              "RelativeDocumentMoniker": "Shared\\EFC\\Context.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Context.cs",
+              "RelativeToolTip": "Shared\\EFC\\Context.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAA1wCYAAABVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-03T14:34:51.064Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Person.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\Person.cs",
-              "RelativeDocumentMoniker": "Shared\\Database\\Person.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Database\\Person.cs",
-              "RelativeToolTip": "Shared\\Database\\Person.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABsAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-03T14:07:53.106Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IModlet.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
-              "RelativeDocumentMoniker": "UT.Data\\Modlet\\IModlet.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Modlet\\IModlet.cs",
-              "RelativeToolTip": "UT.Data\\Modlet\\IModlet.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAA9AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-01T14:27:13.064Z",
+              "WhenOpened": "2024-03-05T01:05:41.158Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "IDatabaseConnection.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\IDatabaseConnection.cs",
-              "RelativeDocumentMoniker": "UT.Data\\DBE\\IDatabaseConnection.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\DBE\\IDatabaseConnection.cs",
-              "RelativeToolTip": "UT.Data\\DBE\\IDatabaseConnection.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T19:03:45.483Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "Authentication.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Authentication.cs",
               "RelativeDocumentMoniker": "Shared\\Modules\\Authentication.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Authentication.cs",
               "RelativeToolTip": "Shared\\Modules\\Authentication.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAowDIAAAAeAAAA",
+              "ViewState": "AQIAACQAAAAAAAAAAAAjwDQAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T18:04:12.685Z",
+              "WhenOpened": "2024-03-05T01:02:53.953Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Person.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Tables\\Person.cs",
+              "RelativeDocumentMoniker": "Shared\\EFC\\Tables\\Person.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Tables\\Person.cs",
+              "RelativeToolTip": "Shared\\EFC\\Tables\\Person.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-05T01:05:06.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Tables\\User.cs",
+              "RelativeDocumentMoniker": "Shared\\EFC\\Tables\\User.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\EFC\\Tables\\User.cs",
+              "RelativeToolTip": "Shared\\EFC\\Tables\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-05T01:05:05.063Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DefaultAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Attributes\\DefaultAttribute.cs",
+              "RelativeDocumentMoniker": "UT.Data\\Attributes\\DefaultAttribute.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Attributes\\DefaultAttribute.cs",
+              "RelativeToolTip": "UT.Data\\Attributes\\DefaultAttribute.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-05T00:59:41.784Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "ExtendedDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\ExtendedDbContext.cs",
+              "RelativeDocumentMoniker": "UT.Data\\ExtendedDbContext.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\ExtendedDbContext.cs",
+              "RelativeToolTip": "UT.Data\\ExtendedDbContext.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-05T00:58:50.934Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "App.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
               "RelativeDocumentMoniker": "Server\\Data\\App.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
               "RelativeToolTip": "Server\\Data\\App.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAWwDYAAABTAAAA",
+              "ViewState": "AQIAAHkAAAAAAAAAAAAiwCEBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-28T13:34:32.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-05T00:49:20.142Z"
             }
           ]
         }

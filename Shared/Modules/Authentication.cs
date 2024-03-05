@@ -1,9 +1,10 @@
-﻿using Shared.Controls;
-using Shared.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Controls;
+using Shared.EFC;
+using Shared.EFC.Tables;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
-using UT.Data.DBE;
 using UT.Data.Modlet;
 
 namespace Shared.Modules
@@ -22,7 +23,7 @@ namespace Shared.Modules
         private TextBox? tb_password;
         private Button? btn_login;
         private ModletClient? client;
-        private IDatabaseConnection dbc;
+        private Context? context;
         #endregion //Members
 
         #region Enums
@@ -33,34 +34,41 @@ namespace Shared.Modules
         #endregion //Enums
 
         #region Implementations
-        void IModlet.OnServerInstallation(IDatabaseConnection? dbc)
+        void IModlet.OnServerInstallation(DbContext? context)
         {
-            if(dbc == null)
+            if(context == null)
+            {
+                return;
+            }
+            if (context is not Context ctx)
             {
                 return;
             }
 
-            Person.CreateOrUpdate(dbc);
-            User.CreateOrUpdate(dbc);
-
             Person person = new()
             {
-                Field_Firstname = "Admin",
-                Field_Lastname = "Admin"
+                Firstname = "Admin",
+                Lastname = "Admin"
             };
-            if(dbc.Save<Person>(ref person, true))
+            ctx.Person.Add(person);
+
+            User user = new()
             {
-                throw new NotImplementedException();
-            }
+                Username = "admin",
+                Password = "test",
+                Person = person
+            };
+            ctx.User.Add(user);
+            ctx.SaveChanges();
         }
 
-        void IModlet.OnServerConfiguration(IDatabaseConnection? dbc, ref Dictionary<string, object?> configuration)
+        void IModlet.OnServerConfiguration(DbContext? context, ref Dictionary<string, object?> configuration)
         {
-            if(dbc == null)
+            if(context == null || context is not Context ctx)
             {
                 throw new Exception("No Database Access");
             }
-            this.dbc = dbc;
+            this.context = ctx;
         }
 
         void IModlet.OnClientConfiguration(ModletClient client)
@@ -94,12 +102,14 @@ namespace Shared.Modules
 
                     string username = auth.Item1;
                     string password = auth.Item2;
-                    User? user = User.Authenticate(this.dbc, username, password);
-                    if (user == null)
-                    {
-                        return Packet<bool, string?>.Encode(false, "No DB Yet, Cannot validate user '" + username + "'");
-                    }
-                    return Packet<bool, User>.Encode(true, user);
+
+                    throw new NotImplementedException();
+                    //User? user = User.Authenticate(this.dbc, username, password);
+                    //if (user == null)
+                    //{
+                    //    return Packet<bool, string?>.Encode(false, "No DB Yet, Cannot validate user '" + username + "'");
+                    //}
+                    //return Packet<bool, User>.Encode(true, user);
             }
 
             return null;

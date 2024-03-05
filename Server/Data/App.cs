@@ -1,12 +1,11 @@
-﻿using System.Net;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UT.Data;
 using UT.Data.Attributes;
-using UT.Data.DBE;
 using UT.Data.IO;
-using UT.Data.IO.Assemblies;
 using UT.Data.Modlet;
 
 namespace Server.Data
@@ -20,7 +19,7 @@ namespace Server.Data
         #region Members
         private Configuration? configuration;
         private readonly ModletServer? server;
-        private readonly IDatabaseConnection? dbc;
+        //private readonly IDatabaseConnection? dbc;
         private bool installationMode = false;
         #endregion //Members
 
@@ -48,7 +47,8 @@ namespace Server.Data
 
             ModletServer server = new(addresses.ToArray(), this.configuration.Port);
             Dictionary<string, object?> configuration = [];
-            this.dbc = App.GetDbc(this.configuration);
+            
+            App.CheckDbcServer(this.configuration);
             configuration.Add("Port", this.configuration.Port);
 
             this.installationMode = true;
@@ -58,11 +58,16 @@ namespace Server.Data
             ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)
             {
+                DbContext? context = this.GetDbContext(mod, this.configuration);
+
                 if(this.installationMode)
                 {
-                    mod.OnServerInstallation(this.dbc);
+                    context?.Database.EnsureCreated();
+                    context?.SaveChanges();
+
+                    mod.OnServerInstallation(context);
                 }
-                server.Register(mod, this.dbc, ref configuration);
+                server.Register(mod, context, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
@@ -73,11 +78,33 @@ namespace Server.Data
         }
         #endregion //Constructors
 
+        private DbContext? GetDbContext(IModlet mod, Configuration configuration)
+        {
+            Assembly assembly = mod.GetType().Assembly;
+            Type? type = assembly.ExportedTypes.Where(x => x.BaseType == typeof(ExtendedDbContext)).FirstOrDefault();
+            if (type == null)
+            {
+                return null;
+            }
+
+            object[] param = [IPAddress.Parse(configuration.Dbc.IP), configuration.Dbc.Port, configuration.Dbc.Username, configuration.Dbc.Password, configuration.Dbc.Db, ExtendedDbContext.Types.Mysql];
+
+            try
+            {
+                return Activator.CreateInstance(type, param) as DbContext;
+            }
+            catch(Exception ex)
+            {
+                ExtendedConsole.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
         #region Events
         private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
         {
             this.server?.Stop();
-            this.dbc?.Close();
+            //this.dbc?.Close();
         }
         #endregion //Events
 
@@ -90,12 +117,12 @@ namespace Server.Data
         #endregion //Public Methods
 
         #region Private Methods
-        private static IDatabaseConnection? GetDbc(Configuration configuration)
+        private static void CheckDbcServer(Configuration configuration)
         {
             Type? t = Type.GetType(configuration.Dbc.Type);
             if (t == null)
             {
-                return null;
+                return;
             }
             IPAddress ip = IPAddress.Parse(configuration.Dbc.IP);
 
@@ -105,27 +132,11 @@ namespace Server.Data
             {
                 ExtendedConsole.WriteLine("<red>Cannot reach server</red>");
                 ExtendedConsole.BoxMode(false);
-                return null;
+                return;
             }
             ExtendedConsole.WriteLine("<green>Server OK</green>");
 
-            if (Activator.CreateInstance(t) is not IDatabaseConnection dbc)
-            {
-                ExtendedConsole.WriteLine("<red>Error Initializing DB</red>");
-                ExtendedConsole.BoxMode(false);
-                return null;
-            }
-            dbc.OnException += Dbc_OnException;
-
-            ExtendedConsole.WriteLine("Connecting to database '<yellow>" + configuration.Dbc.Db + "</yellow>'");
-            if (dbc.Open(ip, configuration.Dbc.Port, configuration.Dbc.Db, configuration.Dbc.Username, configuration.Dbc.Password))
-            {
-                ExtendedConsole.WriteLine("Connection <green>OK</green>");
-            }
-
             ExtendedConsole.BoxMode(false);
-
-            return dbc;
         }
 
         private static void Dbc_OnException(Exception mex)
@@ -151,19 +162,19 @@ namespace Server.Data
                 {
                     return;
                 }
-                Type? dbcType = App.GetDbcType();
-                if(dbcType == null || dbcType.AssemblyQualifiedName == null)
+                ExtendedDbContext.Types? dbcType = App.GetDbcType();
+                if(dbcType == null)
                 {
                     return;
                 }
-                Dictionary<string, string> dbcConfig = App.GetDbcConnectionInfo(dbcType);
+                Dictionary<string, string> dbcConfig = App.GetDbcConnectionInfo(dbcType.Value);
 
                 Configuration cfg = new()
                 {
                     Port = port.Value,
                     Dbc = new Configuration.Database()
                     {
-                        Type = dbcType.AssemblyQualifiedName,
+                        Type = dbcType.ToString() ?? "",
                         IP = dbcConfig["Server"],
                         Port = int.Parse(dbcConfig["Port"]),
                         Db = dbcConfig["Database"],
@@ -177,7 +188,7 @@ namespace Server.Data
             this.configuration = lc.Load<Configuration>();
         }
 
-        private static Tuple<IPAddress, int> GetDbcConnectionInfo_Dbserver(Type dbc, DefaultAttribute[] defaults)
+        private static Tuple<IPAddress, int> GetDbcConnectionInfo_Dbserver(ExtendedDbContext.Types dbc, DefaultAttribute[] defaults)
         {
             DefaultAttribute? serverDefaultA = defaults.Where(x => x.Name == "Server").FirstOrDefault();
             string serverDefault = serverDefaultA == null ? "???" : serverDefaultA.Value;
@@ -185,7 +196,7 @@ namespace Server.Data
             DefaultAttribute? portDefaultA = defaults.Where(x => x.Name == "Port").FirstOrDefault();
             string portDefault = portDefaultA == null ? "???" : portDefaultA.Value;
 
-            ExtendedConsole.WriteLine("Wich server is running the " + dbc.Name + " database (default '<green>" + serverDefault + "</green>'):");
+            ExtendedConsole.WriteLine("Wich server is running the " + dbc.ToString() + " database (default '<green>" + serverDefault + "</green>'):");
             string? server = Console.ReadLine();
             if (server == null || server == String.Empty)
             {
@@ -197,7 +208,7 @@ namespace Server.Data
                 return App.GetDbcConnectionInfo_Dbserver(dbc, defaults);
             }
 
-            ExtendedConsole.WriteLine("Wich port is the " + dbc.Name + " server running on (default '<green>" + portDefault + "</green>'):");
+            ExtendedConsole.WriteLine("Wich port is the " + dbc.ToString() + " server running on (default '<green>" + portDefault + "</green>'):");
             string? portString = Console.ReadLine();
 
             if (portString == null || portString == String.Empty)
@@ -226,7 +237,7 @@ namespace Server.Data
             return new Tuple<IPAddress, int>(serverAddress, port);
         }
 
-        private static Tuple<string, string, string> GetDbcConnectionInfo_Db(Type dbc, DefaultAttribute[] defaults, Tuple<IPAddress, int> serverInfo)
+        private static Tuple<string, string, string> GetDbcConnectionInfo_Db(DefaultAttribute[] defaults, Tuple<IPAddress, int> serverInfo)
         {
             DefaultAttribute? userDefaultA = defaults.Where(x => x.Name == "Username").FirstOrDefault();
             string userDefault = userDefaultA == null ? "???" : userDefaultA.Value;
@@ -239,7 +250,7 @@ namespace Server.Data
             if (dbString == null || dbString == String.Empty)
             {
                 ExtendedConsole.WriteLine("<red>Database name is required</red>");
-                return App.GetDbcConnectionInfo_Db(dbc, defaults, serverInfo);
+                return App.GetDbcConnectionInfo_Db(defaults, serverInfo);
             }
 
             ExtendedConsole.WriteLine("Username (default '<green>" + userDefault + "</green>'):");
@@ -256,29 +267,17 @@ namespace Server.Data
                 passString = passDefault;
             }
 
-            if (Activator.CreateInstance(dbc) is not IDatabaseConnection dbcInstance)
-            {
-                throw new NotImplementedException();
-            }
-
-            if(!dbcInstance.Open(serverInfo.Item1, serverInfo.Item2, dbString, userString, passString))
-            {
-                ExtendedConsole.WriteLine("<red>Can't connect to database '" + dbString + "'</red>");
-                return App.GetDbcConnectionInfo_Db(dbc, defaults, serverInfo);
-            }
-            dbcInstance.Close();
-
             return new Tuple<string, string, string>(dbString, userString, passString);
         }
 
-        private static Dictionary<string, string> GetDbcConnectionInfo(Type dbc)
+        private static Dictionary<string, string> GetDbcConnectionInfo(ExtendedDbContext.Types dbc)
         {
-            DefaultAttribute[] defaults = dbc.GetCustomAttributes<DefaultAttribute>().ToArray();
+            DefaultAttribute[] defaults = typeof(ExtendedDbContext).GetCustomAttributes<DefaultAttribute>().ToArray();
 
             Dictionary<string, string> buffer = [];
 
             Tuple<IPAddress, int> serverInfo = App.GetDbcConnectionInfo_Dbserver(dbc, defaults);
-            Tuple<string, string, string> dbInfo = App.GetDbcConnectionInfo_Db(dbc, defaults, serverInfo);
+            Tuple<string, string, string> dbInfo = App.GetDbcConnectionInfo_Db(defaults, serverInfo);
 
             buffer.Add("Server", serverInfo.Item1.ToString());
             buffer.Add("Port", serverInfo.Item2.ToString());
@@ -289,12 +288,12 @@ namespace Server.Data
             return buffer;
         }
 
-        private static Type? GetDbcType()
+        private static ExtendedDbContext.Types? GetDbcType()
         {
-            Dictionary<string, Type> supported = [];
-            foreach(Type type in Loader.GetInstances<IDatabaseConnection>(false).Select(x => x.GetType()))
+            Dictionary<string, ExtendedDbContext.Types> supported = [];
+            foreach(ExtendedDbContext.Types type in Enum.GetValues<ExtendedDbContext.Types>())
             {
-                supported.Add(type.Name.ToLower(), type);
+                supported.Add(type.ToString().ToLower(), type);
             }
             string[] keys = [.. supported.Keys];
 
