@@ -14,10 +14,6 @@ namespace Shared.Modules
     [Position(int.MinValue)]
     public class Authentication : CustomForm, IMainFormModlet
     {
-        #region Constants
-        public const string AuthenticationKey = "0x44ff731a";
-        #endregion //Constants
-
         #region Members
         private Label? lbl_username;
         private Label? lbl_password;
