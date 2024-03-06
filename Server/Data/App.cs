@@ -20,7 +20,7 @@ namespace Server.Data
         private Configuration? configuration;
         private readonly ModletServer? server;
         private bool installationMode = false;
-        private List<DbContext> contexts;
+        private readonly List<DbContext> contexts;
         #endregion //Members
 
         #region Constructors
@@ -303,13 +303,13 @@ namespace Server.Data
             {
                 return supported[keys[0]];
             }
-            if(!supported.ContainsKey(selected))
+            if(!supported.TryGetValue(selected, out ExtendedDbContext.Types value))
             {
                 ExtendedConsole.WriteLine("<red>" + selected + "</red> is not supported, try again.");
                 return App.GetDbcType();
             }
 
-            return supported[selected];
+            return value;
         }
 
         private static int? GetPort()

@@ -1,6 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.VisualBasic;
-using UT.Data.Extensions;
+﻿using UT.Data.Extensions;
 
 namespace Shared
 {
@@ -27,6 +25,7 @@ namespace Shared
         #region Properties
         public Dictionary<string, MenuItem> Children { get { return this.children; } }
         public Types Type { get { return this.type; } }
+        public OnButtonClick? OnClick { get; set; }
         #endregion //Properties
 
         #region Constructors
@@ -59,7 +58,7 @@ namespace Shared
         {
             return new(Types.Button)
             {
-
+                OnClick = click
             };
         }
 
@@ -68,79 +67,47 @@ namespace Shared
             return this.Search(tree.Split(seperator));
         }
 
-        private MenuItem? Search(string[] tree)
-        {
-            if(tree.Length == 0)
-            {
-                return null;
-            }
-            string selected = tree[0];
-            if(!children.TryGetValue(selected, out MenuItem? value))
-            {
-                return null;
-            }
-            string[] left = tree.Skip(1).ToArray();
-            if (left.Length > 0)
-            {
-                return value.Search(left);
-            }
-
-            return value;
-        }
-
         #region AddBefore
         public bool AddBefore(string before, string text, MenuItem value)
         {
-            try
-            {
-                this.children.AddBefore(before, text, value);
-                return true;
-            }
-            catch (Exception)
+            if(this.children.ContainsKey(text))
             {
                 return false;
             }
+            this.children.AddBefore(before, text, value);
+            return true;
         }
 
         public bool AddBefore(MenuItem before, string text, MenuItem value)
         {
-            try
-            {
-                this.children.AddBefore(before, text, value);
-                return true;
-            }
-            catch(Exception)
+            if (this.children.ContainsKey(text))
             {
                 return false;
             }
+            this.children.AddBefore(before, text, value);
+            return true;
         }
         #endregion //AddBefore
 
         #region AddAfter
         public bool AddAfter(string after, string text, MenuItem value)
         {
-            try
-            {
-                this.children.AddAfter(after, text, value);
-                return true;
-            }
-            catch (Exception)
+            if (this.children.ContainsKey(text))
             {
                 return false;
             }
+            this.children.AddAfter(after, text, value);
+            return true;
         }
 
         public bool AddAfter(MenuItem after, string text, MenuItem value)
         {
-            try
-            {
-                this.children.AddAfter(after, text, value);
-                return true;
-            }
-            catch(Exception)
+            if(this.children.ContainsKey(text))
             {
                 return false;
             }
+            this.children.AddAfter(after, text, value);
+            return true;
         }
         #endregion //AddAfter
 
@@ -161,5 +128,27 @@ namespace Shared
             return true;
         }
         #endregion //Public Methods
+
+        #region Private Methods
+        private MenuItem? Search(string[] tree)
+        {
+            if (tree.Length == 0)
+            {
+                return null;
+            }
+            string selected = tree[0];
+            if (!children.TryGetValue(selected, out MenuItem? value))
+            {
+                return null;
+            }
+            string[] remainder = tree.Skip(1).ToArray();
+            if (remainder.Length > 0)
+            {
+                return value.Search(remainder);
+            }
+
+            return value;
+        }
+        #endregion //Private Methods
     }
 }

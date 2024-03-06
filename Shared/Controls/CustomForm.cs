@@ -13,6 +13,7 @@ namespace Shared.Controls
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.TopMost = true;
+            this.Icon = Resource.favicon;
         }
         #endregion //Constructors
     }
