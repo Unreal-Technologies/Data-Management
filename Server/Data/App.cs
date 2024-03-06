@@ -19,13 +19,14 @@ namespace Server.Data
         #region Members
         private Configuration? configuration;
         private readonly ModletServer? server;
-        //private readonly IDatabaseConnection? dbc;
         private bool installationMode = false;
+        private List<DbContext> contexts;
         #endregion //Members
 
         #region Constructors
         public App()
         {
+            this.contexts = [];
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
             
@@ -58,7 +59,11 @@ namespace Server.Data
             ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)
             {
-                DbContext? context = this.GetDbContext(mod, this.configuration);
+                DbContext? context = GetDbContext(mod, this.configuration);
+                if(context != null)
+                {
+                    contexts.Add(context);
+                }
 
                 if(this.installationMode)
                 {
@@ -78,7 +83,27 @@ namespace Server.Data
         }
         #endregion //Constructors
 
-        private DbContext? GetDbContext(IModlet mod, Configuration configuration)
+        #region Events
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
+        {
+            this.server?.Stop();
+            foreach(DbContext context in this.contexts)
+            {
+                context.Dispose();
+            }
+        }
+        #endregion //Events
+
+        #region Public Methods
+
+        public static void Initialize()
+        {
+            _ = new App();
+        }
+        #endregion //Public Methods
+
+        #region Private Methods
+        private static DbContext? GetDbContext(IModlet mod, Configuration configuration)
         {
             Assembly assembly = mod.GetType().Assembly;
             Type? type = assembly.ExportedTypes.Where(x => x.BaseType == typeof(ExtendedDbContext)).FirstOrDefault();
@@ -93,30 +118,13 @@ namespace Server.Data
             {
                 return Activator.CreateInstance(type, param) as DbContext;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ExtendedConsole.WriteLine(ex.Message);
                 return null;
             }
         }
 
-        #region Events
-        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
-        {
-            this.server?.Stop();
-            //this.dbc?.Close();
-        }
-        #endregion //Events
-
-        #region Public Methods
-
-        public static void Initialize()
-        {
-            _ = new App();
-        }
-        #endregion //Public Methods
-
-        #region Private Methods
         private static void CheckDbcServer(Configuration configuration)
         {
             Type? t = Type.GetType(configuration.Dbc.Type);

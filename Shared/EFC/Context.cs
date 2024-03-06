@@ -13,9 +13,9 @@ namespace Shared.EFC
 
         #endregion //Properties
         #region Constructors
-        public Context() : this(IPAddress.Parse("127.0.0.1"), 3306, "root", "", "test", Types.Mysql)
+        public Context() : this(IPAddress.Parse(Server), Port, Username, Password, "test", Types.Mysql) //Temp need 2 fix
         {
-
+            ExtendedConsole.WriteLine("<red>Remove public constructor without parameters</red>");
         }
         #endregion //Constructors
 
