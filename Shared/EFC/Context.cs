@@ -10,6 +10,8 @@ namespace Shared.EFC
         #region Properties
         public DbSet<User> User { get; set; }
         public DbSet<Person> Person { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
 
         #endregion //Properties
         #region Constructors
@@ -33,6 +35,18 @@ namespace Shared.EFC
             {
                 entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
                 entity.HasOne(e => e.Person).WithMany(e => e.Users);
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+                entity.HasOne(e => e.Role).WithMany(e => e.UserRoles);
+                entity.HasOne(e => e.User).WithMany(e => e.UserRoles);
             });
         }
         #endregion //Overrides

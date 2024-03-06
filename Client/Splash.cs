@@ -1,5 +1,6 @@
 ﻿using Client.ServerConfiguration;
 using Shared.Controls;
+using Shared.Modlet;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -98,7 +99,7 @@ namespace Client
             }
 
             self.SetOutput("Setup connection.");
-            Program.Client = new ModletClient(set.Server, set.Port);
+            Program.Client = new AuthenticatedModletClient(set.Server, set.Port);
             try
             {
                 if(Program.Client.Send(ModletCommands.Commands.Connect, null) == null)
@@ -127,7 +128,7 @@ namespace Client
 
         private bool ModuleLoader(SequentialExecution self)
         {
-            IModlet[] list = Modlet.Load(self);
+            IModlet[] list = Modlet.Load<IMainFormModlet>(self);
             foreach (IModlet mod in list)
             {
                 if (Program.Client != null)
@@ -142,7 +143,10 @@ namespace Client
 
         private bool Startup(SequentialExecution self)
         {
-            MessageBox.Show("Done");
+            Invoker<Splash>.Invoke(this, delegate(Splash control, object[]? data)
+            {
+                control.Close();
+            });
             return true;
         }
         #endregion //Sequential Execution

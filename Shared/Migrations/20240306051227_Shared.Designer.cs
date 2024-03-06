@@ -11,7 +11,7 @@ using Shared.EFC;
 namespace Shared.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240305112429_Shared")]
+    [Migration("20240306051227_Shared")]
     partial class Shared
     {
         /// <inheritdoc />
@@ -45,6 +45,30 @@ namespace Shared.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person");
+                });
+
+            modelBuilder.Entity("Shared.EFC.Tables.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Access")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTime>("TransStartDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Shared.EFC.Tables.User", b =>
@@ -83,6 +107,31 @@ namespace Shared.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("Shared.EFC.Tables.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("TransStartDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
             modelBuilder.Entity("Shared.EFC.Tables.User", b =>
                 {
                     b.HasOne("Shared.EFC.Tables.Person", "Person")
@@ -94,9 +143,38 @@ namespace Shared.Migrations
                     b.Navigation("Person");
                 });
 
+            modelBuilder.Entity("Shared.EFC.Tables.UserRole", b =>
+                {
+                    b.HasOne("Shared.EFC.Tables.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Shared.EFC.Tables.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Shared.EFC.Tables.Person", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Shared.EFC.Tables.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Shared.EFC.Tables.User", b =>
+                {
+                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

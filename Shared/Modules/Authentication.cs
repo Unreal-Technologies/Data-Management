@@ -2,15 +2,17 @@
 using Shared.Controls;
 using Shared.EFC;
 using Shared.EFC.Tables;
+using Shared.Modlet;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
+using UT.Data.Encryption;
 using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
     [Position(int.MinValue)]
-    public class Authentication : CustomForm, IModlet
+    public class Authentication : CustomForm, IMainFormModlet
     {
         #region Constants
         public const string AuthenticationKey = "0x44ff731a";
@@ -22,7 +24,7 @@ namespace Shared.Modules
         private TextBox? tb_username;
         private TextBox? tb_password;
         private Button? btn_login;
-        private ModletClient? client;
+        private AuthenticatedModletClient? client;
         private Context? context;
         #endregion //Members
 
@@ -59,6 +61,20 @@ namespace Shared.Modules
                 Person = person
             };
             ctx.User.Add(user);
+
+            Role role = new()
+            {
+                Description = "Administrator",
+                Access = [Role.AccessTiers.Administrator, Role.AccessTiers.User],
+            };
+            ctx.Role.Add(role);
+
+            UserRole userRole = new()
+            {
+                Role = role,
+                User = user
+            };
+            ctx.UserRole.Add(userRole);
             ctx.SaveChanges();
         }
 
@@ -73,7 +89,7 @@ namespace Shared.Modules
 
         void IModlet.OnClientConfiguration(ModletClient client)
         {
-            this.client = client;
+            this.client = client as AuthenticatedModletClient;
         }
 
         void IModlet.OnGlobalServerAction(byte[]? stream) { }
@@ -103,15 +119,13 @@ namespace Shared.Modules
                     string username = auth.Item1;
                     string password = auth.Item2;
 
-                    throw new NotImplementedException();
-                    //User? user = User.Authenticate(this.dbc, username, password);
-                    //if (user == null)
-                    //{
-                    //    return Packet<bool, string?>.Encode(false, "No DB Yet, Cannot validate user '" + username + "'");
-                    //}
-                    //return Packet<bool, User>.Encode(true, user);
+                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == Aes.Encrypt(password, User.Key) && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+                    if(user == null)
+                    {
+                        return Packet<bool, string?>.Encode(false, "Wrong username or password.");
+                    }
+                    return Packet<bool, User>.Encode(true, user);
             }
-
             return null;
         }
 
@@ -175,6 +189,8 @@ namespace Shared.Modules
                 MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+            Packet<bool, User>? decodedResult = Packet<bool, User>.Decode(response);
+            this.client.AuthenticatedUser = decodedResult?.Data;
 
             this.DialogResult = DialogResult.OK;
         }
@@ -244,7 +260,6 @@ namespace Shared.Modules
             this.Text = "Authentication";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
         #endregion //Private Methods
     }

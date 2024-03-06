@@ -52,10 +52,7 @@ namespace Server.Data
             App.CheckDbcServer(this.configuration);
             configuration.Add("Port", this.configuration.Port);
 
-            this.installationMode = true;
-            ExtendedConsole.WriteLine("remove installation mode boolean override");
-
-            IModlet[] list = Modlet.Load(null);
+            IModlet[] list = Modlet.Load<IModlet>(null);
             ExtendedConsole.BoxMode(true, App.Padding);
             foreach(IModlet mod in list)
             {
@@ -145,12 +142,6 @@ namespace Server.Data
             ExtendedConsole.WriteLine("<green>Server OK</green>");
 
             ExtendedConsole.BoxMode(false);
-        }
-
-        private static void Dbc_OnException(Exception mex)
-        {
-            ExtendedConsole.WriteLine("<red>"+mex.Message+"</red>");
-            ExtendedConsole.WriteLine("<darkred>" + mex.InnerException?.Message + "</darkred>");
         }
 
         private void LoadConfig()
