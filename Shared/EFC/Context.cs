@@ -1,0 +1,54 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.EFC.Tables;
+using System.Net;
+using UT.Data;
+
+namespace Shared.EFC
+{
+    public class Context(IPAddress ip, int port, string username, string password, string db, ExtendedDbContext.Types type) : ExtendedDbContext(ip, port, username, password, db, type)
+    {
+        #region Properties
+        public DbSet<User> User { get; set; }
+        public DbSet<Person> Person { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
+
+        #endregion //Properties
+        #region Constructors
+        public Context() : this(IPAddress.Parse(Server), Port, Username, Password, "test", Types.Mysql) //Temp need 2 fix
+        {
+            ExtendedConsole.WriteLine("<red>Remove public constructor without parameters</red>");
+        }
+        #endregion //Constructors
+
+        #region Overrides
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Person>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+                entity.HasOne(e => e.Person).WithMany(e => e.Users);
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+                entity.HasOne(e => e.Role).WithMany(e => e.UserRoles);
+                entity.HasOne(e => e.User).WithMany(e => e.UserRoles);
+            });
+        }
+        #endregion //Overrides
+    }
+}
