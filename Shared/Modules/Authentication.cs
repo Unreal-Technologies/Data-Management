@@ -22,6 +22,7 @@ namespace Shared.Modules
         private Button? btn_login;
         private AuthenticatedModletClient? client;
         private Context? context;
+        private Form? splash;
         #endregion //Members
 
         #region Enums
@@ -83,9 +84,10 @@ namespace Shared.Modules
             this.context = ctx;
         }
 
-        void IModlet.OnClientConfiguration(ModletClient client)
+        void IModlet.OnClientConfiguration(ModletClient client, Form? splash)
         {
             this.client = client as AuthenticatedModletClient;
+            this.splash = splash;
         }
 
         void IModlet.OnGlobalServerAction(byte[]? stream) { }
@@ -136,10 +138,20 @@ namespace Shared.Modules
             : base()
         {
             this.InitializeComponent();
+            this.FormClosing += Authentication_FormClosing;
         }
         #endregion //Constructors
 
         #region Private Methods
+        private void Authentication_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            if (this.DialogResult != DialogResult.Retry)
+            {
+                Application.ExitThread();
+                Application.Exit();
+            }
+        }
+
         private bool Authenticate(SequentialExecution self)
         {
             if(this.ShowDialog() == DialogResult.OK)
@@ -183,6 +195,7 @@ namespace Shared.Modules
             {
                 string? message = Packet<bool, string?>.Decode(response)?.Data;
                 MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.DialogResult = DialogResult.Retry;
                 return;
             }
             Packet<bool, User>? decodedResult = Packet<bool, User>.Decode(response);

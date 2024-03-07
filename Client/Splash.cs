@@ -24,12 +24,7 @@ namespace Client
         #region Events
         private void Splash_Load(object sender, EventArgs e)
         {
-            Version? version = Assembly.GetExecutingAssembly().GetName().Version;
-            if(version == null)
-            {
-                throw new NotImplementedException("Cannot get version information.");
-            }
-
+            Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
             this.lbl_copyright.Text = this.lbl_copyright.Text.Replace("xxxx", DateTime.Now.Year.ToString());
             this.lbl_version.Text = this.lbl_version.Text.Replace("x.x.x.x", version.ToString());
 
@@ -133,7 +128,7 @@ namespace Client
             {
                 if (Program.Client != null)
                 {
-                    mod.OnClientConfiguration(Program.Client);
+                    mod.OnClientConfiguration(Program.Client, this);
                 }
             }
             self.SetOutput("Loaded " + list.Length + " module(s).");
@@ -145,7 +140,7 @@ namespace Client
         {
             Invoker<Splash>.Invoke(this, delegate(Splash control, object[]? data)
             {
-                control.Close();
+                control.TopMost = false;
             });
             return true;
         }

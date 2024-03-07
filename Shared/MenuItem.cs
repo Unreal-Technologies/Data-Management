@@ -18,14 +18,10 @@ namespace Shared
         }
         #endregion //Enums
 
-        #region Delegates
-        public delegate void OnButtonClick();
-        #endregion //Delegates
-
         #region Properties
         public Dictionary<string, MenuItem> Children { get { return this.children; } }
         public Types Type { get { return this.type; } }
-        public OnButtonClick? OnClick { get; set; }
+        public EventHandler? OnClick { get; set; }
         #endregion //Properties
 
         #region Constructors
@@ -54,7 +50,7 @@ namespace Shared
             return new(Types.Line);
         }
 
-        public static MenuItem Button(OnButtonClick click)
+        public static MenuItem Button(EventHandler click)
         {
             return new(Types.Button)
             {

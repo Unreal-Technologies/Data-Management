@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Modlet;
+using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Modlet;
@@ -9,7 +10,7 @@ namespace Shared.Modules
     [Position(10)]
     public class Test : IMdiFormModlet
     {
-        public void OnClientConfiguration(ModletClient client)
+        public void OnClientConfiguration(ModletClient client, Form? main)
         {
         }
 
