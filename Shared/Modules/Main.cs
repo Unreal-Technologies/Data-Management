@@ -186,6 +186,15 @@ namespace Shared.Modules
             {
                 return true;
             }
+            if (this.DialogResult != DialogResult.Retry)
+            {
+                ApplicationState.Reset = false;
+                self.IsValid = false;
+                self.Exit();
+                Application.ExitThread();
+                Application.Exit();
+                return true;
+            }
 
             self.IsValid = false;
             return false;

@@ -1,4 +1,5 @@
 ﻿using Client.ServerConfiguration;
+using Shared;
 using Shared.Controls;
 using Shared.Modlet;
 using System.Net;
@@ -50,7 +51,7 @@ namespace Client
             });
             if(!isValid)
             {
-                Program.Reset = true;
+                ApplicationState.Reset = true;
                 Invoker<CustomForm>.Invoke(this, delegate (CustomForm form, object[]? data)
                 {
                     form.Close();

@@ -138,24 +138,23 @@ namespace Shared.Modules
             : base()
         {
             this.InitializeComponent();
-            this.FormClosing += Authentication_FormClosing;
         }
         #endregion //Constructors
 
         #region Private Methods
-        private void Authentication_FormClosing(object? sender, FormClosingEventArgs e)
-        {
-            if (this.DialogResult != DialogResult.Retry)
-            {
-                Application.ExitThread();
-                Application.Exit();
-            }
-        }
-
         private bool Authenticate(SequentialExecution self)
         {
             if(this.ShowDialog() == DialogResult.OK)
             {
+                return true;
+            }
+            if(this.DialogResult != DialogResult.Retry)
+            {
+                ApplicationState.Reset = false;
+                self.IsValid = false;
+                self.Exit();
+                Application.ExitThread();
+                Application.Exit();
                 return true;
             }
 
