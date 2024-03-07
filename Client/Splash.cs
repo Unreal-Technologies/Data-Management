@@ -95,21 +95,21 @@ namespace Client
             }
 
             self.SetOutput("Setup connection.");
-            Program.Client = new AuthenticatedModletClient(set.Server, set.Port);
+            ApplicationState.Client = new AuthenticatedModletClient(set.Server, set.Port);
             try
             {
-                if(Program.Client.Send(ModletCommands.Commands.Connect, null) == null)
+                if(ApplicationState.Client.Send(ModletCommands.Commands.Connect, null) == null)
                 {
                     return false;
                 }
                 self.SetOutput("Get Transmission Key.");
 
-                byte[]? key = Program.Client.Send(ASCIIEncoding.UTF8.GetBytes(Dns.GetHostName()), ModletCommands.Commands.Serverkey, null);
+                byte[]? key = ApplicationState.Client.Send(ASCIIEncoding.UTF8.GetBytes(Dns.GetHostName()), ModletCommands.Commands.Serverkey, null);
                 if(key == null)
                 {
                     return false;
                 }
-                Program.Client.Aes = key.AsString();
+                ApplicationState.Client.Aes = key.AsString();
 
                 self.SetOutput("Key received, enableling aes.");
                 return true;
@@ -127,10 +127,7 @@ namespace Client
             IModlet[] list = Modlet.Load<IMainFormModlet>(self);
             foreach (IModlet mod in list)
             {
-                if (Program.Client != null)
-                {
-                    mod.OnClientConfiguration(Program.Client, this);
-                }
+                mod.OnClientConfiguration(this);
             }
             self.SetOutput("Loaded " + list.Length + " module(s).");
 

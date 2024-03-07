@@ -20,9 +20,7 @@ namespace Shared.Modules
         private TextBox? tb_username;
         private TextBox? tb_password;
         private Button? btn_login;
-        private AuthenticatedModletClient? client;
         private Context? context;
-        private Form? splash;
         #endregion //Members
 
         #region Enums
@@ -84,11 +82,7 @@ namespace Shared.Modules
             this.context = ctx;
         }
 
-        void IModlet.OnClientConfiguration(ModletClient client, Form? splash)
-        {
-            this.client = client as AuthenticatedModletClient;
-            this.splash = splash;
-        }
+        void IModlet.OnClientConfiguration(Form? splash) { }
 
         void IModlet.OnGlobalServerAction(byte[]? stream) { }
 
@@ -164,7 +158,7 @@ namespace Shared.Modules
 
         private void Btn_login_Click(object? sender, EventArgs e)
         {
-            if (this.tb_password == null || this.tb_username == null || this.client == null)
+            if (this.tb_password == null || this.tb_username == null)
             {
                 return;
             }
@@ -177,7 +171,7 @@ namespace Shared.Modules
             }
 
             byte[] request = Packet<Actions, Tuple<string, string>>.Encode(Actions.Authenticate, new Tuple<string, string>(username, password));
-            byte[]? response = this.client.Send(request, ModletCommands.Commands.Action, this);
+            byte[]? response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
             if(response == null)
             {
                 return;
@@ -198,7 +192,11 @@ namespace Shared.Modules
                 return;
             }
             Packet<bool, User>? decodedResult = Packet<bool, User>.Decode(response);
-            this.client.AuthenticatedUser = decodedResult?.Data;
+            if(ApplicationState.Client == null)
+            {
+                return;
+            }
+            ApplicationState.Client.AuthenticatedUser = decodedResult?.Data;
 
             this.DialogResult = DialogResult.OK;
         }

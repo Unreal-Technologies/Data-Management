@@ -15,7 +15,6 @@ namespace Shared.Modules
     public class Main : CustomForm, IMainFormModlet
     {
         #region Members
-        private AuthenticatedModletClient? client;
         private MenuStrip? menuStrip;
         private Form? splash;
         #endregion //Members
@@ -35,9 +34,8 @@ namespace Shared.Modules
         #endregion //Constructors
 
         #region Implementations
-        public void OnClientConfiguration(ModletClient client, Form? splash)
+        public void OnClientConfiguration(Form? splash)
         {
-            this.client = client as AuthenticatedModletClient;
             this.splash = splash;
             this.Shown += Main_Shown;
             this.FormClosing += Main_FormClosing;
@@ -78,7 +76,7 @@ namespace Shared.Modules
         #region Private Methods
         private void Main_Shown(object? sender, EventArgs e)
         {
-            User? user = this.client?.AuthenticatedUser;
+            User? user = ApplicationState.Client?.AuthenticatedUser;
             if(user == null)
             {
                 this.Logout();
@@ -88,11 +86,11 @@ namespace Shared.Modules
             MenuItem menu = MenuItem.Root();
             this.FillBaseMenuTree(menu);
 
-            if (this.client != null)
+            if (ApplicationState.Client != null)
             {
                 foreach (IMdiFormModlet item in UT.Data.Modlet.Modlet.Load<IMdiFormModlet>(null).Cast<IMdiFormModlet>())
                 {
-                    item.OnClientConfiguration(this.client, this);
+                    item.OnClientConfiguration(this);
                     item.OnMenuCreation(menu);
                 }
             }

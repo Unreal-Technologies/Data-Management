@@ -10,7 +10,7 @@ namespace Shared.Modules
     [Position(10)]
     public class Test : IMdiFormModlet
     {
-        public void OnClientConfiguration(ModletClient client, Form? main)
+        public void OnClientConfiguration(Form? main)
         {
         }
 
