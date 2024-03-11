@@ -1,4 +1,5 @@
-﻿using Shared.Modlet;
+﻿using Shared.EFC.Tables;
+using Shared.Modlet;
 
 namespace Shared
 {
@@ -7,6 +8,7 @@ namespace Shared
         #region Properties
         public static bool Reset { get; set; }
         public static AuthenticatedModletClient? Client { get; set; }
+        public static Role.AccessTiers[]? Access { get; set; }
         #endregion //Properties
     }
 }

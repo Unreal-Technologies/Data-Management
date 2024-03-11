@@ -16,6 +16,13 @@ namespace Shared.EFC.Tables
         public DateTime TransStartDate { get; set; }
         #endregion //Fields
 
+        #region Public Methods
+        public string Name()
+        {
+            return this.Firstname + " " + this.Lastname;
+        }
+        #endregion //public Methods
+
         #region Collections
         public virtual ICollection<User>? Users { get; set; }
         #endregion //Collections
