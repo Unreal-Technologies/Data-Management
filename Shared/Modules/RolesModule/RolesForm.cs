@@ -1,12 +1,15 @@
 ﻿using Shared.Controls;
+using System.Drawing;
 using System.Windows.Forms;
+using UT.Data.Controls;
 
 namespace Shared.Modules.RolesModule
 {
     public class RolesForm : CustomForm
     {
         #region Members
-        private Gridview<Guid>? gridview;
+        private GridviewGuid? gridview;
+        private GroupBox? gridBox;
         #endregion //Members
 
         #region Constructors
@@ -18,36 +21,55 @@ namespace Shared.Modules.RolesModule
         {
             this.WindowState = FormWindowState.Maximized;
             this.InitializeComponent();
+            this.Resize += RolesForm_Resize;
             this.Load += RolesForm_Load;
+        }
+
+        private void RolesForm_Resize(object? sender, EventArgs e)
+        {
+            if(this.gridBox == null)
+            {
+                return;
+            }
+
+            this.gridBox.Size = new Size(this.Width, 400);
         }
 
         private void RolesForm_Load(object? sender, EventArgs e)
         {
             this.SuspendLayout();
+            if(this.gridview == null)
+            {
+                return;
+            }
+            this.gridview.OnAdd += this.OnAdd;
+            this.gridview.OnEdit += this.OnEdit;
+            this.gridview.OnRemove += this.OnRemove;
+            this.gridview.SetColumns([new GridviewGuid.Column() { Text = "Description" }, new GridviewGuid.Column() { Text = "Access" }, new GridviewGuid.Column() { Text = "User Count" }]);
 
-            List<Gridview<Guid>.Row> rows = [];
+            List<GridviewGuid.Row> rows = [];
             for (int i = 0; i < 5; i++) //Test loop opbouw control
             {
-                Gridview<Guid>.Row row = new()
+                GridviewGuid.Row row = new()
                 {
                     ID = Guid.NewGuid()
                 };
-                row.Cells.Add(new Gridview<Guid>.Cell()
+                row.Cells.Add(new GridviewGuid.Cell()
                 {
-                    Text = "Desc " + i.ToString()
+                    Text = "Desc " + i.ToString(),
+                    TextAlignment = GridviewGuid.Alignment.Right,
+                    Color = Color.BlueViolet
                 });
-                row.Cells.Add(new Gridview<Guid>.Cell()
+                row.Cells.Add(new GridviewGuid.Cell()
                 {
                     Text = "Acc " + i.ToString()
                 });
-                row.Cells.Add(new Gridview<Guid>.Cell()
+                row.Cells.Add(new GridviewGuid.Cell()
                 {
-                    Text = "C " + i.ToString()
+                    Text = "C " + i.ToString(),
+                    TextAlignment = GridviewGuid.Alignment.Center
                 });
                 rows.Add(row);
-
-                row.OnEdit += this.RowEdit;
-                row.OnRemove += this.RowRemove;
             }
             this.gridview?.SetRows([.. rows]);
 
@@ -55,38 +77,51 @@ namespace Shared.Modules.RolesModule
         }
         #endregion //Constructors
 
-        public void RowEdit(Guid? id)
+        #region Private Methods
+        private void OnAdd(Guid? id)
+        {
+            MessageBox.Show("ADD");
+        }
+
+        private void OnEdit(Guid? id)
         {
             MessageBox.Show("EDIT: " + id);
         }
 
-        public void RowRemove(Guid? id)
+        private void OnRemove(Guid? id)
         {
             MessageBox.Show("REMOVE: " + id);
         }
 
         private void InitializeComponent()
         {
-            gridview = new Gridview<Guid>();
+            gridview = new GridviewGuid();
+            gridBox = new GroupBox();
             SuspendLayout();
+            //
+            // gridBox
+            //
+            gridBox.Size = new Size(100, 100);
+            gridBox.Controls.Add(gridview);
+            gridBox.Text = "Roles";
             // 
             // gridview
             // 
-            gridview.ControlLocation = Gridview<Guid>.ControlLocations.Left;
-            gridview.Location = new System.Drawing.Point(0, 0);
-            gridview.MinimumSize = new System.Drawing.Size(20, 20);
+            gridview.ControlLocation = GridviewGuid.ControlLocations.Left;
+            gridview.Location = new Point(10, 25);
+            gridview.MinimumSize = new Size(20, 20);
             gridview.Name = "gridview";
-            gridview.Size = new System.Drawing.Size(544, 370);
+            gridview.Size = new Size(544, 370);
             gridview.Font = this.Font;
             gridview.TabIndex = 0;
-            gridview.SetColumns([new Gridview<Guid>.Column() { Text = "Description" }, new Gridview<Guid>.Column() { Text = "Access" }, new Gridview<Guid>.Column() { Text = "User Count" }]);
             // 
             // RolesForm
             // 
-            ClientSize = new System.Drawing.Size(544, 448);
-            Controls.Add(gridview);
+            ClientSize = new Size(544, 448);
+            Controls.Add(gridBox);
             Name = "RolesForm";
             ResumeLayout(false);
         }
+        #endregion //Private Methods
     }
 }

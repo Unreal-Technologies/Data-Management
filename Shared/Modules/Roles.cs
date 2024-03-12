@@ -10,7 +10,7 @@ using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
-    [Position(10)]
+    [Position(int.MinValue, [ typeof(Main) ])]
     public class Roles : IMdiFormModlet
     {
         #region Members

@@ -12,7 +12,7 @@ using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
-    [Position(int.MinValue + 1)]
+    [Position(int.MinValue, [ typeof(Authentication) ])]
     public class Main : CustomForm, IMainFormModlet
     {
         #region Members
