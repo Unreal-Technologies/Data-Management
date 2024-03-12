@@ -17,4 +17,18 @@ namespace Shared.Controls
         }
         #endregion //Constructors
     }
+
+    public class CustomForm<T> : CustomForm
+        where T : CustomForm
+    {
+        public void Show(Form? mdiParent)
+        {
+            if (mdiParent == null || Activator.CreateInstance(typeof(T)) is not T clone)
+            {
+                return;
+            }
+            clone.MdiParent = mdiParent;
+            clone.Show();
+        }
+    }
 }
