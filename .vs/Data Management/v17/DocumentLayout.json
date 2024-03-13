@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\controls\\mdigridviewformmodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\controls\\mdigridviewformmodlet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\shared\\modules\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\roles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\controls\\customform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\controls\\customform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\modules\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1646985-ADA1-43BB-A3AF-21AED32189A7}|Client\\Client.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\client\\splash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1646985-ADA1-43BB-A3AF-21AED32189A7}|Client\\Client.csproj|solutionrelative:client\\splash.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7989B076-967D-4551-93C3-DDAB737A3F70}|Server\\Server.csproj|solutionrelative:server\\data\\app.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,69 +18,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CustomForm.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\CustomForm.cs",
-              "RelativeDocumentMoniker": "Shared\\Controls\\CustomForm.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\CustomForm.cs",
-              "RelativeToolTip": "Shared\\Controls\\CustomForm.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAxwBQAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T12:12:10.644Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Main.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Main.cs",
-              "RelativeDocumentMoniker": "Shared\\Modules\\Main.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Main.cs",
-              "RelativeToolTip": "Shared\\Modules\\Main.cs",
-              "ViewState": "AQIAAGUAAAAAAAAAAAAvwH8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T12:08:44.189Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Splash.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Client\\Splash.cs",
-              "RelativeDocumentMoniker": "Client\\Splash.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Client\\Splash.cs",
-              "RelativeToolTip": "Client\\Splash.cs",
-              "ViewState": "AQIAADoAAAAAAAAAAAAowH4AAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T12:05:12.144Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "App.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
-              "RelativeDocumentMoniker": "Server\\Data\\App.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Server\\Data\\App.cs",
-              "RelativeToolTip": "Server\\Data\\App.cs",
-              "ViewState": "AQIAADEAAAAAAAAAAAAQwE8AAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T12:05:59.541Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MdiGridviewFormModlet.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\MdiGridviewFormModlet.cs",
+              "RelativeDocumentMoniker": "Shared\\Controls\\MdiGridviewFormModlet.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\MdiGridviewFormModlet.cs",
+              "RelativeToolTip": "Shared\\Controls\\MdiGridviewFormModlet.cs",
+              "ViewState": "AQIAADoAAAAAAAAAAAAkwI8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T13:18:59.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Roles.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Roles.cs",
               "RelativeDocumentMoniker": "Shared\\Modules\\Roles.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Roles.cs",
               "RelativeToolTip": "Shared\\Modules\\Roles.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAC8AAAAfAAAA",
+              "ViewState": "AQIAADcAAAAAAAAAAAAswEsAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-11T20:57:14.872Z",
               "EditorCaption": ""

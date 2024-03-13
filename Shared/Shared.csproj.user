@@ -5,6 +5,9 @@
     <Compile Update="Controls\MdiFormModlet.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Controls\MdiGridviewFormModlet.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modules\Authentication.cs">
       <SubType>Form</SubType>
     </Compile>

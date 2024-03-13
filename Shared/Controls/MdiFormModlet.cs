@@ -95,7 +95,7 @@ namespace Shared.Controls
             return Serializer<Treceive>.Deserialize(result);
         }
 
-        public void Show<T>(Form? mdiParent)
+        public void Show<T>(Form? mdiParent, ShowHandler? handler = null)
             where T: CustomForm<T>, IMdiFormModlet
         {
             if(mdiParent == null)
@@ -111,6 +111,7 @@ namespace Shared.Controls
             {
                 return;
             }
+            handler?.Invoke(form as Tform);
             form.Show(mdiParent);
         }
         #endregion //Public Methods
