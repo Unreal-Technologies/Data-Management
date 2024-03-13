@@ -79,8 +79,8 @@ namespace Shared.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("char(36)");

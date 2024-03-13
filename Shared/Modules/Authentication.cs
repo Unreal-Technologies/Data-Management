@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Encryption;
+using UT.Data.Extensions;
 using UT.Data.Modlet;
 
 namespace Shared.Modules
@@ -20,14 +21,13 @@ namespace Shared.Modules
         private TextBox? tb_username;
         private TextBox? tb_password;
         private Button? btn_login;
-        private AuthenticatedModletClient? client;
         private Context? context;
         #endregion //Members
 
         #region Enums
         public enum Actions
         {
-            Authenticate
+            Authenticate, GetRoleAccess
         }
         #endregion //Enums
 
@@ -83,15 +83,16 @@ namespace Shared.Modules
             this.context = ctx;
         }
 
-        void IModlet.OnClientConfiguration(ModletClient client)
-        {
-            this.client = client as AuthenticatedModletClient;
-        }
+        void IModlet.OnClientConfiguration(Form? splash) { }
 
         void IModlet.OnGlobalServerAction(byte[]? stream) { }
 
         byte[]? IModlet.OnLocalServerAction(byte[]? stream)
         {
+            if(this.context == null)
+            {
+                return null;
+            }
             object? packet = Packet<Actions, object>.Decode(stream);
             if(packet == null)
             {
@@ -100,6 +101,32 @@ namespace Shared.Modules
 
             switch(((Packet<Actions, object>)packet).Description)
             {
+                case Actions.GetRoleAccess:
+                    packet = Packet<Actions, Guid>.Decode(stream);
+                    if(packet == null)
+                    {
+                        return null;
+                    }
+                    Guid userId = ((Packet<Actions, Guid>)packet).Data;
+                    Role?[] roles = [.. this.context.UserRole.Where(x => x.User != null && x.User.Id == userId).Select(x => x.Role)];
+
+                    List<Role.AccessTiers> tiers = [];
+                    foreach(Role? role in roles)
+                    {
+                        if(role == null || role.Access == null)
+                        {
+                            continue;
+                        }
+                        foreach(Role.AccessTiers tier in role.Access)
+                        {
+                            if(!tiers.Contains(tier))
+                            {
+                                tiers.Add(tier);
+                            }
+                        }
+                    }
+
+                    return Packet<bool, Role.AccessTiers[]>.Encode(true, [.. tiers]);
                 case Actions.Authenticate:
                     packet = Packet<Actions, Tuple<string, string>>.Decode(stream);
                     if(packet == null)
@@ -115,7 +142,9 @@ namespace Shared.Modules
                     string username = auth.Item1;
                     string password = auth.Item2;
 
-                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == Aes.Encrypt(password, User.Key) && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+                    string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
+
+                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
                     if(user == null)
                     {
                         return Packet<bool, string?>.Encode(false, "Wrong username or password.");
@@ -146,6 +175,15 @@ namespace Shared.Modules
             {
                 return true;
             }
+            if(this.DialogResult != DialogResult.Retry)
+            {
+                ApplicationState.Reset = false;
+                self.IsValid = false;
+                self.Exit();
+                Application.ExitThread();
+                Application.Exit();
+                return true;
+            }
 
             self.IsValid = false;
             return false;
@@ -153,7 +191,7 @@ namespace Shared.Modules
 
         private void Btn_login_Click(object? sender, EventArgs e)
         {
-            if (this.tb_password == null || this.tb_username == null || this.client == null)
+            if (this.tb_password == null || this.tb_username == null)
             {
                 return;
             }
@@ -166,7 +204,7 @@ namespace Shared.Modules
             }
 
             byte[] request = Packet<Actions, Tuple<string, string>>.Encode(Actions.Authenticate, new Tuple<string, string>(username, password));
-            byte[]? response = this.client.Send(request, ModletCommands.Commands.Action, this);
+            byte[]? response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
             if(response == null)
             {
                 return;
@@ -183,79 +221,93 @@ namespace Shared.Modules
             {
                 string? message = Packet<bool, string?>.Decode(response)?.Data;
                 MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.DialogResult = DialogResult.Retry;
                 return;
             }
             Packet<bool, User>? decodedResult = Packet<bool, User>.Decode(response);
-            this.client.AuthenticatedUser = decodedResult?.Data;
+            if(ApplicationState.Client == null)
+            {
+                return;
+            }
+            User? user = decodedResult?.Data;
+            ApplicationState.Client.AuthenticatedUser = user;
+
+            if (user != null)
+            {
+                request = Packet<Actions, Guid>.Encode(Actions.GetRoleAccess, user.Id);
+                response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
+
+                ApplicationState.Access = Packet<bool, Role.AccessTiers[]>.Decode(response)?.Data;
+            }
 
             this.DialogResult = DialogResult.OK;
         }
 
         private void InitializeComponent()
         {
-            this.lbl_username = new System.Windows.Forms.Label();
-            this.lbl_password = new System.Windows.Forms.Label();
-            this.tb_username = new System.Windows.Forms.TextBox();
-            this.tb_password = new System.Windows.Forms.TextBox();
-            this.btn_login = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lbl_username = new Label();
+            lbl_password = new Label();
+            tb_username = new TextBox();
+            tb_password = new TextBox();
+            btn_login = new Button();
+            SuspendLayout();
             // 
             // lbl_username
             // 
-            this.lbl_username.AutoSize = true;
-            this.lbl_username.Location = new System.Drawing.Point(30, 31);
-            this.lbl_username.Name = "lbl_username";
-            this.lbl_username.Size = new System.Drawing.Size(108, 20);
-            this.lbl_username.TabIndex = 0;
-            this.lbl_username.Text = "Username:";
+            lbl_username.AutoSize = true;
+            lbl_username.Location = new System.Drawing.Point(30, 31);
+            lbl_username.Name = "lbl_username";
+            lbl_username.Size = new System.Drawing.Size(108, 20);
+            lbl_username.TabIndex = 0;
+            lbl_username.Text = "Username:";
             // 
             // lbl_password
             // 
-            this.lbl_password.AutoSize = true;
-            this.lbl_password.Location = new System.Drawing.Point(30, 65);
-            this.lbl_password.Name = "lbl_password";
-            this.lbl_password.Size = new System.Drawing.Size(108, 20);
-            this.lbl_password.TabIndex = 1;
-            this.lbl_password.Text = "Password:";
+            lbl_password.AutoSize = true;
+            lbl_password.Location = new System.Drawing.Point(30, 65);
+            lbl_password.Name = "lbl_password";
+            lbl_password.Size = new System.Drawing.Size(108, 20);
+            lbl_password.TabIndex = 1;
+            lbl_password.Text = "Password:";
             // 
             // tb_username
             // 
-            this.tb_username.Location = new System.Drawing.Point(144, 28);
-            this.tb_username.Name = "tb_username";
-            this.tb_username.Size = new System.Drawing.Size(150, 28);
-            this.tb_username.TabIndex = 2;
+            tb_username.Location = new System.Drawing.Point(144, 28);
+            tb_username.Name = "tb_username";
+            tb_username.Size = new System.Drawing.Size(150, 28);
+            tb_username.TabIndex = 2;
             // 
             // tb_password
             // 
-            this.tb_password.Location = new System.Drawing.Point(144, 62);
-            this.tb_password.Name = "tb_password";
-            this.tb_password.PasswordChar = '*';
-            this.tb_password.Size = new System.Drawing.Size(150, 28);
-            this.tb_password.TabIndex = 3;
+            tb_password.Location = new System.Drawing.Point(144, 62);
+            tb_password.Name = "tb_password";
+            tb_password.PasswordChar = '*';
+            tb_password.Size = new System.Drawing.Size(150, 28);
+            tb_password.TabIndex = 3;
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(144, 96);
-            this.btn_login.Name = "btn_login";
-            this.btn_login.Size = new System.Drawing.Size(150, 34);
-            this.btn_login.TabIndex = 4;
-            this.btn_login.Text = "Login";
-            this.btn_login.UseVisualStyleBackColor = true;
-            this.btn_login.Click += new System.EventHandler(this.Btn_login_Click);
+            btn_login.Location = new System.Drawing.Point(144, 96);
+            btn_login.Name = "btn_login";
+            btn_login.Size = new System.Drawing.Size(150, 34);
+            btn_login.TabIndex = 4;
+            btn_login.Text = "Login";
+            btn_login.UseVisualStyleBackColor = true;
+            btn_login.Click += Btn_login_Click;
             // 
             // Authentication
             // 
-            this.ClientSize = new System.Drawing.Size(348, 172);
-            this.Controls.Add(this.btn_login);
-            this.Controls.Add(this.tb_password);
-            this.Controls.Add(this.tb_username);
-            this.Controls.Add(this.lbl_password);
-            this.Controls.Add(this.lbl_username);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Authentication";
-            this.Text = "Authentication";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new System.Drawing.Size(348, 172);
+            Controls.Add(btn_login);
+            Controls.Add(tb_password);
+            Controls.Add(tb_username);
+            Controls.Add(lbl_password);
+            Controls.Add(lbl_username);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Name = "Authentication";
+            Text = "Authentication";
+            ResumeLayout(false);
+            PerformLayout();
         }
         #endregion //Private Methods
     }

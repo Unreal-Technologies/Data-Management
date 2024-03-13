@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared;
+using Shared.Modlet;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -20,7 +22,7 @@ namespace Server.Data
         private Configuration? configuration;
         private readonly ModletServer? server;
         private bool installationMode = false;
-        private List<DbContext> contexts;
+        private readonly List<DbContext> contexts;
         #endregion //Members
 
         #region Constructors
@@ -72,6 +74,13 @@ namespace Server.Data
                 server.Register(mod, context, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
+            List<IMdiFormModlet?> modules = [];
+            foreach(IModlet modlet in server.Modules.Where(x => x is IMdiFormModlet))
+            {
+                modules.Add(modlet as IMdiFormModlet);
+            }
+            ApplicationState.Modules = [.. modules];
+
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
             ExtendedConsole.BoxMode(false);
 
@@ -303,13 +312,13 @@ namespace Server.Data
             {
                 return supported[keys[0]];
             }
-            if(!supported.ContainsKey(selected))
+            if(!supported.TryGetValue(selected, out ExtendedDbContext.Types value))
             {
                 ExtendedConsole.WriteLine("<red>" + selected + "</red> is not supported, try again.");
                 return App.GetDbcType();
             }
 
-            return supported[selected];
+            return value;
         }
 
         private static int? GetPort()

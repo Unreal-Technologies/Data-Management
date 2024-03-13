@@ -1,4 +1,5 @@
 ﻿using Client.ServerConfiguration;
+using Shared;
 using Shared.Controls;
 using Shared.Modlet;
 using System.Net;
@@ -24,12 +25,7 @@ namespace Client
         #region Events
         private void Splash_Load(object sender, EventArgs e)
         {
-            Version? version = Assembly.GetExecutingAssembly().GetName().Version;
-            if(version == null)
-            {
-                throw new NotImplementedException("Cannot get version information.");
-            }
-
+            Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
             this.lbl_copyright.Text = this.lbl_copyright.Text.Replace("xxxx", DateTime.Now.Year.ToString());
             this.lbl_version.Text = this.lbl_version.Text.Replace("x.x.x.x", version.ToString());
 
@@ -55,7 +51,7 @@ namespace Client
             });
             if(!isValid)
             {
-                Program.Reset = true;
+                ApplicationState.Reset = true;
                 Invoker<CustomForm>.Invoke(this, delegate (CustomForm form, object[]? data)
                 {
                     form.Close();
@@ -99,21 +95,21 @@ namespace Client
             }
 
             self.SetOutput("Setup connection.");
-            Program.Client = new AuthenticatedModletClient(set.Server, set.Port);
+            ApplicationState.Client = new AuthenticatedModletClient(set.Server, set.Port);
             try
             {
-                if(Program.Client.Send(ModletCommands.Commands.Connect, null) == null)
+                if(ApplicationState.Client.Send(ModletCommands.Commands.Connect, null) == null)
                 {
                     return false;
                 }
                 self.SetOutput("Get Transmission Key.");
 
-                byte[]? key = Program.Client.Send(ASCIIEncoding.UTF8.GetBytes(Dns.GetHostName()), ModletCommands.Commands.Serverkey, null);
+                byte[]? key = ApplicationState.Client.Send(ASCIIEncoding.UTF8.GetBytes(Dns.GetHostName()), ModletCommands.Commands.Serverkey, null);
                 if(key == null)
                 {
                     return false;
                 }
-                Program.Client.Aes = key.AsString();
+                ApplicationState.Client.Aes = key.AsString();
 
                 self.SetOutput("Key received, enableling aes.");
                 return true;
@@ -131,10 +127,7 @@ namespace Client
             IModlet[] list = Modlet.Load<IMainFormModlet>(self);
             foreach (IModlet mod in list)
             {
-                if (Program.Client != null)
-                {
-                    mod.OnClientConfiguration(Program.Client);
-                }
+                mod.OnClientConfiguration(this);
             }
             self.SetOutput("Loaded " + list.Length + " module(s).");
 
@@ -145,7 +138,7 @@ namespace Client
         {
             Invoker<Splash>.Invoke(this, delegate(Splash control, object[]? data)
             {
-                control.Close();
+                control.TopMost = false;
             });
             return true;
         }

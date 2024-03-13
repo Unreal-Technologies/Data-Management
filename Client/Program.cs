@@ -1,27 +1,19 @@
-using Shared.EFC.Tables;
-using Shared.Modlet;
-using UT.Data.Modlet;
+using Shared;
 
 namespace Client
 {
     internal static class Program
     {
-        #region Properties
-        public static User? User { get; set; }
-        public static bool Reset { get; set; }
-        public static AuthenticatedModletClient? Client { get; set; }
-        #endregion //Properties
-
         #region Main
         [STAThread]
         static void Main()
         {
-            Program.Reset = true;
+            ApplicationState.Reset = true;
             ApplicationConfiguration.Initialize();
 
-            while (Program.Reset)
+            while (ApplicationState.Reset)
             {
-                Program.Reset = false;
+                ApplicationState.Reset = false;
                 Application.Run(new Splash());
             }
         }

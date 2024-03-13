@@ -11,7 +11,7 @@ using Shared.EFC;
 namespace Shared.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240306051227_Shared")]
+    [Migration("20240313091945_shared")]
     partial class Shared
     {
         /// <inheritdoc />
@@ -82,8 +82,8 @@ namespace Shared.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("varchar(64)");
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<Guid>("PersonId")
                         .HasColumnType("char(36)");
