@@ -5,8 +5,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using UT.Data.Attributes;
 using UT.Data.Controls;
-using UT.Data.IO;
-using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
@@ -67,7 +65,7 @@ namespace Shared.Modules
                         }
                     }
 
-                    return Packet<bool, byte[]>.Encode(true, Serializer<Tuple<Role, int>[]>.Serialize([.. list]));
+                    return this.Response<Tuple<Role, int>[]>([.. list]);
             }
             return null;
         }

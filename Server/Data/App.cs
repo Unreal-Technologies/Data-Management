@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shared;
+using Shared.Modlet;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -72,6 +74,13 @@ namespace Server.Data
                 server.Register(mod, context, ref configuration);
                 ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
             }
+            List<IMdiFormModlet?> modules = [];
+            foreach(IModlet modlet in server.Modules.Where(x => x is IMdiFormModlet))
+            {
+                modules.Add(modlet as IMdiFormModlet);
+            }
+            ApplicationState.Modules = [.. modules];
+
             ExtendedConsole.WriteLine("Loaded <red>" + list.Length + "</red> module(s).");
             ExtendedConsole.BoxMode(false);
 

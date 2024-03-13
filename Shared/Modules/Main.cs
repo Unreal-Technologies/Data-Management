@@ -3,6 +3,7 @@ using Shared.Controls;
 using Shared.EFC;
 using Shared.EFC.Tables;
 using Shared.Modlet;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using UT.Data;
@@ -115,11 +116,14 @@ namespace Shared.Modules
 
             if (ApplicationState.Client != null)
             {
+                List<IMdiFormModlet?> modules = [];
                 foreach (IMdiFormModlet item in UT.Data.Modlet.Modlet.Load<IMdiFormModlet>(null).Cast<IMdiFormModlet>())
                 {
                     item.OnClientConfiguration(this);
                     item.OnMenuCreation(menu);
+                    modules.Add(item);
                 }
+                ApplicationState.Modules = [.. modules];
             }
 
             if (this.menuStrip != null)

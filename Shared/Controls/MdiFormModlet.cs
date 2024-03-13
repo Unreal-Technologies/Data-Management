@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.EFC.Tables;
 using Shared.Modlet;
 using System.Windows.Forms;
 using UT.Data;
@@ -77,6 +76,12 @@ namespace Shared.Controls
         #endregion //Abstracts
 
         #region Public Methods
+        public byte[] Response<T>(T data)
+            where T : class
+        {
+            return Packet<bool, byte[]>.Encode(true, Serializer<T>.Serialize(data));
+        }
+
         public Treceive? Request<Tsend, Treceive>(Tsend data, Tenum action)
             where Treceive : class
             where Tsend : class
@@ -88,6 +93,25 @@ namespace Shared.Controls
             }
 
             return Serializer<Treceive>.Deserialize(result);
+        }
+
+        public void Show<T>(Form? mdiParent)
+            where T: CustomForm<T>, IMdiFormModlet
+        {
+            if(mdiParent == null)
+            {
+                return;
+            }
+            IMdiFormModlet? modlet = ApplicationState.Modules?.Where(x => x is T).FirstOrDefault();
+            if(modlet == null)
+            {
+                return;
+            }
+            if (modlet is not CustomForm<T> form)
+            {
+                return;
+            }
+            form.Show(mdiParent);
         }
         #endregion //Public Methods
     }

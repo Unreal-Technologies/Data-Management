@@ -1,5 +1,4 @@
 using Shared;
-using Shared.Modlet;
 
 namespace Client
 {
