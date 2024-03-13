@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
 using UT.Data.Controls;
@@ -19,6 +20,8 @@ namespace Shared.Controls
 
         #region Properties
         protected GridviewGuid? Gridview { get { return this.gridview; } }
+
+        [AllowNull]
         public override string Text
         {
             get
