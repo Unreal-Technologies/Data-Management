@@ -53,7 +53,7 @@ namespace Shared.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     Username = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
-                    Password = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false),
+                    Password = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false),
                     PersonId = table.Column<Guid>(type: "char(36)", nullable: false),
                     Start = table.Column<DateTime>(type: "date", nullable: false),
                     End = table.Column<DateTime>(type: "date", nullable: false),

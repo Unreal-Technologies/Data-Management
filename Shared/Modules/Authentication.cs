@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Encryption;
+using UT.Data.Extensions;
 using UT.Data.Modlet;
 
 namespace Shared.Modules
@@ -141,7 +142,9 @@ namespace Shared.Modules
                     string username = auth.Item1;
                     string password = auth.Item2;
 
-                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == Aes.Encrypt(password, User.Key) && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+                    string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
+
+                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
                     if(user == null)
                     {
                         return Packet<bool, string?>.Encode(false, "Wrong username or password.");

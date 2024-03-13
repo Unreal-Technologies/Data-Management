@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using UT.Data.Encryption;
+using UT.Data.Extensions;
 
 namespace Shared.EFC.Tables
 {
@@ -21,8 +22,8 @@ namespace Shared.EFC.Tables
         public Guid Id { get; set; }
         [Required, MaxLength(64)]
         public string? Username { get { return Aes.Decrypt(this.username, User.Key); } set { this.username = Aes.Encrypt(value, User.Key); } }
-        [Required, MaxLength(64)]
-        public string? Password { get { return Aes.Decrypt(this.password, User.Key); } set { this.password = Aes.Encrypt(value, User.Key); } }
+        [Required, MaxLength(32)]
+        public string? Password { get { return this.password; } set { this.password = Aes.Encrypt(value, User.Key)?.Md5(); } }
         [Required]
         public virtual Person? Person { get; set; }
         [Required, DataType(DataType.Date), Column(TypeName = "date")]
