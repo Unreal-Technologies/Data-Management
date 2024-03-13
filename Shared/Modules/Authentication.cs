@@ -3,6 +3,7 @@ using Shared.Controls;
 using Shared.EFC;
 using Shared.EFC.Tables;
 using Shared.Modlet;
+using System.Drawing;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
@@ -147,7 +148,7 @@ namespace Shared.Modules
                     User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
                     if(user == null)
                     {
-                        return Packet<bool, string?>.Encode(false, "Wrong username or password.");
+                        return Packet<bool, string?>.Encode(false, Strings.String_WrongUsernameOrPassword);
                     }
                     return Packet<bool, User>.Encode(true, user);
             }
@@ -156,7 +157,7 @@ namespace Shared.Modules
 
         void IModlet.OnSequentialExecutionConfiguration(SequentialExecution se)
         {
-            se.Add(this.Authenticate, "Authenticate", -1);
+            se.Add(this.Authenticate, Strings.Word_Authenticate, -1);
         }
         #endregion //Implementations
 
@@ -165,10 +166,16 @@ namespace Shared.Modules
             : base()
         {
             this.InitializeComponent();
+            this.Load += Authentication_Load;
         }
         #endregion //Constructors
 
         #region Private Methods
+        private void Authentication_Load(object? sender, EventArgs e)
+        {
+            this.Reposition();
+        }
+
         private bool Authenticate(SequentialExecution self)
         {
             if(this.ShowDialog() == DialogResult.OK)
@@ -220,7 +227,7 @@ namespace Shared.Modules
             if (!state)
             {
                 string? message = Packet<bool, string?>.Decode(response)?.Data;
-                MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(message, Strings.Word_Information, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 this.DialogResult = DialogResult.Retry;
                 return;
             }
@@ -259,7 +266,7 @@ namespace Shared.Modules
             lbl_username.Name = "lbl_username";
             lbl_username.Size = new System.Drawing.Size(108, 20);
             lbl_username.TabIndex = 0;
-            lbl_username.Text = "Username:";
+            lbl_username.Text = Strings.Word_Username + ":";
             // 
             // lbl_password
             // 
@@ -268,7 +275,7 @@ namespace Shared.Modules
             lbl_password.Name = "lbl_password";
             lbl_password.Size = new System.Drawing.Size(108, 20);
             lbl_password.TabIndex = 1;
-            lbl_password.Text = "Password:";
+            lbl_password.Text = Strings.Word_Password + ":";
             // 
             // tb_username
             // 
@@ -291,7 +298,7 @@ namespace Shared.Modules
             btn_login.Name = "btn_login";
             btn_login.Size = new System.Drawing.Size(150, 34);
             btn_login.TabIndex = 4;
-            btn_login.Text = "Login";
+            btn_login.Text = Strings.Word_Login;
             btn_login.UseVisualStyleBackColor = true;
             btn_login.Click += Btn_login_Click;
             // 
@@ -304,10 +311,43 @@ namespace Shared.Modules
             Controls.Add(lbl_password);
             Controls.Add(lbl_username);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "Authentication";
-            Text = "Authentication";
+            Text = Strings.Word_Authenticate;
+
             ResumeLayout(false);
             PerformLayout();
+        }
+
+        private void Reposition()
+        {
+            if(this.lbl_password == null || this.lbl_username == null || this.tb_password == null || this.tb_username == null || this.btn_login == null)
+            {
+                return;
+            }
+
+            this.SuspendLayout();
+
+            this.lbl_username.Size = this.lbl_username.PreferredSize;
+            this.lbl_password.Size = this.lbl_password.PreferredSize;
+
+            int padding = 3;
+            int lblWidth = int.Max(this.lbl_username.Width, this.lbl_password.Width);
+            int tbWidth = int.Max(this.tb_password.Width, this.tb_username.Width);
+
+            int sum = lblWidth + tbWidth + padding;
+            int offset = (this.Width - sum) / 4;
+
+            int lblXs = offset;
+            int lblXe = lblXs + lblWidth;
+
+            int tbXs = lblXe + padding;
+
+            this.lbl_username.Location = new Point(lblXe - this.lbl_username.Width, this.tb_username.Location.Y + ((this.tb_username.Height - this.lbl_username.Height) / 2));
+            this.lbl_password.Location = new Point(lblXe - this.lbl_password.Width, this.tb_password.Location.Y + ((this.tb_password.Height - this.lbl_password.Height) / 2));
+            this.tb_username.Location = new Point(tbXs, this.tb_username.Location.Y);
+            this.tb_password.Location = new Point(tbXs, this.tb_password.Location.Y);
+            this.btn_login.Location = new Point(tbXs, this.btn_login.Location.Y);
+
+            this.ResumeLayout(false);
         }
         #endregion //Private Methods
     }

@@ -1,0 +1,25 @@
+W!Add:Add
+W!Edit:Edit
+W!Remove:Remove
+W!Roles:Roles
+W!Administrator:Administrator
+W!Description:Description
+W!Access:Access
+W!User:User
+W!Count:Count
+W!Launching:Launching
+W!Account:Account
+W!Logout:Logout
+W!UserCount:User count
+S!WrongUsernameOrPassword:Wrong username and/or password.
+W!Information:Information
+W!Authenticate:Authenticate
+W!Username:Username
+W!Password:Password
+W!Login:Login
+S!StartingServerCommunication:Starting Server Communication
+S!LoadingModules:Loading Modules
+W!Starting:Starting
+S!LoadedXModules:Loaded X module(s).
+S!Copyright:© Unreal Technologies XXXX
+S!Version:Version X.X.X.X

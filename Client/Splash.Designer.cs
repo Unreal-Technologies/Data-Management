@@ -1,4 +1,6 @@
-﻿namespace Client
+﻿using Shared;
+
+namespace Client
 {
     partial class Splash
     {
@@ -54,7 +56,7 @@
             this.lbl_copyright.Name = "lbl_copyright";
             this.lbl_copyright.Size = new System.Drawing.Size(295, 20);
             this.lbl_copyright.TabIndex = 1;
-            this.lbl_copyright.Text = "© Unreal Technologies xxxx";
+            this.lbl_copyright.Text = Strings.String_Copyright;
             // 
             // lbl_title
             // 
@@ -74,7 +76,7 @@
             this.lbl_version.Name = "lbl_version";
             this.lbl_version.Size = new System.Drawing.Size(174, 20);
             this.lbl_version.TabIndex = 3;
-            this.lbl_version.Text = "Version x.x.x.x";
+            this.lbl_version.Text = Strings.String_Version;
             // 
             // lbl_progression
             // 

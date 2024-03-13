@@ -104,6 +104,7 @@ namespace Server.Data
 
         public static void Initialize()
         {
+            ApplicationState.Language = Strings.Languages.En;
             _ = new App();
         }
         #endregion //Public Methods

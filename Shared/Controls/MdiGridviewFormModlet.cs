@@ -128,17 +128,17 @@ namespace Shared.Controls
 
         private void OnAdd(Guid? id)
         {
-            this.UpdateControlText("Add");
+            this.UpdateControlText(Strings.Word_Add);
         }
 
         private void OnEdit(Guid? id)
         {
-            this.UpdateControlText("Edit");
+            this.UpdateControlText(Strings.Word_Edit);
         }
 
         private void OnRemove(Guid? id)
         {
-            this.UpdateControlText("Remove");
+            this.UpdateControlText(Strings.Word_Remove);
         }
         #endregion //Private Methods
     }

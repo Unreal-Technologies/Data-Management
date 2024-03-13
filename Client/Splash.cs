@@ -26,14 +26,14 @@ namespace Client
         private void Splash_Load(object sender, EventArgs e)
         {
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
-            this.lbl_copyright.Text = this.lbl_copyright.Text.Replace("xxxx", DateTime.Now.Year.ToString());
-            this.lbl_version.Text = this.lbl_version.Text.Replace("x.x.x.x", version.ToString());
+            this.lbl_copyright.Text = this.lbl_copyright.Text.Replace("XXXX", DateTime.Now.Year.ToString());
+            this.lbl_version.Text = this.lbl_version.Text.Replace("X.X.X.X", version.ToString());
 
             SequentialExecution se = new(this);
             se.Output += Se_Output;
-            se.Add(this.ServerCommunication, "Starting Server Communication");
-            se.Add(this.ModuleLoader, "Loading Modules");
-            se.Add(this.Startup, "Starting..");
+            se.Add(this.ServerCommunication, Strings.String_StartingServerCommunication);
+            se.Add(this.ModuleLoader, Strings.String_LoadingModules);
+            se.Add(this.Startup, Strings.Word_Starting+"..");
             se.Start();
         }
 
@@ -129,7 +129,7 @@ namespace Client
             {
                 mod.OnClientConfiguration(this);
             }
-            self.SetOutput("Loaded " + list.Length + " module(s).");
+            self.SetOutput(Strings.String_LoadedXModules.Replace("X", list.Length.ToString()));
 
             return true;
         }

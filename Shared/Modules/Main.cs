@@ -3,7 +3,6 @@ using Shared.Controls;
 using Shared.EFC;
 using Shared.EFC.Tables;
 using Shared.Modlet;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using UT.Data;
@@ -88,7 +87,7 @@ namespace Shared.Modules
 
         public void OnSequentialExecutionConfiguration(SequentialExecution se)
         {
-            se.Add(this.SeInitialize, "Launching");
+            se.Add(this.SeInitialize, Strings.Word_Launching);
         }
 
         public void OnServerConfiguration(DbContext? context, ref Dictionary<string, object?> configuration)
@@ -223,15 +222,15 @@ namespace Shared.Modules
         private void FillBaseMenuTree(MenuItem menu)
         {
             MenuItem account = MenuItem.Submenu();
-            menu.Add("Account", account);
+            menu.Add(Strings.Word_Account, account);
 
             account.Add("l1", MenuItem.Line());
-            account.Add("Logout", MenuItem.Button(delegate (object? sender, EventArgs e) { this.Logout(); }));
+            account.Add(Strings.Word_Logout, MenuItem.Button(delegate (object? sender, EventArgs e) { this.Logout(); }));
 
             if(ApplicationState.Access != null && ApplicationState.Access.Contains(Role.AccessTiers.Administrator))
             {
                 MenuItem adminitrator = MenuItem.Submenu();
-                menu.Add("Administrator", adminitrator, 0);
+                menu.Add(Strings.Word_Administrator, adminitrator, 0);
             }
         }
 

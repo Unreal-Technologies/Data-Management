@@ -30,8 +30,8 @@ namespace Shared.Modules
         {
             if(ApplicationState.Access != null && ApplicationState.Access.Contains(Role.AccessTiers.Administrator))
             {
-                MenuItem? administrator = menu.Search("Administrator");
-                administrator?.Add("Roles", MenuItem.Button(delegate (object? sender, EventArgs e) { this.Show(this.Main); }));
+                MenuItem? administrator = menu.Search(Strings.Word_Administrator);
+                administrator?.Add(Strings.Word_Roles, MenuItem.Button(delegate (object? sender, EventArgs e) { this.Show(this.Main); }));
             }
         }
         #endregion //Implementations
@@ -66,10 +66,10 @@ namespace Shared.Modules
             base.InitializeComponent();
 
             this.SuspendLayout();
-            this.Text = "Roles";
+            this.Text = Strings.Word_Roles;
             if (this.Gridview != null)
             {
-                this.Gridview.SetColumns([new GridviewGuid.Column() { Text = "Description" }, new GridviewGuid.Column() { Text = "Access" }, new GridviewGuid.Column() { Text = "User Count" }]);
+                this.Gridview.SetColumns([new GridviewGuid.Column() { Text = Strings.Word_Description }, new GridviewGuid.Column() { Text = Strings.Word_Access }, new GridviewGuid.Column() { Text = Strings.String_UserCount }]);
                 this.Gridview.OnAdd += this.OnAdd;
                 this.Gridview.OnEdit += this.OnEdit;
                 this.Gridview.OnRemove += this.OnRemove;
@@ -94,7 +94,7 @@ namespace Shared.Modules
                     {
                         foreach (Role.AccessTiers tier in role.Access)
                         {
-                            access.Add(tier.ToString());
+                            access.Add(Strings.Get(tier.ToString()));
                         }
                     }
 
