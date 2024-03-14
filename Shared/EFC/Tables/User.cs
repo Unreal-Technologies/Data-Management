@@ -5,6 +5,7 @@ using UT.Data.Extensions;
 
 namespace Shared.EFC.Tables
 {
+    [Table("Shared.User")]
     public class User
     {
         #region Constants
@@ -33,10 +34,6 @@ namespace Shared.EFC.Tables
         [Required]
         public DateTime TransStartDate { get; set; }
         #endregion //Fields
-
-        #region Collections
-        public virtual ICollection<UserRole>? UserRoles { get; set; }
-        #endregion //Collections
         #endregion //Properties
 
         #region Constructors

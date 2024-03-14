@@ -2,8 +2,8 @@
 using Shared.Controls;
 using Shared.EFC;
 using Shared.EFC.Tables;
-using Shared.Modlet;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
@@ -14,7 +14,7 @@ using UT.Data.Modlet;
 namespace Shared.Modules
 {
     [Position(int.MinValue)]
-    public class Authentication : CustomForm, IMainFormModlet
+    public class Authentication : MainFormModlet<Context>
     {
         #region Members
         private Label? lbl_username;
@@ -22,7 +22,6 @@ namespace Shared.Modules
         private TextBox? tb_username;
         private TextBox? tb_password;
         private Button? btn_login;
-        private Context? context;
         #endregion //Members
 
         #region Enums
@@ -33,7 +32,7 @@ namespace Shared.Modules
         #endregion //Enums
 
         #region Implementations
-        void IModlet.OnServerInstallation(DbContext? context)
+        public override void OnServerInstallation(DbContext? context)
         {
             if(context == null)
             {
@@ -75,22 +74,10 @@ namespace Shared.Modules
             ctx.SaveChanges();
         }
 
-        void IModlet.OnServerConfiguration(DbContext? context, ref Dictionary<string, object?> configuration)
+        public override byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
-            if(context == null || context is not Context ctx)
-            {
-                throw new Exception("No Database Access");
-            }
-            this.context = ctx;
-        }
-
-        void IModlet.OnClientConfiguration(Form? splash) { }
-
-        void IModlet.OnGlobalServerAction(byte[]? stream) { }
-
-        byte[]? IModlet.OnLocalServerAction(byte[]? stream)
-        {
-            if(this.context == null)
+            base.OnLocalServerAction(stream, ip);
+            if(this.Context == null)
             {
                 return null;
             }
@@ -109,7 +96,7 @@ namespace Shared.Modules
                         return null;
                     }
                     Guid userId = ((Packet<Actions, Guid>)packet).Data;
-                    Role?[] roles = [.. this.context.UserRole.Where(x => x.User != null && x.User.Id == userId).Select(x => x.Role)];
+                    Role?[] roles = [.. this.Context.UserRole.Where(x => x.User != null && x.User.Id == userId).Select(x => x.Role)];
 
                     List<Role.AccessTiers> tiers = [];
                     foreach(Role? role in roles)
@@ -145,17 +132,18 @@ namespace Shared.Modules
 
                     string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
 
-                    User? user = this.context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+                    User? user = this.Context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
                     if(user == null)
                     {
                         return Packet<bool, string?>.Encode(false, Strings.String_WrongUsernameOrPassword);
                     }
+                    this.WriteUserLog(user, Strings.GetKey(Strings.Word_Login));
                     return Packet<bool, User>.Encode(true, user);
             }
             return null;
         }
 
-        void IModlet.OnSequentialExecutionConfiguration(SequentialExecution se)
+        public override void OnSequentialExecutionConfiguration(SequentialExecution se)
         {
             se.Add(this.Authenticate, Strings.Word_Authenticate, -1);
         }
@@ -304,7 +292,7 @@ namespace Shared.Modules
             // 
             // Authentication
             // 
-            ClientSize = new System.Drawing.Size(348, 172);
+            ClientSize = new System.Drawing.Size(400, 150);
             Controls.Add(btn_login);
             Controls.Add(tb_password);
             Controls.Add(tb_username);

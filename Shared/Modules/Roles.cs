@@ -94,7 +94,7 @@ namespace Shared.Modules
                     {
                         foreach (Role.AccessTiers tier in role.Access)
                         {
-                            access.Add(Strings.Get(tier.ToString()));
+                            access.Add(Strings.GetValue(tier.ToString()));
                         }
                     }
 

@@ -4,6 +4,7 @@ using Shared.EFC;
 using Shared.EFC.Tables;
 using Shared.Modlet;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
@@ -59,9 +60,9 @@ namespace Shared.Modules
             }
         }
 
-        public void OnGlobalServerAction(byte[]? stream) { }
+        public void OnGlobalServerAction(byte[]? stream, IPAddress ip) { }
 
-        public byte[]? OnLocalServerAction(byte[]? stream)
+        public byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
             object? packet = Packet<Actions, object>.Decode(stream);
             if (packet == null)

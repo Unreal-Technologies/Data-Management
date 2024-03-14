@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Modlet;
+using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.IO;
@@ -38,11 +39,11 @@ namespace Shared.Controls
         {
             this.context = context as Tcontext;
         }
-        public virtual void OnGlobalServerAction(byte[]? stream)
+        public virtual void OnGlobalServerAction(byte[]? stream, IPAddress ip)
         {
         }
 
-        public virtual byte[]? OnLocalServerAction(byte[]? stream)
+        public virtual byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
             if(stream == null || this.Context == null)
             {
