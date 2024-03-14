@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
 
 namespace Shared.EFC.Tables
 {
-    [Table("Shared.User+Role")]
-    public class UserRole
+    [Table("Shared.Log")]
+    public class Log
     {
         #region Properties
         #region Fields
@@ -13,7 +14,11 @@ namespace Shared.EFC.Tables
         [Required]
         public virtual User? User { get; set; }
         [Required]
-        public virtual Role? Role { get; set; }
+        public IPAddress? IP { get; set; }
+        [Required]
+        public Strings.Languages? Language { get; set; }
+        [Required]
+        public string? Text { get; set; }
         [Required]
         public DateTime TransStartDate { get; set; }
         #endregion //Fields

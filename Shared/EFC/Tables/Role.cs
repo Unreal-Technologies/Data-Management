@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.EFC.Tables
 {
+    [Table("Shared.Role")]
     public class Role
     {
         #region Enums
@@ -22,10 +24,6 @@ namespace Shared.EFC.Tables
         [Required]
         public DateTime TransStartDate { get; set; }
         #endregion //Fields
-
-        #region Collections
-        public virtual ICollection<UserRole>? UserRoles { get; set; }
-        #endregion //Collections
         #endregion //Properties
     }
 }

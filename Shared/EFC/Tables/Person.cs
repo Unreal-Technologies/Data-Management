@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.EFC.Tables
 {
+    [Table("Shared.Person")]
     public class Person
     {
         #region Properties
@@ -22,10 +24,6 @@ namespace Shared.EFC.Tables
             return this.Firstname + " " + this.Lastname;
         }
         #endregion //public Methods
-
-        #region Collections
-        public virtual ICollection<User>? Users { get; set; }
-        #endregion //Collections
         #endregion //Properties
     }
 }

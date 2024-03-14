@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Modlet;
+using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.IO;
@@ -38,11 +39,11 @@ namespace Shared.Controls
         {
             this.context = context as Tcontext;
         }
-        public virtual void OnGlobalServerAction(byte[]? stream)
+        public virtual void OnGlobalServerAction(byte[]? stream, IPAddress ip)
         {
         }
 
-        public virtual byte[]? OnLocalServerAction(byte[]? stream)
+        public virtual byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
             if(stream == null || this.Context == null)
             {
@@ -95,7 +96,7 @@ namespace Shared.Controls
             return Serializer<Treceive>.Deserialize(result);
         }
 
-        public void Show<T>(Form? mdiParent)
+        public void Show<T>(Form? mdiParent, ShowHandler? handler = null)
             where T: CustomForm<T>, IMdiFormModlet
         {
             if(mdiParent == null)
@@ -111,6 +112,7 @@ namespace Shared.Controls
             {
                 return;
             }
+            handler?.Invoke(form as Tform);
             form.Show(mdiParent);
         }
         #endregion //Public Methods
