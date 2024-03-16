@@ -10,6 +10,7 @@ using UT.Data.Extensions;
 using UT.Data.Forms;
 using UT.Data.IO;
 using UT.Data.Modlet;
+using Strings = Shared.Strings;
 
 namespace Client
 {

@@ -1,20 +1,10 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Shared
+﻿namespace Shared
 {
-    public abstract class Strings
+    public abstract class Strings : UT.Data.Strings
     {
         #region Members
         private static Dictionary<string, string>? text;
-        private static Languages? current;
         #endregion //Members
-
-        #region Enums
-        public enum Languages
-        {
-            En, Nl
-        }
-        #endregion //Enums
 
         #region Properties
         public static string Word_Add { get { return Strings.GetValue("W!Add"); } }
@@ -43,13 +33,18 @@ namespace Shared
         public static string String_Copyright { get { return Strings.GetValue("S!Copyright"); } }
         public static string String_Version { get { return Strings.GetValue("S!Version"); } }
         public static string Word_Id { get { return Strings.GetValue("W!Id"); } }
-        public static Languages? LanguageOverride { get; set; }
-        public static Languages? Current { get { return Strings.current; } }
+        public static string Word_Save { get { return Strings.GetValue("W!Save"); } }
         #endregion //Properties
 
         #region Public Methods
-        public static string GetKey(string value)
+        public new static string GetKey(string value)
         {
+            string result = UT.Data.Strings.GetKey(value);
+            if(result != value)
+            {
+                return result;
+            }
+
             Strings.Load();
             if (Strings.text == null)
             {
@@ -64,7 +59,7 @@ namespace Shared
             return key;
         }
 
-        public static string GetValue(string key)
+        public new static string GetValue(string key)
         {
             Strings.Load();
             if (Strings.text == null)
@@ -77,6 +72,12 @@ namespace Shared
                 return value;
             }
 
+            string result = UT.Data.Strings.GetValue(key);
+            if (result != key)
+            {
+                return result;
+            }
+
             return key;
         }
         #endregion //Public Methods
@@ -84,13 +85,13 @@ namespace Shared
         #region Private Methods
         private static void Load()
         {
-            Languages? language = ApplicationState.Language;
+            Languages? language = Strings.Language;
             if (Strings.LanguageOverride != null)
             {
                 language = Strings.LanguageOverride;
             }
 
-            if ((Strings.current == null || Strings.text == null) && language != null)
+            if ((Strings.Current == null || Strings.text == null) && language != null)
             {
                 Strings.Load(language.Value);
             }
@@ -113,7 +114,7 @@ namespace Shared
 
                 Strings.text.Add(left, right);
             }
-            Strings.current = language;
+            Strings.Current = language;
         }
         #endregion //Private Methods
     }

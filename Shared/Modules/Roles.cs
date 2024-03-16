@@ -2,10 +2,9 @@
 using Shared.EFC;
 using Shared.EFC.Tables;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using UT.Data.Attributes;
-using UT.Data.Controls;
+using UT.Data.Controls.Custom;
 using UT.Data.IO;
 
 namespace Shared.Modules
@@ -17,6 +16,7 @@ namespace Shared.Modules
         Label? lblIdDynamic;
         TextBox? tbDescriptionDynamic;
         CheckedComboBox? ccbAccessDynamic;
+        Button? btnSave;
         #endregion //Members
 
         #region Enums
@@ -134,11 +134,28 @@ namespace Shared.Modules
             }
             this.ControlBox?.Controls.Add(this.ccbAccessDynamic);
 
+            this.btnSave = new()
+            {
+                Enabled = false,
+                Text = Strings.Word_Save,
+                Width = 150,
+                Height = 34
+            };
+            this.btnSave.Location = new Point(this.ccbAccessDynamic.Location.X + this.ccbAccessDynamic.Width - this.btnSave.Width, (this.ccbAccessDynamic.Location.Y + this.ccbAccessDynamic.Height - 2));
+            this.btnSave.Click += BtnSave_Click;
+            this.ControlBox?.Controls.Add(this.btnSave);
+
             this.ResumeLayout(false);
         }
         #endregion //Protected Methods
 
         #region Private Methods
+        private void BtnSave_Click(object? sender, EventArgs e)
+        {
+            this.UpdateControls(null, false, false, false);
+            this.Roles_Load(null, EventArgs.Empty);
+        }
+
         private byte[]? ActionSingle(byte[] stream)
         {
             byte[]? guid = Serializer<byte[]>.Deserialize(stream);
@@ -239,7 +256,7 @@ namespace Shared.Modules
 
         private void UpdateControls(Guid? id, bool isAdd, bool isEdit, bool isRemove)
         {
-            if(this.lblIdDynamic == null || this.tbDescriptionDynamic == null || this.ccbAccessDynamic == null)
+            if(this.lblIdDynamic == null || this.tbDescriptionDynamic == null || this.ccbAccessDynamic == null || this.btnSave == null)
             {
                 return;
             }
@@ -248,6 +265,8 @@ namespace Shared.Modules
             {
                 this.ccbAccessDynamic.SetItemCheckState(i, CheckState.Unchecked);
             }
+            this.tbDescriptionDynamic.Text = string.Empty;
+
             this.lblIdDynamic.Text = (id == null ? Guid.Empty : id).ToString();
             if (id != null)
             {
@@ -264,6 +283,7 @@ namespace Shared.Modules
 
             this.tbDescriptionDynamic.Enabled = enable;
             this.ccbAccessDynamic.Enabled = enable;
+            this.btnSave.Enabled = enable;
         }
         #endregion //Private Methods
     }

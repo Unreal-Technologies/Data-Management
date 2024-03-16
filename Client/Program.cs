@@ -8,7 +8,7 @@ namespace Client
         [STAThread]
         static void Main()
         {
-            ApplicationState.Language = Strings.Languages.Nl;
+            Strings.Language = Strings.Languages.Nl;
             ApplicationState.Reset = true;
             ApplicationConfiguration.Initialize();
 

@@ -9,6 +9,7 @@ using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.IO;
 using UT.Data.Modlet;
+using Strings = Shared.Strings;
 
 namespace Server.Data
 {
@@ -104,7 +105,7 @@ namespace Server.Data
 
         public static void Initialize()
         {
-            ApplicationState.Language = Strings.Languages.En;
+            Strings.Language = Strings.Languages.En;
             _ = new App();
         }
         #endregion //Public Methods
