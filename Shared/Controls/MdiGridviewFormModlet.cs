@@ -19,6 +19,8 @@ namespace Shared.Controls
         #endregion //Members
 
         #region Properties
+        protected new GroupBox? ControlBox { get { return this.controlBox; } }
+
         protected GridviewGuid? Gridview { get { return this.gridview; } }
 
         [AllowNull]
