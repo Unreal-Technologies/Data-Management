@@ -21,7 +21,7 @@ S!StartingServerCommunication:Starting Server Communication
 S!LoadingModules:Loading Modules
 W!Starting:Starting
 S!LoadedXModules:Loaded X module(s).
-S!Copyright:© Unreal Technologies XXXX
-S!Version:Version X.X.X.X
+S!Copyright:© Unreal Technologies {0}
+S!Version:Version {0}
 W!Id:Id
 W!Save:Save

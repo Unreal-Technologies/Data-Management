@@ -21,7 +21,7 @@ S!StartingServerCommunication:Server Communicatie Opzetten
 S!LoadingModules:Modules Laden
 W!Starting:Starten
 S!LoadedXModules:X modules geladen
-S!Copyright:© Unreal Technologies XXXX
-S!Version:Versie X.X.X.X
+S!Copyright:© Unreal Technologies {0}
+S!Version:Versie {0}
 W!Id:Id
 W!Save:Opslaan

@@ -39,12 +39,6 @@
         #region Public Methods
         public new static string GetKey(string value)
         {
-            string result = UT.Data.Strings.GetKey(value);
-            if(result != value)
-            {
-                return result;
-            }
-
             Strings.Load();
             if (Strings.text == null)
             {
@@ -55,6 +49,12 @@
             if(key == null)
             {
                 return value;
+            }
+
+            string result = UT.Data.Strings.GetKey(value);
+            if (result != value)
+            {
+                return result;
             }
             return key;
         }
