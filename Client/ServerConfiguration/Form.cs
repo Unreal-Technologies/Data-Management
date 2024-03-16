@@ -1,9 +1,8 @@
 ﻿using Shared.Controls;
 using System.Net;
 using System.Net.NetworkInformation;
-using UT.Data;
 using System.Text.RegularExpressions;
-using Client.ServerConfiguration;
+using UT.Data;
 
 
 namespace Client.ServerConfiguration
@@ -47,13 +46,12 @@ namespace Client.ServerConfiguration
 
         private void Btn_save_Click(object sender, EventArgs e)
         {
-            if (!Regex.Match(this.tb_serverIP.Text, @"([0-9]{1,3}(\.)){3}[0-9]{1,3}").Success)
+            if (!IpRegex().Match(this.tb_serverIP.Text).Success)
             {
                 MessageBox.Show("Invalid IP format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            IPAddress? outIp;
-            if(!IPAddress.TryParse(this.tb_serverIP.Text, out outIp))
+            if (!IPAddress.TryParse(this.tb_serverIP.Text, out IPAddress? outIp))
             {
                 MessageBox.Show("Invalid IP format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -67,6 +65,9 @@ namespace Client.ServerConfiguration
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        [GeneratedRegex(@"([0-9]{1,3}(\.)){3}[0-9]{1,3}")]
+        private static partial Regex IpRegex();
         #endregion //Events
     }
 }

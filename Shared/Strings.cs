@@ -42,6 +42,7 @@ namespace Shared
         public static string String_LoadedXModules { get { return Strings.GetValue("S!LoadedXModules"); } }
         public static string String_Copyright { get { return Strings.GetValue("S!Copyright"); } }
         public static string String_Version { get { return Strings.GetValue("S!Version"); } }
+        public static string Word_Id { get { return Strings.GetValue("W!Id"); } }
         public static Languages? LanguageOverride { get; set; }
         public static Languages? Current { get { return Strings.current; } }
         #endregion //Properties
