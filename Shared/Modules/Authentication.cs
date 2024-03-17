@@ -191,22 +191,13 @@ namespace Shared.Modules
             validator.Add(this.tb_password);
             validator.Validate();
 
-            if(!validator.IsValid)
-            {
-                //throw new NotImplementedException();
-            }
-
-            if (this.tb_password == null || this.tb_username == null)
+            if(!validator.IsValid || this.tb_username == null || this.tb_password == null)
             {
                 return;
             }
 
             string username = this.tb_username.Control.Text;
             string password = this.tb_password.Control.Text;
-            if(username == String.Empty || password == String.Empty)
-            {
-                return;
-            }
 
             byte[] request = Packet<Actions, Tuple<string, string>>.Encode(Actions.Authenticate, new Tuple<string, string>(username, password));
             byte[]? response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
