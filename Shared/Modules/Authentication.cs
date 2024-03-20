@@ -10,6 +10,7 @@ using UT.Data.Attributes;
 using UT.Data.Controls;
 using UT.Data.Encryption;
 using UT.Data.Extensions;
+using UT.Data.Forms;
 using UT.Data.Modlet;
 using Application = System.Windows.Forms.Application;
 
@@ -237,6 +238,14 @@ namespace Shared.Modules
             }
 
             this.DialogResult = DialogResult.OK;
+            if (this.BaseForm != null) //Hide Splash
+
+            {
+                Invoker<Form>.Invoke(this.BaseForm, delegate (Form form, object[]? data)
+                {
+                    form.Visible = false;
+                });
+            }
         }
 
         private void InitializeComponent()

@@ -13,9 +13,11 @@ namespace Shared.Controls
         #region Members
         private TContext? context;
         private IPAddress? lastAction;
+        private Form? baseForm;
         #endregion //Members
 
         #region Properties
+        public Form? BaseForm { get { return this.baseForm; } }
         public TContext? Context { get { return this.context; } }
         #endregion //Properties
 
@@ -23,7 +25,10 @@ namespace Shared.Controls
 
         public abstract void OnSequentialExecutionConfiguration(SequentialExecution se);
         public abstract void OnServerInstallation(DbContext? context);
-        public virtual void OnClientConfiguration(Form? form) { }
+        public virtual void OnClientConfiguration(Form? form) 
+        {
+            this.baseForm = form;
+        }
         public virtual void OnGlobalServerAction(byte[]? stream, IPAddress ip)
         {
             this.lastAction = ip;
@@ -35,14 +40,8 @@ namespace Shared.Controls
                 throw new Exception("No Database Access");
             }
             this.context = ctx;
-            context.SavingChanges += Context_SavingChanges;
         }
 
-        private void Context_SavingChanges(object? sender, SavingChangesEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-        
         public virtual byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
             this.lastAction = ip;
