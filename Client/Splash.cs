@@ -10,6 +10,7 @@ using UT.Data.Extensions;
 using UT.Data.Forms;
 using UT.Data.IO;
 using UT.Data.Modlet;
+using Strings = Shared.Strings;
 
 namespace Client
 {
@@ -26,14 +27,14 @@ namespace Client
         private void Splash_Load(object sender, EventArgs e)
         {
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
-            this.lbl_copyright.Text = this.lbl_copyright.Text.Replace("XXXX", DateTime.Now.Year.ToString());
-            this.lbl_version.Text = this.lbl_version.Text.Replace("X.X.X.X", version.ToString());
+            this.lbl_copyright.Text = string.Format(this.lbl_copyright.Text, DateTime.Now.Year.ToString());
+            this.lbl_version.Text = string.Format(this.lbl_version.Text, version.ToString());
 
             SequentialExecution se = new(this);
             se.Output += Se_Output;
             se.Add(this.ServerCommunication, Strings.String_StartingServerCommunication);
             se.Add(this.ModuleLoader, Strings.String_LoadingModules);
-            se.Add(this.Startup, Strings.Word_Starting+"..");
+            se.Add(this.Startup, Strings.Word_Starting + "..");
             se.Start();
         }
 

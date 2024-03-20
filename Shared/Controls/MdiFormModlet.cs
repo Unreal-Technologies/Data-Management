@@ -75,8 +75,8 @@ namespace Shared.Controls
         #region Abstracts
         public abstract void OnMenuCreation(MenuItem menu);
         #endregion //Abstracts
-
-        #region Public Methods
+        
+        #region Public Methodss
         public byte[] Response<T>(T data)
             where T : class
         {

@@ -9,6 +9,7 @@ using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.IO;
 using UT.Data.Modlet;
+using Strings = Server.Strings;
 
 namespace Server.Data
 {
@@ -33,8 +34,8 @@ namespace Server.Data
             Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
             
             ExtendedConsole.BoxMode(true, App.Padding);
-            ExtendedConsole.WriteLine("Version <yellow>"+ version.ToString() + "</yellow>");
-            ExtendedConsole.WriteLine("© Unreal Technologies <yellow>" + DateTime.Now.Year.ToString() + "</yellow>");
+            ExtendedConsole.WriteLine(string.Format(Strings.String_Version, "<yellow>"+ version.ToString() + "</yellow>"));
+            ExtendedConsole.WriteLine(string.Format(Strings.String_Copyright, "<yellow>"+ DateTime.Now.Year.ToString() + "</yellow>"));
             ExtendedConsole.BoxMode(false);
 
             List<IPAddress> addresses = new(Network.LocalIPv4(NetworkInterfaceType.Ethernet))
@@ -72,7 +73,7 @@ namespace Server.Data
                     mod.OnServerInstallation(context);
                 }
                 server.Register(mod, context, ref configuration);
-                ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString()+"</Green>");
+                ExtendedConsole.WriteLine(string.Format(Strings.String_Loaded, "<Green>" + mod.ToString() + "</Green>"));
             }
             List<IMdiFormModlet?> modules = [];
             foreach(IModlet modlet in server.Modules.Where(x => x is IMdiFormModlet))
@@ -104,7 +105,7 @@ namespace Server.Data
 
         public static void Initialize()
         {
-            ApplicationState.Language = Strings.Languages.En;
+            Strings.Language = Strings.Languages.Nl;
             _ = new App();
         }
         #endregion //Public Methods

@@ -11,7 +11,7 @@ using Shared.EFC;
 namespace Shared.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240314012757_Shared")]
+    [Migration("20240317232612_Shared")]
     partial class Shared
     {
         /// <inheritdoc />
@@ -166,7 +166,7 @@ namespace Shared.Migrations
             modelBuilder.Entity("Shared.EFC.Tables.Log", b =>
                 {
                     b.HasOne("Shared.EFC.Tables.User", "User")
-                        .WithMany("Logs")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -177,7 +177,7 @@ namespace Shared.Migrations
             modelBuilder.Entity("Shared.EFC.Tables.User", b =>
                 {
                     b.HasOne("Shared.EFC.Tables.Person", "Person")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -188,13 +188,13 @@ namespace Shared.Migrations
             modelBuilder.Entity("Shared.EFC.Tables.UserRole", b =>
                 {
                     b.HasOne("Shared.EFC.Tables.Role", "Role")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Shared.EFC.Tables.User", "User")
-                        .WithMany("UserRoles")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -202,23 +202,6 @@ namespace Shared.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Shared.EFC.Tables.Person", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Shared.EFC.Tables.Role", b =>
-                {
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Shared.EFC.Tables.User", b =>
-                {
-                    b.Navigation("Logs");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Windows.Forms;
-using UT.Data.Controls;
+using UT.Data.Controls.Custom;
 
 namespace Shared.Controls
 {

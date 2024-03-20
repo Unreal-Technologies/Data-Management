@@ -7,9 +7,11 @@ using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
+using UT.Data.Controls;
 using UT.Data.Encryption;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
+using Application = System.Windows.Forms.Application;
 
 namespace Shared.Modules
 {
@@ -17,10 +19,8 @@ namespace Shared.Modules
     public class Authentication : MainFormModlet<Context>
     {
         #region Members
-        private Label? lbl_username;
-        private Label? lbl_password;
-        private TextBox? tb_username;
-        private TextBox? tb_password;
+        private Label? lbl_username, lbl_password;
+        private Validated<TextBox>? tb_username, tb_password;
         private Button? btn_login;
         #endregion //Members
 
@@ -186,17 +186,18 @@ namespace Shared.Modules
 
         private void Btn_login_Click(object? sender, EventArgs e)
         {
-            if (this.tb_password == null || this.tb_username == null)
+            Validator validator = new();
+            validator.Add(this.tb_username);
+            validator.Add(this.tb_password);
+            validator.Validate();
+
+            if(!validator.IsValid || this.tb_username == null || this.tb_password == null)
             {
                 return;
             }
 
-            string username = this.tb_username.Text;
-            string password = this.tb_password.Text;
-            if(username == String.Empty || password == String.Empty)
-            {
-                return;
-            }
+            string username = this.tb_username.Control.Text;
+            string password = this.tb_password.Control.Text;
 
             byte[] request = Packet<Actions, Tuple<string, string>>.Encode(Actions.Authenticate, new Tuple<string, string>(username, password));
             byte[]? response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
@@ -242,49 +243,51 @@ namespace Shared.Modules
         {
             lbl_username = new Label();
             lbl_password = new Label();
-            tb_username = new TextBox();
-            tb_password = new TextBox();
+            tb_username = new Validated<TextBox>(delegate (TextBox control) { return control.Text; });
+            tb_password = new Validated<TextBox>(delegate (TextBox control) { return control.Text; });
             btn_login = new Button();
             SuspendLayout();
             // 
             // lbl_username
             // 
             lbl_username.AutoSize = true;
-            lbl_username.Location = new System.Drawing.Point(30, 31);
+            lbl_username.Location = new Point(30, 31);
             lbl_username.Name = "lbl_username";
-            lbl_username.Size = new System.Drawing.Size(108, 20);
+            lbl_username.Size = new Size(108, 20);
             lbl_username.TabIndex = 0;
             lbl_username.Text = Strings.Word_Username + ":";
             // 
             // lbl_password
             // 
             lbl_password.AutoSize = true;
-            lbl_password.Location = new System.Drawing.Point(30, 65);
+            lbl_password.Location = new Point(30, 65);
             lbl_password.Name = "lbl_password";
-            lbl_password.Size = new System.Drawing.Size(108, 20);
+            lbl_password.Size = new Size(108, 20);
             lbl_password.TabIndex = 1;
             lbl_password.Text = Strings.Word_Password + ":";
             // 
             // tb_username
             // 
-            tb_username.Location = new System.Drawing.Point(144, 28);
+            tb_username.Location = new Point(144, 28);
             tb_username.Name = "tb_username";
-            tb_username.Size = new System.Drawing.Size(150, 28);
+            tb_username.Control.Size = new Size(150, 28);
             tb_username.TabIndex = 2;
+            tb_username.IsRequired = true;
             // 
             // tb_password
             // 
-            tb_password.Location = new System.Drawing.Point(144, 62);
+            tb_password.Location = new Point(144, 62);
             tb_password.Name = "tb_password";
-            tb_password.PasswordChar = '*';
-            tb_password.Size = new System.Drawing.Size(150, 28);
+            tb_password.Control.PasswordChar = '*';
+            tb_password.Control.Size = new Size(150, 28);
             tb_password.TabIndex = 3;
+            tb_password.IsRequired = true;
             // 
             // btn_login
             // 
-            btn_login.Location = new System.Drawing.Point(144, 96);
+            btn_login.Location = new Point(144, 96);
             btn_login.Name = "btn_login";
-            btn_login.Size = new System.Drawing.Size(150, 34);
+            btn_login.Size = new Size(150, 34);
             btn_login.TabIndex = 4;
             btn_login.Text = Strings.Word_Login;
             btn_login.UseVisualStyleBackColor = true;
@@ -292,7 +295,7 @@ namespace Shared.Modules
             // 
             // Authentication
             // 
-            ClientSize = new System.Drawing.Size(400, 150);
+            ClientSize = new Size(400, 150);
             Controls.Add(btn_login);
             Controls.Add(tb_password);
             Controls.Add(tb_username);

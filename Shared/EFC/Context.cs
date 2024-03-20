@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Shared.EFC.Tables;
 using System.Net;
+using System.Reflection;
 using UT.Data;
 
 namespace Shared.EFC
@@ -23,35 +25,41 @@ namespace Shared.EFC
         #endregion //Constructors
 
         #region Overrides
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Person>(entity =>
-            {
-                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
-            });
-
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
-            });
-
-            modelBuilder.Entity<UserRole>(entity =>
-            {
-                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
-            });
-
-            modelBuilder.Entity<Log>(entity =>
-            {
-                entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
-            });
+            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.LogTo(Console.WriteLine);
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+
+        //    //modelBuilder.Entity<Person>(entity =>
+        //    //{
+        //    //    entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+        //    //});
+
+        //    //modelBuilder.Entity<User>(entity =>
+        //    //{
+        //    //    entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+        //    //});
+
+        //    //modelBuilder.Entity<Role>(entity =>
+        //    //{
+        //    //    entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+        //    //});
+
+        //    //modelBuilder.Entity<UserRole>(entity =>
+        //    //{
+        //    //    entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+        //    //});
+
+        //    //modelBuilder.Entity<Log>(entity =>
+        //    //{
+        //    //    entity.Property(e => e.TransStartDate).ValueGeneratedOnAddOrUpdate();
+        //    //});
+        //}
         #endregion //Overrides
     }
 }
