@@ -35,7 +35,14 @@ namespace Shared.Controls
                 throw new Exception("No Database Access");
             }
             this.context = ctx;
+            context.SavingChanges += Context_SavingChanges;
         }
+
+        private void Context_SavingChanges(object? sender, SavingChangesEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+        
         public virtual byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
             this.lastAction = ip;

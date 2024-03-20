@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\UT.Data\UT.Data.csproj" />
-    <ProjectReference Include="..\UT.Excel\UT.Excel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
