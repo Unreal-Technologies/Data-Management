@@ -6,4 +6,9 @@
   <PropertyGroup>
     <ActiveDebugProfile>Server</ActiveDebugProfile>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Configuration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

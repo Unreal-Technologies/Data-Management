@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="-OLD-\**" />
+    <EmbeddedResource Remove="-OLD-\**" />
+    <None Remove="-OLD-\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\UT.Data\UT.Data.csproj" />
   </ItemGroup>
