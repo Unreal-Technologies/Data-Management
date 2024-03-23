@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using UT.Data;
 
 namespace Shared.Controls
 {
@@ -11,6 +12,7 @@ namespace Shared.Controls
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.TopMost = true;
+            this.Icon = Resources.Favicon;
         }
     }
 }
