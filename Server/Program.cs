@@ -35,8 +35,8 @@ namespace Server
             #region Constructors
             public Settings()
             {
-                this.Port = 0;
-                this.Db = new Database();
+                Port = 0;
+                Db = new Database();
             }
             #endregion //Constructors
 
@@ -55,11 +55,11 @@ namespace Server
                 #region Constructors
                 public Database()
                 {
-                    this.Port = 0;
-                    this.Ip = string.Empty;
-                    this.Type = string.Empty;
-                    this.Username = string.Empty;
-                    this.Db = string.Empty;
+                    Port = 0;
+                    Ip = string.Empty;
+                    Type = string.Empty;
+                    Username = string.Empty;
+                    Db = string.Empty;
                 }
                 #endregion //Constructors
             }
@@ -78,20 +78,20 @@ namespace Server
             public App()
             {
                 AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-                this.contexts = [];
-                this.installationMode = false;
+                contexts = [];
+                installationMode = false;
 
                 App.ServerInfo();
-                Settings settings = this.GetSettings() ?? throw new NotImplementedException("Coding error?");
-                this.StartModletServer(settings);
+                Settings settings = GetSettings() ?? throw new NotImplementedException("Coding error?");
+                StartModletServer(settings);
             }
             #endregion //Constructors
 
             #region Private Methods
             private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
             {
-                this.server?.Stop();
-                foreach (ExtendedDbContext context in this.contexts.Values)
+                server?.Stop();
+                foreach (ExtendedDbContext context in contexts.Values)
                 {
                     context.Dispose();
                 }
@@ -124,9 +124,9 @@ namespace Server
                 IModlet[] list = Modlet.Load<IModlet>(null);
                 foreach (IModlet mod in list)
                 {
-                    ExtendedDbContext? context = this.GetDbContext(mod, settings);
+                    ExtendedDbContext? context = GetDbContext(mod, settings);
 
-                    if (this.installationMode)
+                    if (installationMode)
                     {
                         context?.Database.EnsureCreated();
                         context?.SaveChanges();
@@ -138,7 +138,7 @@ namespace Server
                 }
                 ExtendedConsole.WriteLine("Initialized <red>" + list.Length + "</red> module(s)");
 
-                this.server = server;
+                server = server;
                 server.Start();
                 ExtendedConsole.BoxMode(false);
             }
@@ -166,7 +166,7 @@ namespace Server
                 }
 
                 string key = configuration.Type.ToString() + ":" + configuration.ConnectionString;
-                if(this.contexts.TryGetValue(key, out ExtendedDbContext? value))
+                if(contexts.TryGetValue(key, out ExtendedDbContext? value))
                 {
                     return value;
                 }
@@ -179,7 +179,7 @@ namespace Server
                     {
                         return null;
                     }
-                    this.contexts.Add(key, context);
+                    contexts.Add(key, context);
                     return context;
                 }
                 catch (Exception ex)
@@ -197,7 +197,7 @@ namespace Server
                 ExtendedConsole.WriteLine("-".Repeat(Program.Padding));
                 if (!localConfig.Exists)
                 {
-                    this.installationMode = true;
+                    installationMode = true;
                     ExtendedConsole.WriteLine("<red>Configuration is Missing</red>");
                     Configuration configuration = new();
                     DialogResult result = configuration.ShowDialog();

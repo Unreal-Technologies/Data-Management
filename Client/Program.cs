@@ -23,7 +23,7 @@ namespace Client
             #region Constructors
             public Settings()
             {
-                this.Ip = string.Empty;
+                Ip = string.Empty;
             }
             #endregion //Constructors
         }

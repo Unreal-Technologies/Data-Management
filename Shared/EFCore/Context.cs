@@ -9,7 +9,7 @@ namespace Shared.EFCore
     {
         public Context(Configuration configuration) : base(configuration)
         {
-            this.SavingChanges += ExtendedDbContext_SavingChanges;
+            SavingChanges += ExtendedDbContext_SavingChanges;
         }
 
         #region Private Methods

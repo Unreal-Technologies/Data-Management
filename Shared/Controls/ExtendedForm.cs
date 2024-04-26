@@ -8,11 +8,11 @@ namespace Shared.Controls
     {
         public ExtendedForm() : base()
         {
-            this.Font = new Font(FontFamily.GenericMonospace, 9);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.TopMost = true;
-            this.Icon = Resources.Favicon;
+            Font = new Font(FontFamily.GenericMonospace, 9);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            StartPosition = FormStartPosition.CenterScreen;
+            TopMost = true;
+            Icon = Resources.Favicon;
         }
     }
 }
