@@ -28,37 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
-            logo2 = new UT.Data.Controls.Logo();
-            ((System.ComponentModel.ISupportInitialize)logo2).BeginInit();
             SuspendLayout();
-            // 
-            // logo2
-            // 
-            logo2.Dock = DockStyle.Fill;
-            logo2.Image = (Image)resources.GetObject("logo2.Image");
-            logo2.Location = new Point(0, 0);
-            logo2.Name = "logo2";
-            logo2.Size = new Size(1024, 398);
-            logo2.SizeMode = PictureBoxSizeMode.StretchImage;
-            logo2.TabIndex = 0;
-            logo2.TabStop = false;
             // 
             // Splash
             // 
             AutoScaleDimensions = new SizeF(11F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1024, 398);
-            Controls.Add(logo2);
             Name = "Splash";
             Text = "Splash";
-            ((System.ComponentModel.ISupportInitialize)logo2).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private UT.Data.Controls.Logo logo1;
-        private UT.Data.Controls.Logo logo2;
     }
 }

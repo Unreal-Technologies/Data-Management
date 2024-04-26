@@ -5,6 +5,7 @@ using System.Reflection;
 using UT.Data;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
+using Shared;
 
 namespace Server
 {
@@ -60,8 +61,8 @@ namespace Server
                 ExtendedConsole.BoxMode(true, Program.Padding);
                 ExtendedConsole.WriteLine("<yellow>Data Management</yellow> - <cyan>Server</cyan>", ExtendedConsole.Alignment.Center);
                 ExtendedConsole.WriteLine("-".Repeat(Program.Padding));
-                ExtendedConsole.WriteLine(string.Format("Version {0}", "<yellow>" + version.ToString() + "</yellow>"));
-                ExtendedConsole.WriteLine(string.Format("© Unreal Technologies {0}", "<yellow>" + DateTime.Now.Year.ToString() + "</yellow>"));
+                ExtendedConsole.WriteLine(string.Format(SharedResources.Version, "<yellow>" + version.ToString() + "</yellow>"));
+                ExtendedConsole.WriteLine(string.Format(SharedResources.Copyright, "<yellow>" + DateTime.Now.Year.ToString() + "</yellow>"));
                 ExtendedConsole.BoxMode(false);
             }
 
@@ -85,7 +86,7 @@ namespace Server
                     context.SaveChanges();
                 }
 
-                 IModlet[] list = Modlet.Load<IModlet>(null);
+                IModlet[] list = Modlet.Load<IModlet>(null);
                 foreach (IModlet mod in list)
                 {
                     if (installationMode)
