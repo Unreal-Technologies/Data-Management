@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using UT.Data.Controls;
 
 namespace Client
 {
-    public partial class Splash : Form
+    public partial class Splash : ExtendedForm
     {
-        public Splash()
+        public Splash() : base()
         {
+            BackColor = Color.White;
+            TransparencyKey = BackColor;
+
             InitializeComponent();
         }
     }

@@ -12,33 +12,27 @@ namespace Shared
     {
         public void OnClientConfiguration(Form? form)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnGlobalServerAction(byte[]? stream, IPAddress ip)
         {
-            //throw new NotImplementedException();
         }
 
         public byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
-            //throw new NotImplementedException();
             return null;
         }
 
         public void OnSequentialExecutionConfiguration(SequentialExecution se)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnServerConfiguration(DbContext? context)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnServerInstallation(DbContext? context)
         {
-            //throw new NotImplementedException();
         }
     }
 }
