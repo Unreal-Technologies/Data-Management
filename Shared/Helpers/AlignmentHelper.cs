@@ -56,6 +56,121 @@ namespace Shared.Helpers
 
             return new(x, y);
         }
+
+        public static PointF[] CalculateArcCorner(float radius, RectangleF bounds, AlignmentHelper.Settings settings)
+        {
+            return CalculateArcCorner(new SizeF(radius, radius), bounds, settings);
+        }
+
+        public static PointF[] CalculateArcCorner(SizeF radius, RectangleF bounds, AlignmentHelper.Settings settings)
+        {
+            float x, y;
+            int xDirection = 0;
+            int yDirection = 0;
+
+            switch (settings.HAlign)
+            {
+                case AlignmentHelper.Settings.Horizontal.Left:
+                    x = 0;
+                    xDirection = 1;
+                    break;
+                case AlignmentHelper.Settings.Horizontal.Right:
+                    x = bounds.Width;
+                    xDirection = -1;
+                    break;
+                default:
+                    x = 0;
+                    break;
+            }
+            switch (settings.VAlign)
+            {
+                case AlignmentHelper.Settings.Vertical.Top:
+                    y = 0;
+                    yDirection = 1;
+                    break;
+                case AlignmentHelper.Settings.Vertical.Bottom:
+                    y = bounds.Height;
+                    yDirection = -1;
+                    break;
+                default:
+                    y = 0;
+                    break;
+            }
+
+            int angleOffset = 0;
+
+            if (settings.VAlign == AlignmentHelper.Settings.Vertical.Top && settings.HAlign == AlignmentHelper.Settings.Horizontal.Left)
+            {
+                angleOffset = 180;
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Top && settings.HAlign == AlignmentHelper.Settings.Horizontal.Right)
+            {
+                angleOffset = 270;
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Bottom && settings.HAlign == AlignmentHelper.Settings.Horizontal.Right)
+            {
+                angleOffset = 0;
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Bottom && settings.HAlign == AlignmentHelper.Settings.Horizontal.Left)
+            {
+                angleOffset = 90;
+            }
+
+            if (settings.XOffset != null)
+            {
+                x += settings.XOffset.Value;
+            }
+
+            if (settings.YOffset != null)
+            {
+                y += settings.YOffset.Value;
+            }
+
+            List<PointF> buffer = [];
+
+            PointF elipseCenter = new(
+                x + (xDirection > 0 ? (radius.Width / 2) : -(radius.Width / 2)),
+                y + (yDirection > 0 ? (radius.Height / 2) : -(radius.Height / 2))
+            );
+
+            float aXOffset = (xDirection > 0 ? radius.Width : -radius.Width) / 2;
+            float aYOffset = (yDirection > 0 ? radius.Height : -radius.Height) / 2;
+
+            for (int angle = 0; angle < 90; angle++)
+            {
+                float a = (angle + angleOffset) * (float)(Math.PI / 180);
+                float aX = elipseCenter.X + (radius.Width * (float)Math.Cos(a)) + aXOffset;
+                float aY = elipseCenter.Y + (radius.Height * (float)Math.Sin(a)) + aYOffset;
+                buffer.Add(new PointF(aX, aY));
+            }
+
+            if (settings.VAlign == AlignmentHelper.Settings.Vertical.Top && settings.HAlign == AlignmentHelper.Settings.Horizontal.Left)
+            {
+                buffer.Add(new PointF(x, y + (yDirection > 0 ? radius.Height : -radius.Height)));
+                buffer.Add(new PointF(x + (xDirection > 0 ? radius.Width : -radius.Width), y));
+                buffer.Add(new PointF(x, y));
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Top && settings.HAlign == AlignmentHelper.Settings.Horizontal.Right)
+            {
+                buffer.Add(new PointF(x, y));
+                buffer.Add(new PointF(x + (xDirection > 0 ? radius.Width : -radius.Width), y));
+                buffer.Add(new PointF(x, y + (yDirection > 0 ? radius.Height : -radius.Height)));
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Bottom && settings.HAlign == AlignmentHelper.Settings.Horizontal.Left)
+            {
+                buffer.Add(new PointF(x + (xDirection > 0 ? radius.Width : -radius.Width), y));
+                buffer.Add(new PointF(x, y));
+                buffer.Add(new PointF(x, y + (yDirection > 0 ? radius.Height : -radius.Height)));
+            }
+            else if (settings.VAlign == AlignmentHelper.Settings.Vertical.Bottom && settings.HAlign == AlignmentHelper.Settings.Horizontal.Right)
+            {
+                buffer.Add(new PointF(x, y));
+                buffer.Add(new PointF(x, y + (yDirection > 0 ? radius.Height : -radius.Height)));
+                buffer.Add(new PointF(x + (xDirection > 0 ? radius.Width : -radius.Width), y));
+            }
+
+            return [.. buffer];
+        }
         #endregion //Public Methods
     }
 }

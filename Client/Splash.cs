@@ -1,4 +1,5 @@
 ﻿using Shared;
+using Shared.Graphics;
 using Shared.Helpers;
 using System.Reflection;
 using UT.Data.Controls;
@@ -107,7 +108,13 @@ namespace Client
 
             InitializeComponent();
             this.Invalidate();
+
+            TransparencyKey = Color.Firebrick;
+
+            _ = new RadialTransform(this, 15, TransparencyKey);
+            _ = new RadialTransform(logo, 15, TransparencyKey);
         }
+
         #endregion //Constructors
     }
 }
