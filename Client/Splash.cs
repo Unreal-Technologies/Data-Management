@@ -1,18 +1,22 @@
-﻿using UT.Data.Controls;
-using Shared;
-using System.Drawing.Drawing2D;
+﻿using Shared;
 using Shared.Helpers;
 using System.Reflection;
+using UT.Data.Controls;
 
 namespace Client
 {
     public partial class Splash : ExtendedForm
     {
+        #region Classes
         class InternalLogo : Logo
         {
+            #region Members
             private readonly string copyright;
             private readonly string version;
+            private string text;
+            #endregion //Members
 
+            #region Constructors
             public InternalLogo()
             {
                 copyright = string.Format(SharedResources.Copyright, DateTime.Now.Year.ToString());
@@ -20,12 +24,19 @@ namespace Client
                 Version? assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
                 this.version = string.Format(SharedResources.Version, assemblyVersion.ToString());
             }
+            #endregion //Constructors
 
+            #region Overrides
             protected override void OnPaint(PaintEventArgs pe)
             {
                 base.OnPaint(pe);
 
-                Font f1 = Font;
+                if(Parent == null)
+                {
+                    return;
+                }
+
+                Font f1 = Parent.Font;
                 Font f2 = new(f1.FontFamily, 14, FontStyle.Bold);
 
                 Graphics graphics = pe.Graphics;
@@ -43,26 +54,28 @@ namespace Client
                     -5
                 ));
 
-                DrawText("--text--", f1, graphics, new AlignmentHelper.Settings(
+                DrawText(text, f1, graphics, new AlignmentHelper.Settings(
                     AlignmentHelper.Settings.Horizontal.Center,
                     AlignmentHelper.Settings.Vertical.Bottom,
                     0,
                     -(copyrightbounds.Height + 5)
                 ));
 
-                DrawText("--title--", f2, graphics, new AlignmentHelper.Settings(
+                DrawText(Parent.Text, f2, graphics, new AlignmentHelper.Settings(
                     AlignmentHelper.Settings.Horizontal.Center,
                     AlignmentHelper.Settings.Vertical.Top,
                     0,
                     10
                 ));
             }
+            #endregion //Overrides
 
+            #region Private Methods
             private RectangleF DrawText(string text, Font font, Graphics graphics, AlignmentHelper.Settings settings)
             {
                 Brush textBrush = Brushes.White;
                 Brush shadowBrush = Brushes.Black;
-                Brush panelBrush = new SolidBrush(Color.FromArgb(0x7F, Color.Gray));
+                Brush panelBrush = new SolidBrush(Color.FromArgb(0x33, Color.Gray));
 
                 SizeF size = graphics.MeasureString(text, font);
 
@@ -79,25 +92,22 @@ namespace Client
 
                 return textBounds;
             }
+            #endregion //Private Methods
         }
+        #endregion //Classes
 
+        #region Constructors
         public Splash() : base()
         {
             InternalLogo logo = new()
             {
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
             };
-
             this.Controls.Add(logo);
 
             InitializeComponent();
             this.Invalidate();
         }
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            var sb = new SolidBrush(Color.FromArgb(100, 100, 100, 100));
-            e.Graphics.FillRectangle(sb, this.DisplayRectangle);
-        }
+        #endregion //Constructors
     }
 }
