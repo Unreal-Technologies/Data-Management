@@ -19,6 +19,15 @@ namespace Shared.Graphics
         private PointF[]? bottomRight;
         #endregion //Members
 
+        #region Properties
+        public PointF[]? TL { get { return topLeft; } }
+        public PointF[]? TR { get { return topRight; } }
+        public PointF[]? BL { get { return bottomLeft; } }
+        public PointF[]? BR { get { return bottomRight; } }
+        public Color Color { get { return color; } }
+        public Control Control { get { return this.control; } }
+        #endregion //Properties
+
         #region Constructors
         public RadialTransform(
             Control control,
@@ -38,8 +47,16 @@ namespace Shared.Graphics
         )
         { }
 
-        public RadialTransform(Control control, float radial, Color color)
-            : this(control, new SizeF(radial, radial), color) { }
+        public RadialTransform(
+            Control control, 
+            float radial, 
+            Color color
+        )
+        : this(
+              control, 
+              new SizeF(radial, radial), 
+              color
+        ) { }
 
         public RadialTransform(
             Control control, 
@@ -134,10 +151,22 @@ namespace Shared.Graphics
             {
                 Brush brush = new SolidBrush(color);
 
-                graphics.FillPolygon(brush, topLeft);
-                graphics.FillPolygon(brush, topRight);
-                graphics.FillPolygon(brush, bottomLeft);
-                graphics.FillPolygon(brush, bottomRight);
+                if (topLeft.Length != 0)
+                {
+                    graphics.FillPolygon(brush, topLeft);
+                }
+                if (topRight.Length != 0)
+                {
+                    graphics.FillPolygon(brush, topRight);
+                }
+                if (bottomLeft.Length != 0)
+                {
+                    graphics.FillPolygon(brush, bottomLeft);
+                }
+                if (bottomRight.Length != 0)
+                {
+                    graphics.FillPolygon(brush, bottomRight);
+                }
             }
         }
         #endregion //Events

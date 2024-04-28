@@ -1,4 +1,5 @@
 ﻿using Shared;
+using Shared.Extensions;
 using Shared.Graphics;
 using Shared.Helpers;
 using System.Reflection;
@@ -100,19 +101,21 @@ namespace Client
         #region Constructors
         public Splash() : base()
         {
-            InternalLogo logo = new()
-            {
-                Dock = DockStyle.Fill,
-            };
-            this.Controls.Add(logo);
-
             InitializeComponent();
             this.Invalidate();
 
+            InternalLogo logo = new()
+            {
+                Size = new Size(Width, Height - 25),
+                Location = new Point(0, 25)
+            };
+
+            this.Controls.Add(logo);
+
             TransparencyKey = Color.Firebrick;
 
-            _ = new RadialTransform(this, 15, TransparencyKey);
-            _ = new RadialTransform(logo, 15, TransparencyKey);
+            this.RadialTransform(15, TransparencyKey);
+            logo.RadialTransform(0, 0, 15, 15, TransparencyKey).BorderTransform(BorderStyle.FixedSingle, Color.Gray);
         }
 
         #endregion //Constructors
