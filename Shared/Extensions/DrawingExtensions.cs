@@ -1,6 +1,5 @@
 ﻿using Shared.Graphics;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace Shared.Extensions
@@ -55,6 +54,11 @@ namespace Shared.Extensions
         public static BorderTransform BorderTransform(this RadialTransform radialTransform, BorderStyle borderStyle, Color color)
         {
             return new BorderTransform(radialTransform, borderStyle, color);
+        }
+
+        public static BorderTransform BorderTransform(this Control control, BorderStyle borderStyle, Color color)
+        {
+            return control.RadialTransform(0, color).BorderTransform(borderStyle, color);
         }
         #endregion //BorderTransform
 
