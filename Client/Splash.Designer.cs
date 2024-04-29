@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
             logo1 = new UT.Data.Controls.Logo();
-            gdiCopyright = new UT.Data.Controls.GdiText();
-            gdiVersion = new UT.Data.Controls.GdiText();
-            gdiContent = new UT.Data.Controls.GdiText();
+            gdiCopyright = new UT.Data.Controls.GdiLabel();
+            gdiVersion = new UT.Data.Controls.GdiLabel();
+            gdiContent = new UT.Data.Controls.GdiLabel();
             ((System.ComponentModel.ISupportInitialize)logo1).BeginInit();
             SuspendLayout();
             // 
@@ -56,7 +56,7 @@
             gdiCopyright.Location = new Point(12, 475);
             gdiCopyright.Name = "gdiCopyright";
             gdiCopyright.Opacity = 127;
-            gdiCopyright.Shadow = UT.Data.Controls.GdiText.Shadows.BottomRight;
+            gdiCopyright.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
             gdiCopyright.Size = new Size(362, 22);
             gdiCopyright.TabIndex = 3;
             gdiCopyright.VerticalAlignment = StringAlignment.Near;
@@ -71,7 +71,7 @@
             gdiVersion.Location = new Point(571, 476);
             gdiVersion.Name = "gdiVersion";
             gdiVersion.Opacity = 127;
-            gdiVersion.Shadow = UT.Data.Controls.GdiText.Shadows.BottomRight;
+            gdiVersion.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
             gdiVersion.Size = new Size(362, 22);
             gdiVersion.TabIndex = 4;
             gdiVersion.VerticalAlignment = StringAlignment.Near;
@@ -88,7 +88,7 @@
             gdiContent.Location = new Point(12, 438);
             gdiContent.Name = "gdiContent";
             gdiContent.Opacity = 127;
-            gdiContent.Shadow = UT.Data.Controls.GdiText.Shadows.BottomRight;
+            gdiContent.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
             gdiContent.Size = new Size(921, 32);
             gdiContent.TabIndex = 5;
             gdiContent.VerticalAlignment = StringAlignment.Center;
@@ -115,8 +115,8 @@
         #endregion
 
         private UT.Data.Controls.Logo logo1;
-        private UT.Data.Controls.GdiText gdiCopyright;
-        private UT.Data.Controls.GdiText gdiVersion;
-        private UT.Data.Controls.GdiText gdiContent;
+        private UT.Data.Controls.GdiLabel gdiCopyright;
+        private UT.Data.Controls.GdiLabel gdiVersion;
+        private UT.Data.Controls.GdiLabel gdiContent;
     }
 }
