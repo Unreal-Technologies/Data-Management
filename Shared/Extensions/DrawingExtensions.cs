@@ -12,11 +12,10 @@ namespace Shared.Extensions
             SizeF topLeftRadial,
             SizeF topRightRadial,
             SizeF bottomLeftRadial,
-            SizeF bottomRightRadial,
-            Color color
+            SizeF bottomRightRadial
         )
         {
-            return new RadialTransform(control, topLeftRadial, topRightRadial, bottomLeftRadial, bottomRightRadial, color);
+            return new RadialTransform(control, topLeftRadial, topRightRadial, bottomLeftRadial, bottomRightRadial);
         }
 
         public static RadialTransform RadialTransform(
@@ -24,29 +23,26 @@ namespace Shared.Extensions
             float topLeftRadial,
             float topRightRadial,
             float bottomLeftRadial,
-            float bottomRightRadial,
-            Color color
+            float bottomRightRadial
         )
         {
-            return new RadialTransform(control, topLeftRadial, topRightRadial, bottomLeftRadial, bottomRightRadial, color);
+            return new RadialTransform(control, topLeftRadial, topRightRadial, bottomLeftRadial, bottomRightRadial);
         }
 
         public static RadialTransform RadialTransform(
             this Control control,
-            float radial,
-            Color color
+            float radial
         )
         {
-            return new RadialTransform(control, radial, color);
+            return new RadialTransform(control, radial);
         }
 
         public static RadialTransform RadialTransform(
             this Control control,
-            SizeF radial,
-            Color color
+            SizeF radial
         )
         {
-            return new RadialTransform(control, radial, color);
+            return new RadialTransform(control, radial);
         }
         #endregion //RadialTransform
 
@@ -58,7 +54,7 @@ namespace Shared.Extensions
 
         public static BorderTransform BorderTransform(this Control control, BorderStyle borderStyle, Color color)
         {
-            return control.RadialTransform(0, color).BorderTransform(borderStyle, color);
+            return control.RadialTransform(0).BorderTransform(borderStyle, color);
         }
         #endregion //BorderTransform
 

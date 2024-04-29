@@ -1,6 +1,6 @@
-﻿using System.Drawing;
+﻿using Shared.Extensions;
+using System.Drawing;
 using System.Windows.Forms;
-using Shared.Extensions;
 
 namespace Shared.Graphics
 {
@@ -155,6 +155,27 @@ namespace Shared.Graphics
                 }.IncrementY(-1).ToArray(),
             ];
             this.lines = [.. linesBuffer];
+
+            if (radialTransform.Control.HasChildren)
+            {
+                UpdateChildren();
+            }
+        }
+
+        private void UpdateChildren()
+        {
+            if(radialTransform.Children.Count == 0 && radialTransform.Control.Controls.Count != 0)
+            {
+                radialTransform.UpdateChildren();
+            }
+
+            foreach (Control child in radialTransform.Control.Controls)
+            {
+                if(radialTransform.Children.TryGetValue(child, out RadialTransform? value))
+                {
+                    value.BorderTransform(borderStyle, color);
+                }
+            }
         }
         #endregion //Private Methods
     }

@@ -1,4 +1,5 @@
-﻿using Shared.Helpers;
+﻿using Shared.Extensions;
+using Shared.Helpers;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -12,20 +13,22 @@ namespace Shared.Graphics
         private readonly SizeF bottomLeftRadial;
         private readonly SizeF bottomRightRadial;
         private readonly Control control;
-        private readonly Color color;
         private PointF[]? topLeft;
         private PointF[]? topRight;
         private PointF[]? bottomLeft;
         private PointF[]? bottomRight;
+        private Dictionary<Control, RadialTransform> children;
+        private static readonly Color transparencyKey = Color.FromArgb(0xFF, 1, 1, 1);
         #endregion //Members
 
         #region Properties
+        public static Color TransparencyKey { get { return transparencyKey; } }
         public PointF[]? TL { get { return topLeft; } }
         public PointF[]? TR { get { return topRight; } }
         public PointF[]? BL { get { return bottomLeft; } }
         public PointF[]? BR { get { return bottomRight; } }
-        public Color Color { get { return color; } }
         public Control Control { get { return this.control; } }
+        public Dictionary<Control, RadialTransform> Children { get { return children; } }
         #endregion //Properties
 
         #region Constructors
@@ -34,42 +37,36 @@ namespace Shared.Graphics
             float topleftRadial,
             float topRightRadial,
             float bottomLeftRadial,
-            float bottomRightRadial,
-            Color color
+            float bottomRightRadial
         )
         : this(
                 control,
                 new SizeF(topleftRadial, topleftRadial),
                 new SizeF(topRightRadial, topRightRadial),
                 new SizeF(bottomLeftRadial, bottomLeftRadial),
-                new SizeF(bottomRightRadial, bottomRightRadial),
-                color
+                new SizeF(bottomRightRadial, bottomRightRadial)
         )
         { }
 
         public RadialTransform(
             Control control, 
-            float radial, 
-            Color color
+            float radial
         )
         : this(
               control, 
-              new SizeF(radial, radial), 
-              color
+              new SizeF(radial, radial)
         ) { }
 
         public RadialTransform(
             Control control, 
-            SizeF radial, 
-            Color color
+            SizeF radial
         )
         : this(
               control, 
               radial, 
               radial, 
               radial, 
-              radial, 
-              color
+              radial
         ) { }
 
         public RadialTransform(
@@ -77,8 +74,7 @@ namespace Shared.Graphics
             SizeF topLeftRadial, 
             SizeF topRightRadial, 
             SizeF bottomLeftRadial, 
-            SizeF bottomRightRadial, 
-            Color color
+            SizeF bottomRightRadial
         )
         {
             this.topLeftRadial = topLeftRadial;
@@ -86,7 +82,7 @@ namespace Shared.Graphics
             this.bottomLeftRadial = bottomLeftRadial;
             this.bottomRightRadial = bottomRightRadial;
             this.control = control;
-            this.color = color;
+            this.children = [];
 
             control.Paint += Control_Paint;
             control.Resize += Control_Resize;
@@ -94,6 +90,36 @@ namespace Shared.Graphics
             CalculatePoints();
         }
         #endregion //Constructors
+
+        #region Private Methods
+        public void UpdateChildren()
+        {
+            RectangleF parentBounds = control.Bounds;
+
+            RectangleF tlR = new(new PointF(0, 0), topLeftRadial);
+            RectangleF trR = new(new PointF(parentBounds.Width - topRightRadial.Width, 0), topRightRadial);
+            RectangleF blR = new(new PointF(0, parentBounds.Height - bottomLeftRadial.Height), bottomLeftRadial);
+            RectangleF brR = new(new PointF(parentBounds.Width - bottomRightRadial.Width, parentBounds.Height - bottomRightRadial.Height), bottomRightRadial);
+
+            Dictionary<Control, RadialTransform> buffer = [];
+            foreach (Control child in control.Controls)
+            {
+                RectangleF childBounds = child.Bounds;
+                if(parentBounds.IntersectsWith(childBounds))
+                {
+                    List<SizeF> radials =
+                    [
+                        tlR.IntersectsWith(childBounds) ? topLeftRadial : SizeF.Empty,
+                        trR.IntersectsWith(childBounds) ? topRightRadial : SizeF.Empty,
+                        blR.IntersectsWith(childBounds) ? bottomLeftRadial : SizeF.Empty,
+                        brR.IntersectsWith(childBounds) ? bottomRightRadial : SizeF.Empty,
+                    ];
+
+                    buffer.Add(child, child.RadialTransform(radials[0], radials[1], radials[2], radials[3]));
+                }
+            }
+            children = buffer;
+        }
 
         private void CalculatePoints()
         {
@@ -135,7 +161,13 @@ namespace Shared.Graphics
                     AlignmentHelper.Settings.Vertical.Bottom
                 )
             ) : [];
+
+            if(control.HasChildren)
+            {
+                UpdateChildren();
+            }
         }
+        #endregion //Private Methods
 
         #region Events
         private void Control_Resize(object? sender, EventArgs e)
@@ -149,7 +181,7 @@ namespace Shared.Graphics
 
             if (topLeft != null && topRight != null && bottomLeft != null && bottomRight != null)
             {
-                Brush brush = new SolidBrush(color);
+                Brush brush = new SolidBrush(TransparencyKey);
 
                 if (topLeft.Length != 0)
                 {

@@ -29,7 +29,7 @@ namespace Server
             #region Members
             private ModletServer? server;
             private readonly Dictionary<string, ExtendedDbContext> contexts;
-            private bool installationMode;
+            private readonly bool installationMode;
             #endregion //Members
 
             #region Constructors
