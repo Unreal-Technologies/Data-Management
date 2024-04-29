@@ -39,7 +39,7 @@ namespace Server
                 contexts = [];
                 installationMode = false;
 
-                App.ServerInfo();
+                ServerInfo();
                 StartModletServer();
             }
             #endregion //Constructors
@@ -58,9 +58,9 @@ namespace Server
             {
                 Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
 
-                ExtendedConsole.BoxMode(true, Program.Padding);
+                ExtendedConsole.BoxMode(true, Padding);
                 ExtendedConsole.WriteLine("<yellow>Data Management</yellow> - <cyan>Server</cyan>", ExtendedConsole.Alignment.Center);
-                ExtendedConsole.WriteLine("-".Repeat(Program.Padding));
+                ExtendedConsole.WriteLine("-".Repeat(Padding));
                 ExtendedConsole.WriteLine(string.Format(SharedResources.Version, "<yellow>" + version.ToString() + "</yellow>"));
                 ExtendedConsole.WriteLine(string.Format(SharedResources.Copyright, "<yellow>" + DateTime.Now.Year.ToString() + "</yellow>"));
                 ExtendedConsole.BoxMode(false);
@@ -68,9 +68,9 @@ namespace Server
 
             private void StartModletServer()
             {
-                ExtendedConsole.BoxMode(true, Program.Padding);
+                ExtendedConsole.BoxMode(true, Padding);
                 ExtendedConsole.WriteLine("Server Info", ExtendedConsole.Alignment.Center);
-                ExtendedConsole.WriteLine("-".Repeat(Program.Padding));
+                ExtendedConsole.WriteLine("-".Repeat(Padding));
                 List<IPAddress> addresses = new(Network.LocalIPv4(NetworkInterfaceType.Ethernet))
                 {
                     IPAddress.Parse("127.0.0.1")

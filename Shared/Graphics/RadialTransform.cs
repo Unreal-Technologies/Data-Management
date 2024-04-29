@@ -19,6 +19,8 @@ namespace Shared.Graphics
         private PointF[]? bottomRight;
         private Dictionary<Control, RadialTransform> children;
         private static readonly Color transparencyKey = Color.FromArgb(0xFF, 1, 1, 1);
+        private readonly Func<Control, bool>? query;
+        private readonly Color? color;
         #endregion //Members
 
         #region Properties
@@ -37,36 +39,48 @@ namespace Shared.Graphics
             float topleftRadial,
             float topRightRadial,
             float bottomLeftRadial,
-            float bottomRightRadial
+            float bottomRightRadial,
+            Func<Control, bool>? query = null,
+            Color? color = null
         )
         : this(
                 control,
                 new SizeF(topleftRadial, topleftRadial),
                 new SizeF(topRightRadial, topRightRadial),
                 new SizeF(bottomLeftRadial, bottomLeftRadial),
-                new SizeF(bottomRightRadial, bottomRightRadial)
+                new SizeF(bottomRightRadial, bottomRightRadial),
+                query,
+                color
         )
         { }
 
         public RadialTransform(
             Control control, 
-            float radial
+            float radial,
+            Func<Control, bool>? query = null,
+            Color? color = null
         )
         : this(
               control, 
-              new SizeF(radial, radial)
+              new SizeF(radial, radial),
+              query,
+              color
         ) { }
 
         public RadialTransform(
             Control control, 
-            SizeF radial
+            SizeF radial,
+            Func<Control, bool>? query = null,
+            Color? color = null
         )
         : this(
               control, 
               radial, 
               radial, 
               radial, 
-              radial
+              radial,
+              query,
+              color
         ) { }
 
         public RadialTransform(
@@ -74,7 +88,9 @@ namespace Shared.Graphics
             SizeF topLeftRadial, 
             SizeF topRightRadial, 
             SizeF bottomLeftRadial, 
-            SizeF bottomRightRadial
+            SizeF bottomRightRadial,
+            Func<Control, bool>? query = null,
+            Color? color = null
         )
         {
             this.topLeftRadial = topLeftRadial;
@@ -82,7 +98,10 @@ namespace Shared.Graphics
             this.bottomLeftRadial = bottomLeftRadial;
             this.bottomRightRadial = bottomRightRadial;
             this.control = control;
-            this.children = [];
+            this.query = query;
+            this.color = color;
+
+            children = [];
 
             control.Paint += Control_Paint;
             control.Resize += Control_Resize;
@@ -102,7 +121,9 @@ namespace Shared.Graphics
             RectangleF brR = new(new PointF(parentBounds.Width - bottomRightRadial.Width, parentBounds.Height - bottomRightRadial.Height), bottomRightRadial);
 
             Dictionary<Control, RadialTransform> buffer = [];
-            foreach (Control child in control.Controls)
+
+            IEnumerable<Control> list = query == null ? control.Controls.Cast<Control>() : control.Controls.Cast<Control>().Where(query);
+            foreach (Control child in list)
             {
                 RectangleF childBounds = child.Bounds;
                 if(parentBounds.IntersectsWith(childBounds))
@@ -181,7 +202,7 @@ namespace Shared.Graphics
 
             if (topLeft != null && topRight != null && bottomLeft != null && bottomRight != null)
             {
-                Brush brush = new SolidBrush(TransparencyKey);
+                Brush brush = new SolidBrush(color == null ? TransparencyKey : color.Value);
 
                 if (topLeft.Length != 0)
                 {
