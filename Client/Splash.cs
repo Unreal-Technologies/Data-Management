@@ -4,32 +4,41 @@ using UT.Data;
 using UT.Data.Controls;
 using UT.Data.Controls.Gdi;
 using UT.Data.Extensions;
+using UT.Data.Forms;
 using UT.Data.IO;
 
 namespace Client
 {
     public partial class Splash : ExtendedForm
     {
+        #region Members
+        private readonly AppConfiguration appConfiguration;
+        #endregion //Members
+
         #region Constructors
         public Splash() : base()
         {
+            appConfiguration = new();
+
             InitializeComponent();
+            Title = App.Configuration.Title;
+            Text = string.Empty;
 
             TransparencyKey = RadialTransform.TransparencyKey;
             this.RadialTransform(
                 15,
-                x => x.GetType() != typeof(GdiLabel)
+                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
             ).BorderTransform(
                 BorderStyle.FixedSingle, 
                 Color.Gray
             );
 
             gdiContent.RadialTransform(
-                15, 
-                null, 
+                15,
+                null,
                 BackColor
             ).BorderTransform(
-                BorderStyle.FixedSingle, 
+                BorderStyle.FixedSingle,
                 Color.Gray
             );
             gdiContent.Text = string.Empty;
@@ -39,19 +48,11 @@ namespace Client
             gdiVersion.Text = string.Format(SharedResources.Version, version.ToString());
             gdiCopyright.Text = string.Format(SharedResources.Copyright, DateTime.Now.Year);
 
-            InfoBar.Close.Click += Close_Click;
-
             Load += Splash_Load;
         }
         #endregion //Constructors
 
         #region Private Methods
-        private void Close_Click(object? sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Abort;
-            this.Close();
-        }
-
         private void Splash_Load(object? sender, EventArgs e)
         {
             SequentialExecution sequentialExecution = new(this);
@@ -65,15 +66,25 @@ namespace Client
             gdiContent.Text = text;
         }
 
-        private bool LoadConfig(SequentialExecution sequentialExecution)
+        private bool LoadConfig(SequentialExecution sequentialExecution, ManualResetEvent resetEvent)
         {
             LocalConfig lc = new("Configuration");
             if(!lc.Exists)
             {
-                sequentialExecution.SetOutput("Configuration Missing");
-                Thread.Sleep(2500);
+                Invoker<Form>.Invoke(this, (Form control, object[]? data) =>
+                {
+                    control.SendToBack();
+                    if (appConfiguration.ShowDialog() == DialogResult.OK)
+                    {
+
+                    }
+                    sequentialExecution.Unpause(); //Continue SequentialExecution
+                });
+                sequentialExecution.Pause(); //Stop SequentialExecution to wait for appConfiguration to finish
+                resetEvent.WaitOne();
             }
             sequentialExecution.SetOutput("HELP!");
+            Thread.Sleep(2500);
 
             return false;
         }

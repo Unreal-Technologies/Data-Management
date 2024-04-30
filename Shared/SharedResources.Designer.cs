@@ -70,6 +70,15 @@ namespace Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Manager.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version {0}.
         /// </summary>
         public static string Version {
