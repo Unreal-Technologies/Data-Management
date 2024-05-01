@@ -1,0 +1,27 @@
+W!Add:Toevoegen
+W!Edit:Bewerken
+W!Remove:Verwijderen
+W!Roles:Rollen
+W!Administrator:Administrator
+W!Description:Omschrijving
+W!Access:Toegang
+W!User:Gebruiker
+W!Count:Aantal
+W!Launching:Opstarten
+W!Account:Account
+W!Logout:Uitloggen
+S!UserCount:Aantal Gebruikers
+S!WrongUsernameOrPassword:Verkeerde gebruikersnaam en/of wachtwoord.
+W!Information:Informatie
+W!Authenticate:Authenticatie
+W!Username:Gebruikersnaam
+W!Password:Wachtwoord
+W!Login:Inloggen
+S!StartingServerCommunication:Server Communicatie Opzetten
+S!LoadingModules:Modules Laden
+W!Starting:Starten
+S!LoadedXModules:X modules geladen
+S!Copyright:© Unreal Technologies {0}
+S!Version:Versie {0}
+W!Id:Id
+W!Save:Opslaan

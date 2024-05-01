@@ -7,7 +7,13 @@
     <ActiveDebugProfile>Client</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="ServerConfiguration\Form.cs">
+    <Compile Update="-OLD-\ServerConfiguration\Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="-OLD-\Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AppConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Splash.cs">

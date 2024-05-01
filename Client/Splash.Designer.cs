@@ -1,6 +1,4 @@
-﻿using Shared;
-
-namespace Client
+﻿namespace Client
 {
     partial class Splash
     {
@@ -30,91 +28,95 @@ namespace Client
         /// </summary>
         private void InitializeComponent()
         {
-            this.pb_logo = new System.Windows.Forms.PictureBox();
-            this.lbl_copyright = new System.Windows.Forms.Label();
-            this.lbl_title = new System.Windows.Forms.Label();
-            this.lbl_version = new System.Windows.Forms.Label();
-            this.lbl_progression = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_logo)).BeginInit();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Splash));
+            logo1 = new UT.Data.Controls.Logo();
+            gdiCopyright = new UT.Data.Controls.GdiLabel();
+            gdiVersion = new UT.Data.Controls.GdiLabel();
+            gdiContent = new UT.Data.Controls.GdiLabel();
+            ((System.ComponentModel.ISupportInitialize)logo1).BeginInit();
+            SuspendLayout();
             // 
-            // pb_logo
+            // logo1
             // 
-            this.pb_logo.BackColor = System.Drawing.Color.Transparent;
-            this.pb_logo.Image = global::Client.Resources.Logo;
-            this.pb_logo.Location = new System.Drawing.Point(12, 50);
-            this.pb_logo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pb_logo.Name = "pb_logo";
-            this.pb_logo.Size = new System.Drawing.Size(698, 304);
-            this.pb_logo.TabIndex = 0;
-            this.pb_logo.TabStop = false;
+            logo1.Image = (Image)resources.GetObject("logo1.Image");
+            logo1.Location = new Point(0, 50);
+            logo1.Name = "logo1";
+            logo1.Size = new Size(945, 459);
+            logo1.SizeMode = PictureBoxSizeMode.StretchImage;
+            logo1.TabIndex = 1;
+            logo1.TabStop = false;
             // 
-            // lbl_copyright
+            // gdiCopyright
             // 
-            this.lbl_copyright.AutoSize = true;
-            this.lbl_copyright.Location = new System.Drawing.Point(415, 379);
-            this.lbl_copyright.Name = "lbl_copyright";
-            this.lbl_copyright.Size = new System.Drawing.Size(295, 20);
-            this.lbl_copyright.TabIndex = 1;
-            this.lbl_copyright.Text = Strings.String_Copyright;
+            gdiCopyright.BackColor = Color.Transparent;
+            gdiCopyright.BackgroundColor = Color.Gray;
+            gdiCopyright.DrawBackground = false;
+            gdiCopyright.DrawShadow = false;
+            gdiCopyright.HorizontalAlignment = StringAlignment.Near;
+            gdiCopyright.Location = new Point(12, 475);
+            gdiCopyright.Name = "gdiCopyright";
+            gdiCopyright.Opacity = 127;
+            gdiCopyright.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
+            gdiCopyright.Size = new Size(362, 22);
+            gdiCopyright.TabIndex = 3;
+            gdiCopyright.VerticalAlignment = StringAlignment.Near;
             // 
-            // lbl_title
+            // gdiVersion
             // 
-            this.lbl_title.AutoSize = true;
-            this.lbl_title.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_title.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbl_title.Location = new System.Drawing.Point(230, 9);
-            this.lbl_title.Name = "lbl_title";
-            this.lbl_title.Size = new System.Drawing.Size(282, 41);
-            this.lbl_title.TabIndex = 2;
-            this.lbl_title.Text = "Data Manager";
+            gdiVersion.BackColor = Color.Transparent;
+            gdiVersion.BackgroundColor = Color.Gray;
+            gdiVersion.DrawBackground = false;
+            gdiVersion.DrawShadow = false;
+            gdiVersion.HorizontalAlignment = StringAlignment.Far;
+            gdiVersion.Location = new Point(571, 476);
+            gdiVersion.Name = "gdiVersion";
+            gdiVersion.Opacity = 127;
+            gdiVersion.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
+            gdiVersion.Size = new Size(362, 22);
+            gdiVersion.TabIndex = 4;
+            gdiVersion.VerticalAlignment = StringAlignment.Near;
             // 
-            // lbl_version
+            // gdiContent
             // 
-            this.lbl_version.AutoSize = true;
-            this.lbl_version.Location = new System.Drawing.Point(12, 379);
-            this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new System.Drawing.Size(174, 20);
-            this.lbl_version.TabIndex = 3;
-            this.lbl_version.Text = Strings.String_Version;
-            // 
-            // lbl_progression
-            // 
-            this.lbl_progression.AutoSize = true;
-            this.lbl_progression.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lbl_progression.Location = new System.Drawing.Point(341, 356);
-            this.lbl_progression.Name = "lbl_progression";
-            this.lbl_progression.Size = new System.Drawing.Size(42, 20);
-            this.lbl_progression.TabIndex = 4;
-            this.lbl_progression.Text = "---";
+            gdiContent.BackColor = Color.Transparent;
+            gdiContent.BackgroundColor = Color.Gray;
+            gdiContent.DrawBackground = true;
+            gdiContent.DrawShadow = true;
+            gdiContent.Font = new Font("Courier New", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            gdiContent.ForeColor = Color.White;
+            gdiContent.HorizontalAlignment = StringAlignment.Center;
+            gdiContent.Location = new Point(12, 438);
+            gdiContent.Name = "gdiContent";
+            gdiContent.Opacity = 127;
+            gdiContent.Shadow = UT.Data.Controls.GdiLabel.Shadows.BottomRight;
+            gdiContent.Size = new Size(921, 32);
+            gdiContent.TabIndex = 5;
+            gdiContent.VerticalAlignment = StringAlignment.Center;
             // 
             // Splash
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 411);
-            this.Controls.Add(this.lbl_progression);
-            this.Controls.Add(this.lbl_version);
-            this.Controls.Add(this.lbl_title);
-            this.Controls.Add(this.lbl_copyright);
-            this.Controls.Add(this.pb_logo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Splash";
-            this.Text = "Splash";
-            this.Load += new System.EventHandler(this.Splash_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pb_logo)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(11F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(945, 509);
+            Controls.Add(gdiContent);
+            Controls.Add(gdiVersion);
+            Controls.Add(gdiCopyright);
+            Controls.Add(logo1);
+            Name = "Splash";
+            Text = "Splash";
+            Controls.SetChildIndex(logo1, 0);
+            Controls.SetChildIndex(gdiCopyright, 0);
+            Controls.SetChildIndex(gdiVersion, 0);
+            Controls.SetChildIndex(gdiContent, 0);
+            ((System.ComponentModel.ISupportInitialize)logo1).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private PictureBox pb_logo;
-        private Label lbl_copyright;
-        private Label lbl_title;
-        private Label lbl_version;
-        private Label lbl_progression;
+        private UT.Data.Controls.Logo logo1;
+        private UT.Data.Controls.GdiLabel gdiCopyright;
+        private UT.Data.Controls.GdiLabel gdiVersion;
+        private UT.Data.Controls.GdiLabel gdiContent;
     }
 }

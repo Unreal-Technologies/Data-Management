@@ -1,148 +1,93 @@
-﻿using Client.ServerConfiguration;
-using Shared;
-using Shared.Controls;
-using Shared.Modlet;
-using System.Net;
+﻿using Shared;
 using System.Reflection;
-using System.Text;
 using UT.Data;
+using UT.Data.Controls;
+using UT.Data.Controls.Gdi;
 using UT.Data.Extensions;
 using UT.Data.Forms;
 using UT.Data.IO;
-using UT.Data.Modlet;
-using Strings = Shared.Strings;
 
 namespace Client
 {
-    public partial class Splash : CustomForm
+    public partial class Splash : ExtendedForm
     {
+        #region Members
+        private readonly AppConfiguration appConfiguration;
+        #endregion //Members
+
         #region Constructors
-        public Splash()
+        public Splash() : base()
         {
+            appConfiguration = new();
+
             InitializeComponent();
+            Title = App.Configuration.Title;
+            Text = string.Empty;
+
+            TransparencyKey = RadialTransform.TransparencyKey;
+            this.RadialTransform(
+                15,
+                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
+            ).BorderTransform(
+                BorderStyle.FixedSingle, 
+                Color.Gray
+            );
+
+            gdiContent.RadialTransform(
+                15,
+                null,
+                BackColor
+            ).BorderTransform(
+                BorderStyle.FixedSingle,
+                Color.Gray
+            );
+            gdiContent.Text = string.Empty;
+
+            Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
+
+            gdiVersion.Text = string.Format(SharedResources.Version, version.ToString());
+            gdiCopyright.Text = string.Format(SharedResources.Copyright, DateTime.Now.Year);
+
+            Load += Splash_Load;
         }
         #endregion //Constructors
 
-        #region Events
-        private void Splash_Load(object sender, EventArgs e)
+        #region Private Methods
+        private void Splash_Load(object? sender, EventArgs e)
         {
-            Version? version = Assembly.GetExecutingAssembly().GetName().Version ?? throw new NotImplementedException("Cannot get version information.");
-            this.lbl_copyright.Text = string.Format(this.lbl_copyright.Text, DateTime.Now.Year.ToString());
-            this.lbl_version.Text = string.Format(this.lbl_version.Text, version.ToString());
-
-            SequentialExecution se = new(this);
-            se.Output += Se_Output;
-            se.Add(this.ServerCommunication, Strings.String_StartingServerCommunication);
-            se.Add(this.ModuleLoader, Strings.String_LoadingModules);
-            se.Add(this.Startup, Strings.Word_Starting + "..");
-            se.Start();
+            SequentialExecution sequentialExecution = new(this);
+            sequentialExecution.Output += Se_Output;
+            sequentialExecution.Add(LoadConfig, "Configuration");
+            sequentialExecution.Start();
         }
 
         private void Se_Output(string text, bool isValid)
         {
-            Invoker<Label>.Invoke(this.lbl_progression, delegate (Label label, object[]? data)
-            {
-                label.Text = text;
-                label.Size = label.PreferredSize;
-                label.Location = new Point((this.Width - label.Width) / 2, label.Location.Y);
-                if(!isValid)
-                {
-                    label.ForeColor = Color.Red;
-                }
-            });
-            if(!isValid)
-            {
-                ApplicationState.Reset = true;
-                Invoker<CustomForm>.Invoke(this, delegate (CustomForm form, object[]? data)
-                {
-                    form.Close();
-                });
-            }
+            gdiContent.Text = text;
         }
-        #endregion //Events
 
-        #region Sequential Execution
-        private bool ServerCommunication(SequentialExecution self)
+        private bool LoadConfig(SequentialExecution sequentialExecution, ManualResetEvent resetEvent)
         {
-            self.SetOutput("Loading Server Config.");
-            LocalConfig config = new("Server");
-            if (!config.Exists)
+            LocalConfig lc = new("Configuration");
+            if(!lc.Exists)
             {
-                ServerConfiguration.Form form = new();
-                self.SetOutput("Starting Setup");
-                DialogResult result = form.ShowDialog();
-                if (result == DialogResult.OK)
+                Invoker<Form>.Invoke(this, (Form control, object[]? data) =>
                 {
-                    if (form.Set == null || !config.Save(form.Set))
+                    control.SendToBack();
+                    if (appConfiguration.ShowDialog() == DialogResult.OK)
                     {
-                        throw new NotImplementedException("Error saving config.");
+
                     }
-                }
-                else if(result == DialogResult.Abort)
-                {
-                    Application.Exit();
-                }
+                    sequentialExecution.Unpause(); //Continue SequentialExecution
+                });
+                sequentialExecution.Pause(); //Stop SequentialExecution to wait for appConfiguration to finish
+                resetEvent.WaitOne();
             }
-            if(!config.Exists)
-            {
-                self.SetOutput("Configuration not finished.");
-                return false;
-            }
+            sequentialExecution.SetOutput("HELP!");
+            Thread.Sleep(2500);
 
-            ServerConfigurationSet? set = config.Load<ServerConfigurationSet>();
-            if(set == null || set.Server == null)
-            {
-                throw new NotImplementedException("Error loading config.");
-            }
-
-            self.SetOutput("Setup connection.");
-            ApplicationState.Client = new AuthenticatedModletClient(set.Server, set.Port);
-            try
-            {
-                if(ApplicationState.Client.Send(ModletCommands.Commands.Connect, null) == null)
-                {
-                    return false;
-                }
-                self.SetOutput("Get Transmission Key.");
-
-                byte[]? key = ApplicationState.Client.Send(ASCIIEncoding.UTF8.GetBytes(Dns.GetHostName()), ModletCommands.Commands.Serverkey, null);
-                if(key == null)
-                {
-                    return false;
-                }
-                ApplicationState.Client.Aes = key.AsString();
-
-                self.SetOutput("Key received, enableling aes.");
-                return true;
-            }
-            catch(Exception)
-            {
-                self.IsValid = false;
-                self.SetOutput("Connection Error.");
-                return false;
-            }
+            return false;
         }
-
-        private bool ModuleLoader(SequentialExecution self)
-        {
-            IModlet[] list = Modlet.Load<IMainFormModlet>(self);
-            foreach (IModlet mod in list)
-            {
-                mod.OnClientConfiguration(this);
-            }
-            self.SetOutput(Strings.String_LoadedXModules.Replace("X", list.Length.ToString()));
-
-            return true;
-        }
-
-        private bool Startup(SequentialExecution self)
-        {
-            Invoker<Splash>.Invoke(this, delegate(Splash control, object[]? data)
-            {
-                control.TopMost = false;
-            });
-            return true;
-        }
-        #endregion //Sequential Execution
+        #endregion //Private Methods
     }
 }

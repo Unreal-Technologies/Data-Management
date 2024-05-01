@@ -61,20 +61,29 @@ namespace Server {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to server=127.0.0.1;port=3306;database=dnd-manager;user=root;password=;.
         /// </summary>
-        internal static string En {
+        internal static string DbConnectionString {
             get {
-                return ResourceManager.GetString("En", resourceCulture);
+                return ResourceManager.GetString("DbConnectionString", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to MySQL.
         /// </summary>
-        internal static string Nl {
+        internal static string DbType {
             get {
-                return ResourceManager.GetString("Nl", resourceCulture);
+                return ResourceManager.GetString("DbType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1404.
+        /// </summary>
+        internal static string Port {
+            get {
+                return ResourceManager.GetString("Port", resourceCulture);
             }
         }
     }
