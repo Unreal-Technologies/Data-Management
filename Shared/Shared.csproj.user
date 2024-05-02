@@ -23,5 +23,8 @@
     <Compile Update="-OLD-\Modules\Roles.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modules\Authentication.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

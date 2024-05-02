@@ -86,7 +86,7 @@ namespace Server
                     context.SaveChanges();
                 }
 
-                IModlet[] list = Modlet.Load<IModlet>(null);
+                IModlet[] list = Modlet.Load<IModlet>();
                 foreach (IModlet mod in list)
                 {
                     if (installationMode)
