@@ -71,6 +71,11 @@ namespace Client
 
         private bool Startup(SequentialExecution sequentialExecution, ManualResetEvent resetEvent)
         {
+            if(App.Client == null)
+            {
+                return false;
+            }
+
             bool state = true;
             Invoker<Splash>.Invoke(this, (Splash control, object[]? data) =>
             {
@@ -83,7 +88,7 @@ namespace Client
                 }
                 foreach (IModlet mod in App.MainModlets)
                 {
-                    mod.OnClientConfiguration(this);
+                    mod.OnClientConfiguration(this, App.Client, App.Session);
                     if (mod is IMainFormModlet mfm)
                     {
                         DialogResult result = mfm.ShowDialog();

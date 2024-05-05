@@ -6,6 +6,8 @@ using UT.Data;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
 using Shared;
+using UT.Data.Efc;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -38,6 +40,10 @@ namespace Server
                 AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
                 contexts = [];
                 installationMode = false;
+                if(Debugger.IsAttached)
+                {
+                    installationMode = true;
+                }
 
                 ServerInfo();
                 StartModletServer();
@@ -79,21 +85,21 @@ namespace Server
                 ModletServer modletServer = new(addresses.ToArray(), int.Parse(Resources.Port));
                 ExtendedConsole.WriteLine("Starting server on <yellow>" + string.Join("</yellow>, <yellow>", addresses) + "</yellow> on <cyan>" + Resources.Port + "</cyan>");
 
-                DbContext context = new ServerContext();
+                ServerContext context = new();
                 if (installationMode)
                 {
-                    context.Database.EnsureCreated();
-                    context.SaveChanges();
+                    context.EnsureCreated();
                 }
 
                 IModlet[] list = Modlet.Load<IModlet>();
                 foreach (IModlet mod in list)
                 {
+                    DbContext? modContext = context.Select(mod);
                     if (installationMode)
                     {
-                        mod.OnServerInstallation(context);
+                        mod.OnServerInstallation(modContext);
                     }
-                    modletServer.Register(mod, context);
+                    modletServer.Register(mod, modContext);
                     ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString() + "</Green>");
                 }
                 ExtendedConsole.WriteLine("Initialized <red>" + list.Length + "</red> module(s)");

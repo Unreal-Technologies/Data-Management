@@ -1,24 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shared.Interfaces;
-using System.Drawing;
+﻿using Shared.Controls;
+using Shared.Efc;
+using Shared.Efc.Tables;
 using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Controls;
-using UT.Data.Controls.Validated;
+using UT.Data.Encryption;
+using UT.Data.Extensions;
+using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
-    [Position(int.MinValue)]
-    public class Authentication : ExtendedForm, IMainFormModlet
+    [Position(-1)]
+    public partial class Authentication : ExtendedModletForm
     {
-        #region Members
-        private Label? lbl_username, lbl_password;
-        private ValidatedTextBox? tb_username, tb_password;
-        private Button? btn_login;
-        #endregion //Members
-
         #region Enums
         public enum Actions
         {
@@ -31,299 +27,154 @@ namespace Shared.Modules
             : base()
         {
             InitializeComponent();
+            tb_password.Control.PasswordChar = '*';
+
             Text = "Authentication";
             Load += Authentication_Load;
         }
         #endregion //Constructors
 
         #region Public Methods
-        public void OnServerInstallation(DbContext? context)
+        public override byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
-            if (context == null)
+            Actions? action = GetInputType<Actions>(stream);
+            if (Context is not SharedModContext smc || action == null)
             {
-                return;
-            }
-            if (context is not ExtendedDbContext ctx)
-            {
-                return;
+                return null;
             }
 
-            //Person person = new()
-            //{
-            //    Firstname = "Admin",
-            //    Lastname = "Admin"
-            //};
-            //ctx.Person.Add(person);
-
-            //User user = new()
-            //{
-            //    Username = "admin",
-            //    Password = "test",
-            //    Person = person
-            //};
-            //ctx.User.Add(user);
-
-            //Role role = new()
-            //{
-            //    Description = "Administrator",
-            //    Access = [Role.AccessTiers.Administrator, Role.AccessTiers.User],
-            //};
-            //ctx.Role.Add(role);
-
-            //UserRole userRole = new()
-            //{
-            //    Role = role,
-            //    User = user
-            //};
-            //ctx.UserRole.Add(userRole);
-            //ctx.SaveChanges();
-        }
-
-        public byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
-        {
-            //base.OnLocalServerAction(stream, ip);
-            //if(this.Context == null)
-            //{
-            //    return null;
-            //}
-            //object? packet = Packet<Actions, object>.Decode(stream);
-            //if(packet == null)
-            //{
-            //    return null;
-            //}
-
-            //switch(((Packet<Actions, object>)packet).Description)
-            //{
-            //    case Actions.GetRoleAccess:
-            //        packet = Packet<Actions, Guid>.Decode(stream);
-            //        if(packet == null)
-            //        {
-            //            return null;
-            //        }
-            //        Guid userId = ((Packet<Actions, Guid>)packet).Data;
-            //        Role?[] roles = [.. this.Context.UserRole.Where(x => x.User != null && x.User.Id == userId).Select(x => x.Role)];
-
-            //        List<Role.AccessTiers> tiers = [];
-            //        foreach(Role? role in roles)
-            //        {
-            //            if(role == null || role.Access == null)
-            //            {
-            //                continue;
-            //            }
-            //            foreach(Role.AccessTiers tier in role.Access)
-            //            {
-            //                if(!tiers.Contains(tier))
-            //                {
-            //                    tiers.Add(tier);
-            //                }
-            //            }
-            //        }
-
-            //        return Packet<bool, Role.AccessTiers[]>.Encode(true, [.. tiers]);
-            //    case Actions.Authenticate:
-            //        packet = Packet<Actions, Tuple<string, string>>.Decode(stream);
-            //        if(packet == null)
-            //        {
-            //            return null;
-            //        }
-            //        Tuple<string, string>? auth = ((Packet<Actions, Tuple<string, string>>)packet).Data;
-            //        if(auth == null)
-            //        {
-            //            return null;
-            //        }
-
-            //        string username = auth.Item1;
-            //        string password = auth.Item2;
-
-            //        string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
-
-            //        User? user = this.Context?.User.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
-            //        if(user == null)
-            //        {
-            //            return Packet<bool, string?>.Encode(false, Strings.String_WrongUsernameOrPassword);
-            //        }
-            //        this.WriteUserLog(user, Strings.GetKey(Strings.Word_Login));
-            //        return Packet<bool, User>.Encode(true, user);
-            //}
+            switch (action)
+            {
+                case Actions.GetRoleAccess:
+                    return OnLocalServerAction_GetRoleAccess(smc, stream);
+                case Actions.Authenticate:
+                    return OnLocalServerAction_Authenticate(smc, stream);
+                default:
+                    break;
+            }
             return null;
-        }
-
-        public void OnSequentialExecutionConfiguration(SequentialExecution se)
-        {
-            se.Add(Authenticate, "Authenticate", -1);
-        }
-
-        public void OnClientConfiguration(Form? form)
-        {
-        }
-
-        public void OnGlobalServerAction(byte[]? stream, IPAddress ip)
-        {
-        }
-
-        public void OnServerConfiguration(DbContext? context)
-        {
         }
         #endregion //Public Methods
 
         #region Private Methods
+        private static byte[]? OnLocalServerAction_Authenticate(SharedModContext smc, byte[]? stream)
+        {
+            Tuple<string, string>? auth = GetContent<Actions, Tuple<string, string>>(stream);
+            if (auth == null)
+            {
+                return null;
+            }
+
+            string username = auth.Item1;
+            string password = auth.Item2;
+
+            string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
+
+            User? user = smc.Users.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+            if (user == null)
+            {
+                return CreatePacket(false, "Wrong Username or Password");
+            }
+            return CreatePacket(true, user);
+        }
+
+        private static byte[]? OnLocalServerAction_GetRoleAccess(SharedModContext smc, byte[]? stream)
+        {
+            Guid? userId = GetContent<Actions, Guid>(stream);
+            if (userId == Guid.Empty)
+            {
+                return null;
+            }
+
+            Role?[] roles = [.. smc.UserRoles.Where(x => x.User != null && x.User.Id == userId).Select(x => x.Role)];
+
+            List<Role.AccessTiers> tiers = [];
+            foreach (Role? role in roles)
+            {
+                if (role == null || role.Access == null)
+                {
+                    continue;
+                }
+                foreach (Role.AccessTiers tier in role.Access)
+                {
+                    if (!tiers.Contains(tier))
+                    {
+                        tiers.Add(tier);
+                    }
+                }
+            }
+            return CreatePacket<bool, Role.AccessTiers[]>(true, [.. tiers]);
+        }
+
         private void Authentication_Load(object? sender, EventArgs e)
         {
             BringToFront();
         }
 
-        private bool Authenticate(SequentialExecution sequentialExecution, ManualResetEvent resetEvent)
-        {
-            if (ShowDialog() == DialogResult.OK)
-            {
-                return true;
-            }
-            //if(this.DialogResult != DialogResult.Retry)
-            //{
-            //    ApplicationState.Reset = false;
-            //    self.IsValid = false;
-            //    self.Exit();
-            //    Application.ExitThread();
-            //    Application.Exit();
-            //    return true;
-            //}
-
-            //self.IsValid = false;
-            return false;
-        }
-
         private void Btn_login_Click(object? sender, EventArgs e)
         {
-            //Validator validator = new();
-            //validator.Add(this.tb_username);
-            //validator.Add(this.tb_password);
-            //validator.Validate();
+            if(Client == null || Session == null)
+            {
+                return;
+            }
 
-            //if(!validator.IsValid || this.tb_username == null || this.tb_password == null)
-            //{
-            //    return;
-            //}
+            Validator validator = new();
+            validator.Add(tb_username);
+            validator.Add(tb_password);
+            validator.Validate();
 
-            //string username = this.tb_username.Control.Text;
-            //string password = this.tb_password.Control.Text;
+            if (!validator.IsValid || tb_username == null || tb_password == null)
+            {
+                return;
+            }
 
-            //byte[] request = Packet<Actions, Tuple<string, string>>.Encode(Actions.Authenticate, new Tuple<string, string>(username, password));
-            //byte[]? response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
-            //if(response == null)
-            //{
-            //    return;
-            //}
+            string username = tb_username.Control.Text;
+            string password = tb_password.Control.Text;
 
-            //Packet<bool, object>? result = Packet<bool, object>.Decode(response);
-            //if(result == null)
-            //{
-            //    return;
-            //}
+            byte[]? response = Client.Send(
+                CreatePacket(
+                    Actions.Authenticate, 
+                    new Tuple<string, string>(username, password)
+                ),
+                ModletCommands.Commands.Action,
+                this
+            );
+            bool? state = GetInputType<bool>(response);
+            if(state == null)
+            {
+                return;
+            }
 
-            //bool state = result.Description;
-            //if (!state)
-            //{
-            //    string? message = Packet<bool, string?>.Decode(response)?.Data;
-            //    MessageBox.Show(message, Strings.Word_Information, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            //    this.DialogResult = DialogResult.Retry;
-            //    return;
-            //}
-            //Packet<bool, User>? decodedResult = Packet<bool, User>.Decode(response);
-            //if(ApplicationState.Client == null)
-            //{
-            //    return;
-            //}
-            //User? user = decodedResult?.Data;
-            //ApplicationState.Client.AuthenticatedUser = user;
+            if (!state.Value)
+            {
+                string? message = GetContent<bool, string>(response);
+                MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            User? user = ReadPacket<bool, User>(response)?.value;
 
-            //if (user != null)
-            //{
-            //    request = Packet<Actions, Guid>.Encode(Actions.GetRoleAccess, user.Id);
-            //    response = ApplicationState.Client?.Send(request, ModletCommands.Commands.Action, this);
+            Session.Add("User-Authentication", user);
+            if (user != null)
+            {
+                Role.AccessTiers[]? result = GetContent<bool, Role.AccessTiers[]>(
+                    Client.Send(
+                        CreatePacket(
+                            Actions.GetRoleAccess, 
+                            user.Id
+                        ), 
+                        ModletCommands.Commands.Action, 
+                        this
+                    )
+                );
+                if(result == null)
+                {
+                    return;
+                }
 
-            //    ApplicationState.Access = Packet<bool, Role.AccessTiers[]>.Decode(response)?.Data;
-            //}
+                Session.Add("User-Access", result);
+            }
 
-            //this.DialogResult = DialogResult.OK;
-            //if (this.BaseForm != null) //Hide Splash
-
-            //{
-            //    Invoker<Form>.Invoke(this.BaseForm, delegate (Form form, object[]? data)
-            //    {
-            //        form.Visible = false;
-            //    });
-            //}
-        }
-
-        private void InitializeComponent()
-        {
-            lbl_username = new Label();
-            lbl_password = new Label();
-            tb_username = new ValidatedTextBox();
-            tb_password = new ValidatedTextBox();
-            btn_login = new Button();
-            SuspendLayout();
-            // 
-            // lbl_username
-            // 
-            lbl_username.AutoSize = true;
-            lbl_username.Location = new Point(56, 73);
-            lbl_username.Name = "lbl_username";
-            lbl_username.Size = new Size(108, 20);
-            lbl_username.TabIndex = 0;
-            lbl_username.Text = "Username:";
-            // 
-            // lbl_password
-            // 
-            lbl_password.AutoSize = true;
-            lbl_password.Location = new Point(56, 106);
-            lbl_password.Name = "lbl_password";
-            lbl_password.Size = new Size(108, 20);
-            lbl_password.TabIndex = 1;
-            lbl_password.Text = "Password:";
-            // 
-            // tb_username
-            // 
-            tb_username.IsRequired = true;
-            tb_username.Location = new Point(179, 66);
-            tb_username.Name = "tb_username";
-            tb_username.Size = new Size(200, 27);
-            tb_username.TabIndex = 2;
-            // 
-            // tb_password
-            // 
-            tb_password.IsRequired = true;
-            tb_password.Location = new Point(179, 99);
-            tb_password.Name = "tb_password";
-            tb_password.Size = new Size(200, 27);
-            tb_password.TabIndex = 3;
-            // 
-            // btn_login
-            // 
-            btn_login.Location = new Point(179, 132);
-            btn_login.Name = "btn_login";
-            btn_login.Size = new Size(177, 34);
-            btn_login.TabIndex = 4;
-            btn_login.Text = "Login";
-            btn_login.UseVisualStyleBackColor = true;
-            btn_login.Click += Btn_login_Click;
-            // 
-            // Authentication
-            // 
-            ClientSize = new Size(400, 182);
-            Controls.Add(btn_login);
-            Controls.Add(tb_password);
-            Controls.Add(tb_username);
-            Controls.Add(lbl_password);
-            Controls.Add(lbl_username);
-            Name = "Authentication";
-            Controls.SetChildIndex(lbl_username, 0);
-            Controls.SetChildIndex(lbl_password, 0);
-            Controls.SetChildIndex(tb_username, 0);
-            Controls.SetChildIndex(tb_password, 0);
-            Controls.SetChildIndex(btn_login, 0);
-            ResumeLayout(false);
-            PerformLayout();
+            DialogResult = DialogResult.OK;
         }
         #endregion //Private Methods
     }

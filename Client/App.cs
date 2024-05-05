@@ -1,4 +1,5 @@
-﻿using UT.Data.Modlet;
+﻿using UT.Data;
+using UT.Data.Modlet;
 
 namespace Client
 {
@@ -10,6 +11,7 @@ namespace Client
         public static IModlet[]? MainModlets { get; set; } = null;
         public static IModlet[]? SubModlets { get; set; } = null;
         public static ModletClient? Client { get; set; } = null;
+        public static Session Session { get; set; } = [];
         #endregion //Properties
 
         #region Constructors
