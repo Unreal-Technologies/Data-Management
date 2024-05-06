@@ -1,0 +1,6 @@
+[submodule "UT.Data"]
+path = UT.Data
+url = https://github.com/Unreal-Technologies/UT.Data.git
+[submodule "UT.Dnd"]
+path = UT.Dnd
+url = https://github.com/Unreal-Technologies/UT.Dnd.git

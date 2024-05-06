@@ -13,7 +13,7 @@ using UT.Data.Modlet;
 namespace Shared.Modules
 {
     [Position(-1)]
-    public partial class Authentication : ExtendedModletForm
+    public partial class Authentication : ExtendedMainModletForm
     {
         #region Enums
         public enum Actions
@@ -37,7 +37,7 @@ namespace Shared.Modules
         #region Public Methods
         public override byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
-            Actions? action = GetInputType<Actions>(stream);
+            Actions? action = ModletStream.GetInputType<Actions>(stream);
             if (Context is not SharedModContext smc || action == null)
             {
                 return null;
@@ -59,7 +59,7 @@ namespace Shared.Modules
         #region Private Methods
         private static byte[]? OnLocalServerAction_Authenticate(SharedModContext smc, byte[]? stream)
         {
-            Tuple<string, string>? auth = GetContent<Actions, Tuple<string, string>>(stream);
+            Tuple<string, string>? auth = ModletStream.GetContent<Actions, Tuple<string, string>>(stream);
             if (auth == null)
             {
                 return null;
@@ -73,14 +73,14 @@ namespace Shared.Modules
             User? user = smc.Users.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
             if (user == null)
             {
-                return CreatePacket(false, "Wrong Username or Password");
+                return ModletStream.CreatePacket(false, "Wrong Username or Password");
             }
-            return CreatePacket(true, user);
+            return ModletStream.CreatePacket(true, user);
         }
 
         private static byte[]? OnLocalServerAction_GetRoleAccess(SharedModContext smc, byte[]? stream)
         {
-            Guid? userId = GetContent<Actions, Guid>(stream);
+            Guid? userId = ModletStream.GetContent<Actions, Guid>(stream);
             if (userId == Guid.Empty)
             {
                 return null;
@@ -103,7 +103,7 @@ namespace Shared.Modules
                     }
                 }
             }
-            return CreatePacket<bool, Role.AccessTiers[]>(true, [.. tiers]);
+            return ModletStream.CreatePacket<bool, Role.AccessTiers[]>(true, [.. tiers]);
         }
 
         private void Authentication_Load(object? sender, EventArgs e)
@@ -132,14 +132,14 @@ namespace Shared.Modules
             string password = tb_password.Control.Text;
 
             byte[]? response = Client.Send(
-                CreatePacket(
+                ModletStream.CreatePacket(
                     Actions.Authenticate, 
                     new Tuple<string, string>(username, password)
                 ),
                 ModletCommands.Commands.Action,
                 this
             );
-            bool? state = GetInputType<bool>(response);
+            bool? state = ModletStream.GetInputType<bool>(response);
             if(state == null)
             {
                 return;
@@ -147,18 +147,19 @@ namespace Shared.Modules
 
             if (!state.Value)
             {
-                string? message = GetContent<bool, string>(response);
+                string? message = ModletStream.GetContent<bool, string>(response);
                 MessageBox.Show(message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            User? user = ReadPacket<bool, User>(response)?.value;
+            User? user = ModletStream.ReadPacket<bool, User>(response)?.value;
 
-            Session.Add("User-Authentication", user);
             if (user != null)
             {
-                Role.AccessTiers[]? result = GetContent<bool, Role.AccessTiers[]>(
+                Session.Add("User-Authentication", user);
+
+                Role.AccessTiers[]? result = ModletStream.GetContent<bool, Role.AccessTiers[]>(
                     Client.Send(
-                        CreatePacket(
+                        ModletStream.CreatePacket(
                             Actions.GetRoleAccess, 
                             user.Id
                         ), 

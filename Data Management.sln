@@ -5,16 +5,20 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{E1646985-ADA1-43BB-A3AF-21AED32189A7}"
 	ProjectSection(ProjectDependencies) = postProject
+		{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88} = {3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}
 		{7989B076-967D-4551-93C3-DDAB737A3F70} = {7989B076-967D-4551-93C3-DDAB737A3F70}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UT.Data", "UT.Data\UT.Data.csproj", "{1B875164-D8B6-474A-B24E-750E406F26E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{7989B076-967D-4551-93C3-DDAB737A3F70}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88} = {3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UT.Dnd", "UT.Dnd\UT.Dnd.csproj", "{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UT.Dnd", "UT.Dnd\UT.Dnd.csproj", "{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

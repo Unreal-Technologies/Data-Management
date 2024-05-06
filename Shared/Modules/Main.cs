@@ -1,12 +1,12 @@
 ﻿using Shared.Controls;
-using UT.Data.Attributes;
-using System.Drawing;
+using Shared.Interfaces;
 using System.Windows.Forms;
+using UT.Data.Attributes;
 
 namespace Shared.Modules
 {
     [Position(0)]
-    public partial class Main : ExtendedModletForm
+    public partial class Main : ExtendedMainModletForm, IMdiParentModlet, IMainMenuContainer
     {
         #region Constructors
         public Main()
@@ -31,6 +31,7 @@ namespace Shared.Modules
         private void Main_Load(object? sender, EventArgs e)
         {
             KeyUp += Main_KeyUp;
+
             BringToFront();
         }
 

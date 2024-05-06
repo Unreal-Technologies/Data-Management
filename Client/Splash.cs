@@ -1,5 +1,6 @@
 ﻿using Shared;
 using Shared.Interfaces;
+using System.DirectoryServices.ActiveDirectory;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -89,6 +90,11 @@ namespace Client
                 foreach (IModlet mod in App.MainModlets)
                 {
                     mod.OnClientConfiguration(this, App.Client, App.Session);
+                    if (mod is IMdiParentModlet mpm)
+                    {
+                        mpm.Load += Mpm_Load;
+                    }
+
                     if (mod is IMainFormModlet mfm)
                     {
                         DialogResult result = mfm.ShowDialog();
@@ -111,6 +117,23 @@ namespace Client
             sequentialExecution.Pause(); //Stop SequentialExecution to wait for appConfiguration to finish
             resetEvent.WaitOne();
             return state;
+        }
+
+        private void Mpm_Load(object? sender, EventArgs e)
+        {
+            if(App.SubModlets == null || sender is not Form form || App.Client == null)
+            {
+                return;
+            }
+            foreach(IModlet mod in App.SubModlets)
+            {
+                mod.OnClientConfiguration(form, App.Client, App.Session);
+                if (mod is IMdiFormModlet mfm)
+                {
+                    mfm.MdiParent = form;
+                    mfm.OnMenuCreation();
+                }
+            }
         }
 
         private bool LoadConfig(SequentialExecution sequentialExecution, ManualResetEvent resetEvent)
