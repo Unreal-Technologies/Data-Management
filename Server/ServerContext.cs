@@ -1,18 +1,48 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Reflection;
-using UT.Data;
+using UT.Data.Efc;
 using UT.Data.Extensions;
+using UT.Data.IO.Assemblies;
+using UT.Data.Modlet;
 
 namespace Server
 {
-    public class ServerContext : ExtendedDbContext
+    public class ServerContext
     {
-        public ServerContext() 
-            : base(new Configuration(Resources.DbConnectionString, Resources.DbType.AsEnum<Types>() ?? Types.Mysql))
+        #region Members
+        private readonly ExtendedDbContext[] contexts;
+        #endregion //Members
+
+        #region Constructors
+        public ServerContext()
         {
-            SavingChanges += ExtendedDbContext_SavingChanges;
+            ExtendedDbContext.Configuration configuration = new(Resources.DbConnectionString, Resources.DbType.AsEnum<ExtendedDbContext.Types>() ?? ExtendedDbContext.Types.Mysql);
+
+            contexts = [.. Loader.GetInstances<ExtendedDbContext>(false, configuration)];
+
+            foreach(ExtendedDbContext context in contexts)
+            {
+                context.SavingChanges += ExtendedDbContext_SavingChanges;
+            }
         }
+        #endregion //Constructors
+
+        #region Public Methods
+        public void EnsureCreated()
+        {
+            foreach(ExtendedDbContext context in contexts)
+            {
+                context.Database.EnsureCreated();
+                context.SaveChanges();
+            }
+        }
+
+        public ExtendedDbContext? Select(IModlet mod)
+        {
+            return Array.Find(contexts, x => x.GetType().Assembly == mod.GetType().Assembly);
+        }
+        #endregion //Public Methods
 
         #region Private Methods
         private void ExtendedDbContext_SavingChanges(object? sender, SavingChangesEventArgs e)

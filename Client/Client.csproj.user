@@ -16,6 +16,9 @@
     <Compile Update="AppConfiguration.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Splash.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -2,7 +2,7 @@
 
 namespace Client
 {
-    internal class Configuration
+    public class Configuration
     {
         #region Properties
         public string Title { get; set; }
