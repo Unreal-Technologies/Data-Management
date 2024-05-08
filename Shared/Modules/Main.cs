@@ -87,7 +87,7 @@ namespace Shared.Modules
 
             Person? person = smc.Users.Where(x => x.Id == userId).Select(x => x.Person).FirstOrDefault();
 
-            return ModletStream.CreatePacket<bool, Person?>(true, person);
+            return ModletStream.CreatePacket(true, person);
         }
 
         private void Main_Load(object? sender, EventArgs e)

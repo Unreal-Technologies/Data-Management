@@ -16,14 +16,14 @@ namespace Shared.Controls
         private ModletClient? client;
         private Session? session;
         private Form? root;
-        private DbContext? context;
+        private ServerContext? context;
         #endregion //Members
 
         #region Properties
         public ModletClient? Client { get { return client; } }
         public Session? Session { get { return session; } }
         public Form? Root { get { return root; } }
-        public DbContext? Context { get { return context; } }
+        public ServerContext? Context { get { return context; } }
         #endregion //Properties
 
         #region Public Methods
@@ -82,7 +82,7 @@ namespace Shared.Controls
 
         public virtual void OnServerConfiguration(ServerContext? context)
         {
-            this.context = context?.Select(this);
+            this.context = context;
         }
 
         public virtual void OnMenuCreation()
