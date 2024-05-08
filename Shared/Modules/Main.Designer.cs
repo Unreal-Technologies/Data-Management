@@ -30,17 +30,35 @@ namespace Shared.Modules
         /// </summary>
         private void InitializeComponent()
         {
+            menuStrip = new System.Windows.Forms.MenuStrip();
             SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            menuStrip.Dock = System.Windows.Forms.DockStyle.Left;
+            menuStrip.ImageScalingSize = new Size(24, 24);
+            menuStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Size = new Size(186, 719);
+            menuStrip.TabIndex = 2;
+            menuStrip.Text = "menuStrip";
             // 
             // Main
             // 
-            ClientSize = new Size(474, 247);
+            ClientSize = new Size(1114, 719);
+            Controls.Add(menuStrip);
             IsMdiContainer = true;
+            MainMenuStrip = menuStrip;
             Name = "Main";
             TransparencyKey = Color.Empty;
+            Controls.SetChildIndex(menuStrip, 0);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private System.Windows.Forms.MenuStrip menuStrip;
     }
 }

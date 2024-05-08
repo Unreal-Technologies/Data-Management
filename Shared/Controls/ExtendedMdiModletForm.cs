@@ -50,11 +50,8 @@ namespace Shared.Controls
             this.context = context;
         }
 
-        public void OnMenuCreation()
+        public virtual void OnMenuCreation()
         {
-            if(Root is IMainFormModlet && Root is IMainMenuContainer mmc)
-            {
-            }
         }
         #endregion //Public Methods
     }

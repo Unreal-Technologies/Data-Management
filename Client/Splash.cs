@@ -47,6 +47,14 @@ namespace Client
 
             App.MainModlets = Modlet.Load<IMainFormModlet>();
             App.SubModlets = Modlet.Load<IMdiFormModlet>();
+
+            this.RadialTransform(
+                25,
+                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
+            ).BorderTransform(
+                BorderStyle.FixedSingle,
+                Color.Gray
+            );
         }
         #endregion //Constructors
 
@@ -133,6 +141,11 @@ namespace Client
                     mfm.MdiParent = form;
                     mfm.OnMenuCreation();
                 }
+            }
+
+            if(form is IMainMenuContainer mmc)
+            {
+                mmc.MenuStack.ConvertTo(mmc.MenuStrip);
             }
         }
 
