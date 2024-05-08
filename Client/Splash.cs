@@ -48,6 +48,14 @@ namespace Client
             App.MainModlets = Modlet.Load<IMainFormModlet>();
             App.SubModlets = Modlet.Load<IMdiFormModlet>();
 
+            foreach(IModlet modlet in App.MainModlets)
+            {
+                if(modlet is ExtendedForm eForm)
+                {
+                    eForm.Title = App.Configuration.Title;
+                }
+            }
+
             this.RadialTransform(
                 25,
                 x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)

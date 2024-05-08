@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Controls;
+using UT.Data.Controls.Validated;
 using UT.Data.Encryption;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
@@ -35,11 +36,13 @@ namespace Shared.Modules
 
             this.RadialTransform(
                 25,
-                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
+                x => x.GetType() != typeof(ValidatedTextBox) && x.GetType() != typeof(Label)
             ).BorderTransform(
                 BorderStyle.FixedSingle,
                 Color.Gray
             );
+
+            btn_login.Width = tb_password.Control.Width;
         }
         #endregion //Constructors
 

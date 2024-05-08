@@ -112,7 +112,6 @@ namespace Shared.Data
                     {
                         BackColor = menuStrip.BackColor
                     };
-
                     menuStrip.Items.Add(tsmi);
                     ConvertTo(tsmi, sub);
                 }

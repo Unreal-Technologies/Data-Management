@@ -49,8 +49,6 @@ namespace Shared.Modules
             if (InfoBar != null)
             {
                 menuStrip.BackColor = InfoBar.BackColor;
-                //menuStrip.MinimumSize = new Size(200, Height - InfoBar.Height - 2);
-                //menuStrip.Size = menuStrip.MinimumSize;
                 menuStrip.Location = new Point(0, InfoBar.Height);
             }
         }
