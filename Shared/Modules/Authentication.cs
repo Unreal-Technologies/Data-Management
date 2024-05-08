@@ -1,6 +1,7 @@
 ﻿using Shared.Controls;
 using Shared.Efc;
 using Shared.Efc.Tables;
+using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
 using UT.Data;
@@ -31,6 +32,14 @@ namespace Shared.Modules
 
             Text = "Authentication";
             Load += Authentication_Load;
+
+            this.RadialTransform(
+                25,
+                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
+            ).BorderTransform(
+                BorderStyle.FixedSingle,
+                Color.Gray
+            );
         }
         #endregion //Constructors
 
