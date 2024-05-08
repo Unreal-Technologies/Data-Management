@@ -8,11 +8,8 @@
 
   <ItemGroup>
     <Compile Remove="-OLD-\**" />
-    <Compile Remove="Migrations\**" />
     <EmbeddedResource Remove="-OLD-\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <None Remove="-OLD-\**" />
-    <None Remove="Migrations\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +47,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SharedResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

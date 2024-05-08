@@ -2,7 +2,7 @@
 
 namespace Shared.Modules
 {
-    static class ModletStream
+    public static class ModletStream
     {
         public static (TKey? key, TValue? value)? ReadPacket<TKey, TValue>(byte[]? stream)
         {

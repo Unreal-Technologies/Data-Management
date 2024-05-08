@@ -5,6 +5,7 @@ using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Controls;
+using UT.Data.Efc;
 using UT.Data.Modlet;
 
 namespace Shared.Controls
@@ -26,7 +27,7 @@ namespace Shared.Controls
         #endregion //Properties
 
         #region Public Methods
-        public void ShowMdi<T>()
+        public T? ShowMdi<T>()
             where T : ExtendedMdiModletForm
         {
             T? me = (T?)Activator.CreateInstance(typeof(T));
@@ -35,6 +36,8 @@ namespace Shared.Controls
                 me.MdiParent = MdiParent;
                 me.Title = Title;
                 me.Text = Text;
+                me.session = Session;
+                me.client = Client;
                 me.WindowState = FormWindowState.Normal;
                 if(Root is IMainMenuContainer mmc && Root is ExtendedForm eForm && Root is IMdiParentModlet mpm)
                 {
@@ -44,7 +47,9 @@ namespace Shared.Controls
                 }
 
                 me.Show();
+                return me;
             }
+            return default;
         }
 
         private void Mpm_OnFullscreenChanged(object? sender, EventArgs e)
@@ -66,7 +71,7 @@ namespace Shared.Controls
         {
         }
 
-        public virtual void OnServerInstallation(DbContext? context)
+        public virtual void OnServerInstallation(ServerContext? context)
         {
         }
 
@@ -75,9 +80,9 @@ namespace Shared.Controls
             return null;
         }
 
-        public virtual void OnServerConfiguration(DbContext? context)
+        public virtual void OnServerConfiguration(ServerContext? context)
         {
-            this.context = context;
+            this.context = context?.Select(this);
         }
 
         public virtual void OnMenuCreation()

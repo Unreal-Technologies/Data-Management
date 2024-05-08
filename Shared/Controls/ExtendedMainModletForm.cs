@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Controls;
+using UT.Data.Efc;
 using UT.Data.Modlet;
 
 namespace Shared.Controls
@@ -36,7 +37,7 @@ namespace Shared.Controls
         {
         }
 
-        public virtual void OnServerInstallation(DbContext? context)
+        public virtual void OnServerInstallation(ServerContext? context)
         {
 
         }
@@ -46,9 +47,9 @@ namespace Shared.Controls
             return null;
         }
 
-        public virtual void OnServerConfiguration(DbContext? context)
+        public virtual void OnServerConfiguration(ServerContext? context)
         {
-            this.context = context;
+            this.context = context?.Select(this);
         }
         #endregion //Public Methods
     }

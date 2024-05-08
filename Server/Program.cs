@@ -94,12 +94,11 @@ namespace Server
                 IModlet[] list = Modlet.Load<IModlet>();
                 foreach (IModlet mod in list)
                 {
-                    DbContext? modContext = context.Select(mod);
                     if (installationMode)
                     {
-                        mod.OnServerInstallation(modContext);
+                        mod.OnServerInstallation(context);
                     }
-                    modletServer.Register(mod, modContext);
+                    modletServer.Register(mod, context);
                     ExtendedConsole.WriteLine("Loaded <Green>" + mod.ToString() + "</Green>");
                 }
                 ExtendedConsole.WriteLine("Initialized <red>" + list.Length + "</red> module(s)");
