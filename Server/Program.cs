@@ -104,7 +104,7 @@ namespace Server
                 }
                 ExtendedConsole.WriteLine("Initialized <red>" + list.Length + "</red> module(s)");
 
-                this.server = modletServer;
+                server = modletServer;
                 modletServer.Start();
                 ExtendedConsole.BoxMode(false);
             }

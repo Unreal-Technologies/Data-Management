@@ -82,7 +82,12 @@ namespace Shared.Modules
 
             string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
 
-            User? user = smc.Users.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+            User? user = smc.Users.FirstOrDefault(x => 
+                x.Username == Aes.Encrypt(username, User.Key) &&
+                x.Password == encPassword &&
+                x.Start <= DateTime.Now &&
+                x.End >= DateTime.Now
+            );
             if (user == null)
             {
                 return ModletStream.CreatePacket(false, "Wrong Username or Password");

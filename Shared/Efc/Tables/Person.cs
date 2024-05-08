@@ -22,7 +22,7 @@ namespace Shared.Efc.Tables
         #region Public Methods
         public string Name()
         {
-            return this.Firstname + " " + this.Lastname;
+            return Firstname + " " + Lastname;
         }
         #endregion //public Methods
         #endregion //Properties
