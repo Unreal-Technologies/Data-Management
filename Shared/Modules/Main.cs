@@ -12,9 +12,15 @@ namespace Shared.Modules
     {
         #region Members
         private readonly MenuStack menuStack;
+        private bool isFullScreen = false;
         #endregion //Members
 
+        #region Events
+        public event EventHandler? OnFullscreenChanged;
+        #endregion //Events
+
         #region Properties
+        public bool IsFullScreen { get { return isFullScreen; } }
         public MenuStack MenuStack { get { return menuStack; } }
         public MenuStrip MenuStrip { get { return menuStrip; } }
         #endregion //Properties
@@ -60,6 +66,8 @@ namespace Shared.Modules
                 bool swappedVisibility = !InfoBar.Visible;
                 InfoBar.Visible = swappedVisibility;
                 menuStrip.Visible = swappedVisibility;
+                isFullScreen = !swappedVisibility;
+                OnFullscreenChanged?.Invoke(this, new EventArgs());
             }
         }
         #endregion //Private Methods

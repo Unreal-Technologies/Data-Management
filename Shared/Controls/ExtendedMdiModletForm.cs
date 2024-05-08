@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Interfaces;
+using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
 using UT.Data;
@@ -25,6 +26,35 @@ namespace Shared.Controls
         #endregion //Properties
 
         #region Public Methods
+        public void ShowMdi<T>()
+            where T : ExtendedMdiModletForm
+        {
+            T? me = (T?)Activator.CreateInstance(typeof(T));
+            if (me != null)
+            {
+                me.MdiParent = MdiParent;
+                me.Title = Title;
+                me.Text = Text;
+                me.WindowState = FormWindowState.Normal;
+                if(Root is IMainMenuContainer mmc && Root is ExtendedForm eForm && Root is IMdiParentModlet mpm)
+                {
+                    me.Size = new Size(eForm.Width - mmc.MenuStrip.Width - 4, eForm.Height - 4 - eForm.InfoBar?.Height ?? 0);
+                    me.Location = new Point(0, 0);
+                    mpm.OnFullscreenChanged += me.Mpm_OnFullscreenChanged;
+                }
+
+                me.Show();
+            }
+        }
+
+        private void Mpm_OnFullscreenChanged(object? sender, EventArgs e)
+        {
+            if (sender is IMdiParentModlet mpm)
+            {
+                WindowState = mpm.IsFullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            }
+        }
+
         public void OnClientConfiguration(Form? form, ModletClient client, Session session)
         {
             this.client = client;
