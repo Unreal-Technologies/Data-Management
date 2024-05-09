@@ -9,7 +9,7 @@ namespace Shared.Efc.Tables
         #region Enums
         public enum Types
         {
-            Image
+            Image, Undefined
         }
         #endregion //Enums
 
@@ -21,7 +21,7 @@ namespace Shared.Efc.Tables
         [Required]
         public virtual User? User { get; set; }
         [Required]
-        public byte[]? Stream { get; set; }
+        public string? Stream { get; set; }
         public Types Type { get; set; }
         [Required]
         public DateTime TransStartDate { get; set; }

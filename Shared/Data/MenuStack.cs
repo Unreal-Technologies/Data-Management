@@ -115,6 +115,15 @@ namespace Shared.Data
                     menuStrip.Items.Add(tsmi);
                     ConvertTo(tsmi, sub);
                 }
+                else if (kvp.Value is ClickHandler clickHandler)
+                {
+                    ToolStripMenuItem tsmi = new(kvp.Key)
+                    {
+                        BackColor = menuStrip.BackColor
+                    };
+                    tsmi.Click += (object? sender, EventArgs e) => { clickHandler(); };
+                    menuStrip.Items.Add(tsmi);
+                }
                 else
                 {
                     throw new NotImplementedException();

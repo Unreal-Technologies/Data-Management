@@ -38,6 +38,7 @@ namespace Shared.Controls
                 me.Text = Text;
                 me.session = Session;
                 me.client = Client;
+                me.root = Root;
                 me.WindowState = FormWindowState.Normal;
                 if(Root is IMainMenuContainer mmc && Root is ExtendedForm eForm && Root is IMdiParentModlet mpm)
                 {

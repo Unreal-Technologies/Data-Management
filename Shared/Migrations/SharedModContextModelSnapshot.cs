@@ -29,9 +29,9 @@ namespace Shared.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<byte[]>("Stream")
+                    b.Property<string>("Stream")
                         .IsRequired()
-                        .HasColumnType("longblob");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("TransStartDate")
                         .HasColumnType("datetime(6)");
