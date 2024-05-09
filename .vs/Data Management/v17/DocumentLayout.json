@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.dnd\\mapping\\mapeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|solutionrelative:ut.dnd\\mapping\\mapeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\efc\\tables\\content.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\tables\\content.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\efc\\sharedmodcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\sharedmodcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\efc\\tables\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\efc\\tables\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.dnd\\efc\\tables\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|solutionrelative:ut.dnd\\efc\\tables\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.dnd\\mapping\\mapeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3768AF8B-B532-4EAA-A9E3-83BCB33F2C88}|UT.Dnd\\UT.Dnd.csproj|solutionrelative:ut.dnd\\mapping\\mapeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\controls\\extendedmdimodletform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\controls\\extendedmdimodletform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\ut.data\\efc\\servercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1B875164-D8B6-474A-B24E-750E406F26E1}|UT.Data\\UT.Data.csproj|solutionrelative:ut.data\\efc\\servercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|c:\\users\\peter\\onedrive\\bureaublad\\tools \u0026 development\\data management\\shared\\modules\\install.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6059FF2F-6212-44E8-B1BA-C9BEFD6DE8BF}|Shared\\Shared.csproj|solutionrelative:shared\\modules\\install.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,52 +38,77 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Install.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Install.cs",
-              "RelativeDocumentMoniker": "Shared\\Modules\\Install.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Modules\\Install.cs",
-              "RelativeToolTip": "Shared\\Modules\\Install.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAkwAAAAAAAAAAA",
+              "DocumentIndex": 2,
+              "Title": "SharedModContext.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\SharedModContext.cs",
+              "RelativeDocumentMoniker": "Shared\\Efc\\SharedModContext.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\SharedModContext.cs",
+              "RelativeToolTip": "Shared\\Efc\\SharedModContext.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwC8AAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T22:26:59.415Z",
+              "WhenOpened": "2024-05-09T09:46:44.379Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ServerContext.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Efc\\ServerContext.cs",
-              "RelativeDocumentMoniker": "UT.Data\\Efc\\ServerContext.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Data\\Efc\\ServerContext.cs",
-              "RelativeToolTip": "UT.Data\\Efc\\ServerContext.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAQwAwAAAA2AAAA",
+              "DocumentIndex": 3,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\Tables\\Role.cs",
+              "RelativeDocumentMoniker": "Shared\\Efc\\Tables\\Role.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\Tables\\Role.cs",
+              "RelativeToolTip": "Shared\\Efc\\Tables\\Role.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T22:20:35.008Z",
+              "WhenOpened": "2024-05-09T09:43:45.523Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ExtendedMdiModletForm.cs",
-              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\ExtendedMdiModletForm.cs",
-              "RelativeDocumentMoniker": "Shared\\Controls\\ExtendedMdiModletForm.cs",
-              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Controls\\ExtendedMdiModletForm.cs",
-              "RelativeToolTip": "Shared\\Controls\\ExtendedMdiModletForm.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAqwBkAAAAcAAAA",
+              "Title": "Content.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\Tables\\Content.cs",
+              "RelativeDocumentMoniker": "Shared\\Efc\\Tables\\Content.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\Shared\\Efc\\Tables\\Content.cs",
+              "RelativeToolTip": "Shared\\Efc\\Tables\\Content.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T22:05:29.273Z",
+              "WhenOpened": "2024-05-09T09:43:31.308Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MapEditor.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Mapping\\MapEditor.cs",
+              "RelativeDocumentMoniker": "UT.Dnd\\Mapping\\MapEditor.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Mapping\\MapEditor.cs [Design]",
+              "RelativeToolTip": "UT.Dnd\\Mapping\\MapEditor.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T23:49:08.798Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Map.cs",
+              "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Efc\\Tables\\Map.cs",
+              "RelativeDocumentMoniker": "UT.Dnd\\Efc\\Tables\\Map.cs",
+              "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Efc\\Tables\\Map.cs",
+              "RelativeToolTip": "UT.Dnd\\Efc\\Tables\\Map.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T23:42:24.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "MapEditor.cs",
               "DocumentMoniker": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Mapping\\MapEditor.cs",
               "RelativeDocumentMoniker": "UT.Dnd\\Mapping\\MapEditor.cs",
               "ToolTip": "C:\\Users\\Peter\\OneDrive\\Bureaublad\\Tools \u0026 Development\\Data Management\\UT.Dnd\\Mapping\\MapEditor.cs",
               "RelativeToolTip": "UT.Dnd\\Mapping\\MapEditor.cs",
-              "ViewState": "AQIAAIQAAAAAAAAAAAAvwKoAAAANAAAA",
+              "ViewState": "AQIAACIAAAAAAAAAAAAQwB0AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T12:13:43.085Z",
               "EditorCaption": ""

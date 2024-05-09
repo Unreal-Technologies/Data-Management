@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Shared.Efc.Tables
 {
-    [Table("Shared.Role")]
-    public class Role
+    [Table("Shared.Content")]
+    public class Content
     {
         #region Enums
-        public enum AccessTiers
+        public enum Types
         {
-            Administrator, User
+            Image
         }
         #endregion //Enums
 
@@ -17,9 +17,12 @@ namespace Shared.Efc.Tables
         [Required, Key]
         public Guid Id { get; set; }
         [Required]
-        public AccessTiers[]? Access { get; set; }
-        [Required, MaxLength(64)]
         public string? Description { get; set; }
+        [Required]
+        public virtual User? User { get; set; }
+        [Required]
+        public byte[]? Stream { get; set; }
+        public Types Type { get; set; }
         [Required]
         public DateTime TransStartDate { get; set; }
         #endregion //Properties

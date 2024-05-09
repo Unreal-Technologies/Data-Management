@@ -7,7 +7,6 @@ namespace Shared.Efc.Tables
     public class Person
     {
         #region Properties
-        #region Fields
         [Required, Key]
         public Guid Id { get; set; }
         [Required, MaxLength(32)]
@@ -23,7 +22,6 @@ namespace Shared.Efc.Tables
         {
             return Firstname + " " + Lastname;
         }
-        #endregion //public Methods
         #endregion //Properties
     }
 }
