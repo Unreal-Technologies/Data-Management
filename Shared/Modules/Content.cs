@@ -11,15 +11,28 @@ using UT.Data.Controls;
 using UT.Data.Controls.Custom;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
+using static Mysqlx.Crud.Order.Types;
 
 namespace Shared.Modules
 {
+    public static class EnumerableExtensions
+    {
+        public static IEnumerable<Tvalue> OrderBy<Tvalue, Tkey>(this IEnumerable<Tvalue> self, Func<Tvalue, Tkey> keySelector, int direction)
+        {
+            if (direction == 1)
+            {
+                return self.OrderBy(keySelector);
+            }
+            return self.OrderByDescending(keySelector);
+        }
+    }
+
     [Position(int.MaxValue)]
     public partial class Content : ExtendedMdiModletForm
     {
         #region Members
         private States state;
-        private GridviewGuid? gridviewList;
+        private Gridview<ContentDto>? gridviewList;
         #endregion //Members
 
         #region Constructors
@@ -44,6 +57,13 @@ namespace Shared.Modules
             Upload, ListContent
         }
         #endregion //Enums
+
+        #region Constants
+        private const string Description = "Description";
+        private const string Extension = "Extension";
+        private const string Type = "Type";
+        private const string LastUpdate = "Last Update";
+        #endregion //Constants
 
         #region Public Methods
         public override void OnMenuCreation()
@@ -109,24 +129,12 @@ namespace Shared.Modules
 
         private void Content_Load(object? sender, EventArgs e)
         {
-            gridviewList = new GridviewGuid();
+            gridviewList = new Gridview<ContentDto>(x => x.Id);
             gridviewList.SetColumns([
-                new GridviewGuid.Column()
-                {
-                    Text = "Description"
-                },
-                new GridviewGuid.Column()
-                {
-                    Text = "Extension"
-                },
-                new GridviewGuid.Column()
-                {
-                    Text = "Type"
-                },
-                new GridviewGuid.Column()
-                {
-                    Text = "Last Update"
-                }
+                gridviewList.Column(Description, x => x.Description ?? "", Sorting.Container),
+                gridviewList.Column(Extension, x => x.Extension ?? "", Sorting.Container),
+                gridviewList.Column(Type, x => x.Type.ToString(), Gridview.Alignment.Center, Sorting.Container),
+                gridviewList.Column(LastUpdate, x => x.TransStartDate.ToString("dd-MM-yyyy HH:mm"), Sorting.Container)
             ]);
 
             gridviewList.OnAdd += OnAdd;
@@ -214,36 +222,7 @@ namespace Shared.Modules
                 ContentDto[]? content = Request<ContentDto[], Actions, Guid>(Actions.ListContent, user.Id);
                 if(content != null)
                 {
-                    gridviewList.Clear();
-                    foreach(ContentDto dto in content)
-                    {
-                        Gridview<Guid>.Row row = new()
-                        {
-                            ID = dto.Id,
-                            Edit = false,
-                            Remove = false
-                        };
-                        row.Cells.Add(new Gridview<Guid>.Cell()
-                        {
-                            Text = dto.Description
-                        });
-                        row.Cells.Add(new Gridview<Guid>.Cell()
-                        {
-                            Text = dto.Extension
-                        });
-                        row.Cells.Add(new Gridview<Guid>.Cell()
-                        {
-                            Text = dto.Type.ToString(),
-                            TextAlignment = Gridview<Guid>.Alignment.Center
-                        });
-                        row.Cells.Add(new Gridview<Guid>.Cell()
-                        {
-                            Text = dto.TransStartDate.ToString("dd-MM-yyyy HH:mm")
-                        });
-
-                        gridviewList.AddRow(row);
-                    }
-                    gridviewList.Render();
+                    gridviewList.Dataset(content);
                 }
             }
         }
@@ -390,6 +369,33 @@ namespace Shared.Modules
         #endregion //Private Methods
 
         #region Classes
+        private sealed class Sorting : Gridview<ContentDto>.GvSorting
+        {
+            #region Public Methods
+            public static void Container(object? sender, EventArgs e)
+            {
+                var data = Data(sender, e);
+                switch (data.Item2.Text)
+                {
+                    case Description:
+                        data.Item1.Data = data.Item1.Data?.OrderBy(x => x.Description, data.Item4);
+                        break;
+                    case Extension:
+                        data.Item1.Data = data.Item1.Data?.OrderBy(x => x.Extension, data.Item4);
+                        break;
+                    case Type:
+                        data.Item1.Data = data.Item1.Data?.OrderBy(x => x.Type, data.Item4);
+                        break;
+                    case LastUpdate:
+                        data.Item1.Data = data.Item1.Data?.OrderBy(x => x.TransStartDate, data.Item4);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            #endregion //Public Methods
+        }
+
         private sealed class ContentDto
         {
             public Guid Id { get; set; }
