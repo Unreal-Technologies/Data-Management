@@ -5,6 +5,7 @@ using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
+using UT.Data.Efc;
 using UT.Data.Modlet;
 
 namespace Shared.Modules
@@ -18,11 +19,11 @@ namespace Shared.Modules
 
         public byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip) { return null; }
 
-        public void OnServerConfiguration(DbContext? context) { }
+        public void OnServerConfiguration(ServerContext? context) { }
 
-        public void OnServerInstallation(DbContext? context)
+        public void OnServerInstallation(ServerContext? context)
         {
-            if (context is not SharedModContext smc || smc.People.Any())
+            if (context?.Select(this) is not SharedModContext smc || smc.People.Any())
             {
                 return;
             }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using UT.Data.Efc;
 
 namespace Shared.Efc.Tables
 {
@@ -15,7 +14,6 @@ namespace Shared.Efc.Tables
         #endregion //Enums
 
         #region Properties
-        #region Fields
         [Required, Key]
         public Guid Id { get; set; }
         [Required]
@@ -24,7 +22,6 @@ namespace Shared.Efc.Tables
         public string? Description { get; set; }
         [Required]
         public DateTime TransStartDate { get; set; }
-        #endregion //Fields
         #endregion //Properties
     }
 }

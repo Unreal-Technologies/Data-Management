@@ -42,7 +42,7 @@ namespace Shared.Modules
             // lbl_username
             // 
             lbl_username.AutoSize = true;
-            lbl_username.Location = new Point(56, 73);
+            lbl_username.Location = new Point(78, 75);
             lbl_username.Name = "lbl_username";
             lbl_username.Size = new Size(108, 20);
             lbl_username.TabIndex = 0;
@@ -51,7 +51,7 @@ namespace Shared.Modules
             // lbl_password
             // 
             lbl_password.AutoSize = true;
-            lbl_password.Location = new Point(56, 106);
+            lbl_password.Location = new Point(78, 108);
             lbl_password.Name = "lbl_password";
             lbl_password.Size = new Size(108, 20);
             lbl_password.TabIndex = 1;
@@ -60,7 +60,7 @@ namespace Shared.Modules
             // tb_username
             // 
             tb_username.IsRequired = true;
-            tb_username.Location = new Point(179, 66);
+            tb_username.Location = new Point(201, 68);
             tb_username.Name = "tb_username";
             tb_username.Size = new Size(200, 27);
             tb_username.TabIndex = 2;
@@ -68,14 +68,14 @@ namespace Shared.Modules
             // tb_password
             // 
             tb_password.IsRequired = true;
-            tb_password.Location = new Point(179, 99);
+            tb_password.Location = new Point(201, 101);
             tb_password.Name = "tb_password";
             tb_password.Size = new Size(200, 27);
             tb_password.TabIndex = 3;
             // 
             // btn_login
             // 
-            btn_login.Location = new Point(179, 132);
+            btn_login.Location = new Point(201, 134);
             btn_login.Name = "btn_login";
             btn_login.Size = new Size(177, 34);
             btn_login.TabIndex = 4;
@@ -85,7 +85,7 @@ namespace Shared.Modules
             // 
             // Authentication
             // 
-            ClientSize = new Size(400, 182);
+            ClientSize = new Size(475, 182);
             Controls.Add(btn_login);
             Controls.Add(tb_password);
             Controls.Add(tb_username);

@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DbConnectionString" xml:space="preserve">
-    <value>server=127.0.0.1;port=3306;database=dnd-manager;user=root;password=;</value>
-  </data>
-  <data name="DbType" xml:space="preserve">
-    <value>MySQL</value>
-  </data>
   <data name="Port" xml:space="preserve">
     <value>1404</value>
   </data>

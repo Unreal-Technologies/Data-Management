@@ -32,6 +32,9 @@
     <Compile Update="Modules\Authentication.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Modules\Content.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Modules\Main.cs">
       <SubType>Form</SubType>
     </Compile>

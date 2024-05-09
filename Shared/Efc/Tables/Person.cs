@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using UT.Data.Efc;
 
 namespace Shared.Efc.Tables
 {
@@ -8,7 +7,6 @@ namespace Shared.Efc.Tables
     public class Person
     {
         #region Properties
-        #region Fields
         [Required, Key]
         public Guid Id { get; set; }
         [Required, MaxLength(32)]
@@ -22,9 +20,8 @@ namespace Shared.Efc.Tables
         #region Public Methods
         public string Name()
         {
-            return this.Firstname + " " + this.Lastname;
+            return Firstname + " " + Lastname;
         }
-        #endregion //public Methods
         #endregion //Properties
     }
 }

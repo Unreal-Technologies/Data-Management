@@ -1,11 +1,13 @@
 ﻿using Shared.Controls;
 using Shared.Efc;
 using Shared.Efc.Tables;
+using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
 using UT.Data;
 using UT.Data.Attributes;
 using UT.Data.Controls;
+using UT.Data.Controls.Validated;
 using UT.Data.Encryption;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
@@ -31,6 +33,16 @@ namespace Shared.Modules
 
             Text = "Authentication";
             Load += Authentication_Load;
+
+            this.RadialTransform(
+                25,
+                x => x.GetType() != typeof(ValidatedTextBox) && x.GetType() != typeof(Label)
+            ).BorderTransform(
+                BorderStyle.FixedSingle,
+                Color.Gray
+            );
+
+            btn_login.Width = tb_password.Control.Width;
         }
         #endregion //Constructors
 
@@ -70,7 +82,12 @@ namespace Shared.Modules
 
             string? encPassword = Aes.Encrypt(password, User.Key)?.Md5();
 
-            User? user = smc.Users.Where(x => x.Username == Aes.Encrypt(username, User.Key) && x.Password == encPassword && x.Start <= DateTime.Now && x.End >= DateTime.Now).FirstOrDefault();
+            User? user = smc.Users.FirstOrDefault(x => 
+                x.Username == Aes.Encrypt(username, User.Key) &&
+                x.Password == encPassword &&
+                x.Start <= DateTime.Now &&
+                x.End >= DateTime.Now
+            );
             if (user == null)
             {
                 return ModletStream.CreatePacket(false, "Wrong Username or Password");

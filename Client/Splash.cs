@@ -1,6 +1,5 @@
 ﻿using Shared;
 using Shared.Interfaces;
-using System.DirectoryServices.ActiveDirectory;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -44,13 +43,36 @@ namespace Client
             gdiCopyright.Text = string.Format(SharedResources.Copyright, DateTime.Now.Year);
 
             Load += Splash_Load;
+            TitleChanged += Splash_TitleChanged;
 
             App.MainModlets = Modlet.Load<IMainFormModlet>();
             App.SubModlets = Modlet.Load<IMdiFormModlet>();
+
+            this.RadialTransform(
+                25,
+                x => x.GetType() != typeof(GdiLabel) && x.GetType() != typeof(Label)
+            ).BorderTransform(
+                BorderStyle.FixedSingle,
+                Color.Gray
+            );
         }
         #endregion //Constructors
 
         #region Private Methods
+        private void Splash_TitleChanged(object? sender, EventArgs e)
+        {
+            if (App.MainModlets != null)
+            {
+                foreach (IModlet mod in App.MainModlets)
+                {
+                    if (mod is ExtendedForm eForm)
+                    {
+                        eForm.Title = Title;
+                    }
+                }
+            }
+        }
+
         private void Splash_Load(object? sender, EventArgs e)
         {
             SequentialExecution sequentialExecution = new(this);
@@ -133,6 +155,16 @@ namespace Client
                     mfm.MdiParent = form;
                     mfm.OnMenuCreation();
                 }
+
+                if(mod is ExtendedForm eForm)
+                {
+                    eForm.Title = Title;
+                }
+            }
+
+            if(form is IMainMenuContainer mmc)
+            {
+                mmc.MenuStack.ConvertTo(mmc.MenuStrip);
             }
         }
 
@@ -177,6 +209,11 @@ namespace Client
                 sequentialExecution.SetOutput("Loaded \"" + lc.Path + "\"");
 
                 App.Configuration = configuration;
+                Invoker<Splash>.Invoke(this, (Splash splash, object[]? data) =>
+                {
+                    splash.Title = configuration.Title.Replace("&", "&&");
+                });
+                
                 UpdateConfiguration();
                 return true;
             }

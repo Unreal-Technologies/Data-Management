@@ -2,7 +2,7 @@
 
 namespace Shared.Modules
 {
-    static class ModletStream
+    public static class ModletStream
     {
         public static (TKey? key, TValue? value)? ReadPacket<TKey, TValue>(byte[]? stream)
         {
@@ -26,6 +26,22 @@ namespace Shared.Modules
             if (packet == null)
             {
                 return null;
+            }
+
+            return packet.Value.key;
+        }
+
+        public static TKey? GetKey<TKey, TData>(byte[]? stream)
+        {
+            if (stream == null)
+            {
+                return default;
+            }
+
+            var packet = ReadPacket<TKey, TData>(stream);
+            if (packet == null)
+            {
+                return default;
             }
 
             return packet.Value.key;
