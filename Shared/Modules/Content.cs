@@ -219,7 +219,9 @@ namespace Shared.Modules
                     {
                         Gridview<Guid>.Row row = new()
                         {
-                            ID = dto.Id
+                            ID = dto.Id,
+                            Edit = false,
+                            Remove = false
                         };
                         row.Cells.Add(new Gridview<Guid>.Cell()
                         {
@@ -231,7 +233,8 @@ namespace Shared.Modules
                         });
                         row.Cells.Add(new Gridview<Guid>.Cell()
                         {
-                            Text = dto.Type.ToString()
+                            Text = dto.Type.ToString(),
+                            TextAlignment = Gridview<Guid>.Alignment.Center
                         });
                         row.Cells.Add(new Gridview<Guid>.Cell()
                         {
@@ -290,6 +293,10 @@ namespace Shared.Modules
 
         private void RenderUpload(string path, Efc.Tables.Content.Types type)
         {
+            if(path == string.Empty)
+            {
+                return;
+            }
             FileInfo fi = new(path);
 
             tabPage_upload_vtb_description.Control.Text = fi.ShortName();
