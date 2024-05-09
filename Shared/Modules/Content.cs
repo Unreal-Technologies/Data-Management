@@ -3,6 +3,7 @@ using Shared.Controls;
 using Shared.Efc;
 using Shared.Efc.Tables;
 using Shared.Interfaces;
+using Shared.Modules.Dtos;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
@@ -11,22 +12,9 @@ using UT.Data.Controls;
 using UT.Data.Controls.Custom;
 using UT.Data.Extensions;
 using UT.Data.Modlet;
-using static Mysqlx.Crud.Order.Types;
 
 namespace Shared.Modules
 {
-    public static class EnumerableExtensions
-    {
-        public static IEnumerable<Tvalue> OrderBy<Tvalue, Tkey>(this IEnumerable<Tvalue> self, Func<Tvalue, Tkey> keySelector, int direction)
-        {
-            if (direction == 1)
-            {
-                return self.OrderBy(keySelector);
-            }
-            return self.OrderByDescending(keySelector);
-        }
-    }
-
     [Position(int.MaxValue)]
     public partial class Content : ExtendedMdiModletForm
     {
@@ -188,22 +176,6 @@ namespace Shared.Modules
                     RenderList();
                     break;
             }
-        }
-
-        private Tdata? Request<Tdata, Tkey, Tinput>(Tkey key, Tinput input)
-            where Tkey: struct
-        {
-            Tdata? result = ModletStream.GetContent<bool, Tdata>(
-                Client?.Send(
-                    ModletStream.CreatePacket(
-                        key,
-                        input
-                    ),
-                    ModletCommands.Commands.Action,
-                    this
-                )
-            );
-            return result;
         }
 
         private void RenderList()
@@ -394,15 +366,6 @@ namespace Shared.Modules
                 }
             }
             #endregion //Public Methods
-        }
-
-        private sealed class ContentDto
-        {
-            public Guid Id { get; set; }
-            public string? Description { get; set; }
-            public string? Extension { get; set; }
-            public Efc.Tables.Content.Types Type { get; set; }
-            public DateTime TransStartDate { get; set; }
         }
         #endregion //Classes
     }

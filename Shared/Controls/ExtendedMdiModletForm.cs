@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Interfaces;
+using Shared.Modules;
 using System.Drawing;
 using System.Net;
 using System.Windows.Forms;
@@ -25,6 +26,24 @@ namespace Shared.Controls
         public Form? Root { get { return root; } }
         public ServerContext? Context { get { return context; } }
         #endregion //Properties
+
+        #region Protected Methods
+        protected Tdata? Request<Tdata, Tkey, Tinput>(Tkey key, Tinput input)
+            where Tkey : struct
+        {
+            Tdata? result = ModletStream.GetContent<bool, Tdata>(
+                Client?.Send(
+                    ModletStream.CreatePacket(
+                        key,
+                        input
+                    ),
+                    ModletCommands.Commands.Action,
+                    this
+                )
+            );
+            return result;
+        }
+        #endregion //Protected Methods
 
         #region Public Methods
         public T? ShowMdi<T>()
