@@ -31,6 +31,22 @@ namespace Shared.Modules
             return packet.Value.key;
         }
 
+        public static TKey? GetKey<TKey, TData>(byte[]? stream)
+        {
+            if (stream == null)
+            {
+                return default;
+            }
+
+            var packet = ReadPacket<TKey, TData>(stream);
+            if (packet == null)
+            {
+                return default;
+            }
+
+            return packet.Value.key;
+        }
+
         public static TData? GetContent<TKey, TData>(byte[]? stream)
             where TKey : struct
         {

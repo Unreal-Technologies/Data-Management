@@ -32,6 +32,8 @@ namespace Shared.Modules
             ofdUpload = new System.Windows.Forms.OpenFileDialog();
             tabControl = new System.Windows.Forms.TabControl();
             tabPage_upload = new System.Windows.Forms.TabPage();
+            tabPage_upload_lbl_extension_v = new System.Windows.Forms.Label();
+            tabPage_upload_lbl_extension = new System.Windows.Forms.Label();
             tabPage_upload_tb_path = new System.Windows.Forms.TextBox();
             tabPage_upload_btn_changeFile = new System.Windows.Forms.Button();
             tabPage_upload_btn_save = new System.Windows.Forms.Button();
@@ -63,6 +65,8 @@ namespace Shared.Modules
             // 
             // tabPage_upload
             // 
+            tabPage_upload.Controls.Add(tabPage_upload_lbl_extension_v);
+            tabPage_upload.Controls.Add(tabPage_upload_lbl_extension);
             tabPage_upload.Controls.Add(tabPage_upload_tb_path);
             tabPage_upload.Controls.Add(tabPage_upload_btn_changeFile);
             tabPage_upload.Controls.Add(tabPage_upload_btn_save);
@@ -79,9 +83,27 @@ namespace Shared.Modules
             tabPage_upload.Text = "Upload";
             tabPage_upload.UseVisualStyleBackColor = true;
             // 
+            // tabPage_upload_lbl_extension_v
+            // 
+            tabPage_upload_lbl_extension_v.AutoSize = true;
+            tabPage_upload_lbl_extension_v.Location = new Point(120, 69);
+            tabPage_upload_lbl_extension_v.Name = "tabPage_upload_lbl_extension_v";
+            tabPage_upload_lbl_extension_v.Size = new Size(70, 15);
+            tabPage_upload_lbl_extension_v.TabIndex = 9;
+            tabPage_upload_lbl_extension_v.Text = "--value--";
+            // 
+            // tabPage_upload_lbl_extension
+            // 
+            tabPage_upload_lbl_extension.AutoSize = true;
+            tabPage_upload_lbl_extension.Location = new Point(23, 69);
+            tabPage_upload_lbl_extension.Name = "tabPage_upload_lbl_extension";
+            tabPage_upload_lbl_extension.Size = new Size(77, 15);
+            tabPage_upload_lbl_extension.TabIndex = 8;
+            tabPage_upload_lbl_extension.Text = "Extension:";
+            // 
             // tabPage_upload_tb_path
             // 
-            tabPage_upload_tb_path.Location = new Point(59, 358);
+            tabPage_upload_tb_path.Location = new Point(23, 383);
             tabPage_upload_tb_path.Name = "tabPage_upload_tb_path";
             tabPage_upload_tb_path.Size = new Size(320, 21);
             tabPage_upload_tb_path.TabIndex = 7;
@@ -89,7 +111,7 @@ namespace Shared.Modules
             // 
             // tabPage_upload_btn_changeFile
             // 
-            tabPage_upload_btn_changeFile.Location = new Point(229, 72);
+            tabPage_upload_btn_changeFile.Location = new Point(193, 97);
             tabPage_upload_btn_changeFile.Name = "tabPage_upload_btn_changeFile";
             tabPage_upload_btn_changeFile.Size = new Size(150, 35);
             tabPage_upload_btn_changeFile.TabIndex = 6;
@@ -99,7 +121,7 @@ namespace Shared.Modules
             // 
             // tabPage_upload_btn_save
             // 
-            tabPage_upload_btn_save.Location = new Point(59, 72);
+            tabPage_upload_btn_save.Location = new Point(23, 97);
             tabPage_upload_btn_save.Name = "tabPage_upload_btn_save";
             tabPage_upload_btn_save.Size = new Size(150, 35);
             tabPage_upload_btn_save.TabIndex = 5;
@@ -109,7 +131,7 @@ namespace Shared.Modules
             // 
             // tabPage_upload_pb_image
             // 
-            tabPage_upload_pb_image.Location = new Point(59, 112);
+            tabPage_upload_pb_image.Location = new Point(23, 137);
             tabPage_upload_pb_image.Name = "tabPage_upload_pb_image";
             tabPage_upload_pb_image.Size = new Size(320, 240);
             tabPage_upload_pb_image.TabIndex = 4;
@@ -128,7 +150,7 @@ namespace Shared.Modules
             // tabPage_upload_lbl_type
             // 
             tabPage_upload_lbl_type.AutoSize = true;
-            tabPage_upload_lbl_type.Location = new Point(72, 54);
+            tabPage_upload_lbl_type.Location = new Point(23, 54);
             tabPage_upload_lbl_type.Name = "tabPage_upload_lbl_type";
             tabPage_upload_lbl_type.Size = new Size(42, 15);
             tabPage_upload_lbl_type.TabIndex = 2;
@@ -145,7 +167,7 @@ namespace Shared.Modules
             // tabPage_upload_lbl_description
             // 
             tabPage_upload_lbl_description.AutoSize = true;
-            tabPage_upload_lbl_description.Location = new Point(23, 25);
+            tabPage_upload_lbl_description.Location = new Point(23, 33);
             tabPage_upload_lbl_description.Name = "tabPage_upload_lbl_description";
             tabPage_upload_lbl_description.Size = new Size(91, 15);
             tabPage_upload_lbl_description.TabIndex = 0;
@@ -160,11 +182,11 @@ namespace Shared.Modules
             tabPage_list.Text = "List";
             tabPage_list.UseVisualStyleBackColor = true;
             // 
-            // ContentUpload
+            // Content
             // 
             ClientSize = new Size(2040, 1155);
             Controls.Add(tabControl);
-            Name = "ContentUpload";
+            Name = "Content";
             Controls.SetChildIndex(tabControl, 0);
             tabControl.ResumeLayout(false);
             tabPage_upload.ResumeLayout(false);
@@ -187,5 +209,7 @@ namespace Shared.Modules
         private System.Windows.Forms.Button tabPage_upload_btn_changeFile;
         private System.Windows.Forms.TextBox tabPage_upload_tb_path;
         private System.Windows.Forms.TabPage tabPage_list;
+        private System.Windows.Forms.Label tabPage_upload_lbl_extension_v;
+        private System.Windows.Forms.Label tabPage_upload_lbl_extension;
     }
 }

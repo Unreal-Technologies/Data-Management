@@ -16,8 +16,10 @@ namespace Shared.Efc.Tables
         #region Properties
         [Required, Key]
         public Guid Id { get; set; }
-        [Required]
+        [Required, MaxLength(64)]
         public string? Description { get; set; }
+        [Required, MaxLength(8)]
+        public string? Extension { get; set; }
         [Required]
         public virtual User? User { get; set; }
         [Required]
