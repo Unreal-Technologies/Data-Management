@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shared.Controls;
+﻿using Shared.Controls;
 using Shared.Efc;
 using Shared.Efc.Tables;
 using Shared.Interfaces;
@@ -21,6 +20,7 @@ namespace Shared.Modules
         #region Members
         private States state;
         private Gridview<ContentDto>? gridviewList;
+        private Guid tempContentId = Guid.Empty;
         #endregion //Members
 
         #region Constructors
@@ -37,12 +37,7 @@ namespace Shared.Modules
         #region Enums
         public enum States
         {
-            Upload, List
-        }
-
-        private enum Actions
-        {
-            Upload, ListContent
+            Upload, List, Delete
         }
         #endregion //Enums
 
@@ -70,51 +65,11 @@ namespace Shared.Modules
 
         public override byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
         {
-            DbContext? modContext = Context?.Select(this);
-            Actions? action = ModletStream.GetInputType<Actions>(stream);
-            if (modContext is not SharedModContext smc || action == null)
-            {
-                return null;
-            }
-
-            switch (action)
-            {
-                case Actions.Upload:
-                    return OnLocalServerAction_Upload(smc, stream);
-                case Actions.ListContent:
-                    return OnLocalServerAction_ListContent(smc, stream);
-                default:
-                    break;
-            }
-            return null;
+            return DataHandler.OnLocalServerAction(stream, this, Context);
         }
         #endregion //Public Methods
 
         #region Private Methods
-        private static byte[]? OnLocalServerAction_ListContent(SharedModContext smc, byte[]? stream)
-        {
-            Guid userId = ModletStream.GetContent<Actions, Guid>(stream);
-            if (userId == Guid.Empty)
-            {
-                return null;
-            }
-
-            ContentDto[] contents = [.. smc.Contents
-                .Where(x => x.User != null && x.User.Id == userId)
-                .OrderByDescending(x => x.TransStartDate)
-                .Select(x => new ContentDto()
-                {
-                    Description = x.Description,
-                    Id = x.Id,
-                    TransStartDate = x.TransStartDate,
-                    Type = x.Type,
-                    Extension = x.Extension
-                }
-            )];
-
-            return ModletStream.CreatePacket(true, contents);
-        }
-
         private void Content_Load(object? sender, EventArgs e)
         {
             gridviewList = new Gridview<ContentDto>(x => x.Id);
@@ -127,9 +82,19 @@ namespace Shared.Modules
 
             gridviewList.OnAdd += OnAdd;
             //gridviewList.OnEdit += OnEdit;
-            //gridviewList.OnRemove += OnRemove;
+            gridviewList.OnRemove += OnRemove;
 
             tabPage_list.Controls.Add(gridviewList);
+        }
+
+        private void OnRemove(Guid? id)
+        {
+            if (id != null)
+            {
+                tempContentId = id.Value;
+                SetState(States.Delete);
+                tempContentId = Guid.Empty;
+            }
         }
 
         private void OnAdd(Guid? id)
@@ -175,7 +140,35 @@ namespace Shared.Modules
                     tabControl.SelectTab(tabPage_list);
                     RenderList();
                     break;
+                case States.Delete:
+                    InfoBar.Subtitle = "Delete: " + tempContentId.ToString();
+                    tabControl.SelectTab(tabPage_delete);
+                    RenderDelete();
+                    break;
             }
+        }
+
+        private void RenderDelete()
+        {
+            if (InfoBar == null)
+            {
+                return;
+            }
+
+            Efc.Tables.Content? content = Request<Efc.Tables.Content, DataHandler.SharedActions, Guid>(
+                DataHandler.SharedActions.SelectContentById, 
+                tempContentId
+            );
+
+            if (content == null)
+            {
+                return;
+            }
+
+            tabPage_delete_lbl_message.Text = string.Format(tabPage_delete_lbl_message.Text, content.Description);
+            tabPage_delete_tb_id.Text = tempContentId.ToString();
+
+            InfoBar.Subtitle = tabPage_delete_lbl_message.Text;
         }
 
         private void RenderList()
@@ -191,42 +184,15 @@ namespace Shared.Modules
                 value is User user
             )
             {
-                ContentDto[]? content = Request<ContentDto[], Actions, Guid>(Actions.ListContent, user.Id);
-                if(content != null)
+                ContentDto[]? content = Request<ContentDto[], DataHandler.SharedActions, Guid>(
+                    DataHandler.SharedActions.ListContentDtoByUserId, 
+                    user.Id
+                );
+                if (content != null)
                 {
                     gridviewList.Dataset(content);
                 }
             }
-        }
-
-        private static byte[]? OnLocalServerAction_Upload(SharedModContext smc, byte[]? stream)
-        {
-            Efc.Tables.Content? content = ModletStream.GetContent<Actions, Efc.Tables.Content>(stream);
-            if(content == null)
-            {
-                return null;
-            }
-            Guid userId = content.User?.Id ?? Guid.Empty;
-
-            if(smc.Contents.Any(x => 
-                x.Description == content.Description && 
-                x.Extension == content.Extension && 
-                x.User != null && 
-                x.User.Id == userId
-            ))
-            {
-                return ModletStream.CreatePacket(
-                    false, 
-                    string.Format("Description \"{0}\" is already in use.", content.Description)
-                );
-            }
-
-            content.User = smc.Users.FirstOrDefault(x => x.Id == userId);
-
-            smc.Add(content);
-            smc.SaveChanges();
-
-            return ModletStream.CreatePacket(true, content);
         }
 
         private void RenderUpload()
@@ -244,7 +210,7 @@ namespace Shared.Modules
 
         private void RenderUpload(string path, Efc.Tables.Content.Types type)
         {
-            if(path == string.Empty)
+            if (path == string.Empty)
             {
                 return;
             }
@@ -298,7 +264,7 @@ namespace Shared.Modules
 
                 byte[]? result = Client?.Send(
                 ModletStream.CreatePacket(
-                        Actions.Upload,
+                        DataHandler.SharedActions.UploadContentByContent,
                         input
                     ),
                     ModletCommands.Commands.Action,
@@ -337,6 +303,27 @@ namespace Shared.Modules
             {
                 return Efc.Tables.Content.Types.Undefined;
             }
+        }
+
+        private void TabPage_delete_btn_no_Click(object sender, EventArgs e)
+        {
+            SetState(States.List);
+        }
+
+        private void TabPage_delete_btn_yes_Click(object sender, EventArgs e)
+        {
+            Guid contentId = Guid.Parse(tabPage_delete_tb_id.Text);
+            ModletStream.GetContent<bool, Efc.Tables.Content>(
+                Client?.Send(
+                    ModletStream.CreatePacket(
+                        DataHandler.SharedActions.DeleteContentById,
+                        contentId
+                    ),
+                    ModletCommands.Commands.Action,
+                    this
+                )
+            );
+            SetState(States.List);
         }
         #endregion //Private Methods
 

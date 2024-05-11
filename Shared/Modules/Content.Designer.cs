@@ -43,9 +43,15 @@ namespace Shared.Modules
             tabPage_upload_vtb_description = new UT.Data.Controls.Validated.ValidatedTextBox();
             tabPage_upload_lbl_description = new System.Windows.Forms.Label();
             tabPage_list = new System.Windows.Forms.TabPage();
+            tabPage_delete = new System.Windows.Forms.TabPage();
+            tabPage_delete_tb_id = new System.Windows.Forms.TextBox();
+            tabPage_delete_btn_no = new System.Windows.Forms.Button();
+            tabPage_delete_btn_yes = new System.Windows.Forms.Button();
+            tabPage_delete_lbl_message = new System.Windows.Forms.Label();
             tabControl.SuspendLayout();
             tabPage_upload.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tabPage_upload_pb_image).BeginInit();
+            tabPage_delete.SuspendLayout();
             SuspendLayout();
             // 
             // ofdUpload
@@ -56,6 +62,7 @@ namespace Shared.Modules
             // 
             tabControl.Controls.Add(tabPage_upload);
             tabControl.Controls.Add(tabPage_list);
+            tabControl.Controls.Add(tabPage_delete);
             tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             tabControl.Location = new Point(0, 50);
             tabControl.Name = "tabControl";
@@ -182,6 +189,56 @@ namespace Shared.Modules
             tabPage_list.Text = "List";
             tabPage_list.UseVisualStyleBackColor = true;
             // 
+            // tabPage_delete
+            // 
+            tabPage_delete.Controls.Add(tabPage_delete_tb_id);
+            tabPage_delete.Controls.Add(tabPage_delete_btn_no);
+            tabPage_delete.Controls.Add(tabPage_delete_btn_yes);
+            tabPage_delete.Controls.Add(tabPage_delete_lbl_message);
+            tabPage_delete.Location = new Point(4, 24);
+            tabPage_delete.Name = "tabPage_delete";
+            tabPage_delete.Size = new Size(2032, 1077);
+            tabPage_delete.TabIndex = 2;
+            tabPage_delete.Text = "Delete";
+            tabPage_delete.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_delete_tb_id
+            // 
+            tabPage_delete_tb_id.Location = new Point(8, 77);
+            tabPage_delete_tb_id.Name = "tabPage_delete_tb_id";
+            tabPage_delete_tb_id.Size = new Size(150, 21);
+            tabPage_delete_tb_id.TabIndex = 7;
+            tabPage_delete_tb_id.Visible = false;
+            // 
+            // tabPage_delete_btn_no
+            // 
+            tabPage_delete_btn_no.Location = new Point(164, 37);
+            tabPage_delete_btn_no.Name = "tabPage_delete_btn_no";
+            tabPage_delete_btn_no.Size = new Size(150, 35);
+            tabPage_delete_btn_no.TabIndex = 6;
+            tabPage_delete_btn_no.Text = "No";
+            tabPage_delete_btn_no.UseVisualStyleBackColor = true;
+            tabPage_delete_btn_no.Click += TabPage_delete_btn_no_Click;
+            // 
+            // tabPage_delete_btn_yes
+            // 
+            tabPage_delete_btn_yes.Location = new Point(8, 37);
+            tabPage_delete_btn_yes.Name = "tabPage_delete_btn_yes";
+            tabPage_delete_btn_yes.Size = new Size(150, 35);
+            tabPage_delete_btn_yes.TabIndex = 5;
+            tabPage_delete_btn_yes.Text = "Yes";
+            tabPage_delete_btn_yes.UseVisualStyleBackColor = true;
+            tabPage_delete_btn_yes.Click += TabPage_delete_btn_yes_Click;
+            // 
+            // tabPage_delete_lbl_message
+            // 
+            tabPage_delete_lbl_message.AutoSize = true;
+            tabPage_delete_lbl_message.Location = new Point(8, 14);
+            tabPage_delete_lbl_message.Name = "tabPage_delete_lbl_message";
+            tabPage_delete_lbl_message.Size = new Size(266, 15);
+            tabPage_delete_lbl_message.TabIndex = 4;
+            tabPage_delete_lbl_message.Text = "Are you sure you want to delete \"{0}\"";
+            // 
             // Content
             // 
             ClientSize = new Size(2040, 1155);
@@ -192,6 +249,8 @@ namespace Shared.Modules
             tabPage_upload.ResumeLayout(false);
             tabPage_upload.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)tabPage_upload_pb_image).EndInit();
+            tabPage_delete.ResumeLayout(false);
+            tabPage_delete.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -211,5 +270,10 @@ namespace Shared.Modules
         private System.Windows.Forms.TabPage tabPage_list;
         private System.Windows.Forms.Label tabPage_upload_lbl_extension_v;
         private System.Windows.Forms.Label tabPage_upload_lbl_extension;
+        private System.Windows.Forms.TabPage tabPage_delete;
+        private System.Windows.Forms.TextBox tabPage_delete_tb_id;
+        private System.Windows.Forms.Button tabPage_delete_btn_no;
+        private System.Windows.Forms.Button tabPage_delete_btn_yes;
+        private System.Windows.Forms.Label tabPage_delete_lbl_message;
     }
 }
