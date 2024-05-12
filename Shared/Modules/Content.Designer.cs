@@ -48,10 +48,23 @@ namespace Shared.Modules
             tabPage_delete_btn_no = new System.Windows.Forms.Button();
             tabPage_delete_btn_yes = new System.Windows.Forms.Button();
             tabPage_delete_lbl_message = new System.Windows.Forms.Label();
+            tabPage_edit = new System.Windows.Forms.TabPage();
+            tabPage_edit_lbl_extension_v = new System.Windows.Forms.Label();
+            tabPage_edit_lbl_extension = new System.Windows.Forms.Label();
+            tabPage_edit_tb_path = new System.Windows.Forms.TextBox();
+            tabPage_edit_btn_changeFile = new System.Windows.Forms.Button();
+            tabPage_edit_btn_save = new System.Windows.Forms.Button();
+            tabPage_edit_pb_image = new System.Windows.Forms.PictureBox();
+            tabPage_edit_lbl_type_v = new System.Windows.Forms.Label();
+            tabPage_edit_lbl_type = new System.Windows.Forms.Label();
+            tabPage_edit_vtb_description = new UT.Data.Controls.Validated.ValidatedTextBox();
+            tabPage_edit_lbl_description = new System.Windows.Forms.Label();
             tabControl.SuspendLayout();
             tabPage_upload.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)tabPage_upload_pb_image).BeginInit();
             tabPage_delete.SuspendLayout();
+            tabPage_edit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)tabPage_edit_pb_image).BeginInit();
             SuspendLayout();
             // 
             // ofdUpload
@@ -63,6 +76,7 @@ namespace Shared.Modules
             tabControl.Controls.Add(tabPage_upload);
             tabControl.Controls.Add(tabPage_list);
             tabControl.Controls.Add(tabPage_delete);
+            tabControl.Controls.Add(tabPage_edit);
             tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             tabControl.Location = new Point(0, 50);
             tabControl.Name = "tabControl";
@@ -239,6 +253,115 @@ namespace Shared.Modules
             tabPage_delete_lbl_message.TabIndex = 4;
             tabPage_delete_lbl_message.Text = "Are you sure you want to delete \"{0}\"";
             // 
+            // tabPage_edit
+            // 
+            tabPage_edit.Controls.Add(tabPage_edit_lbl_extension_v);
+            tabPage_edit.Controls.Add(tabPage_edit_lbl_extension);
+            tabPage_edit.Controls.Add(tabPage_edit_tb_path);
+            tabPage_edit.Controls.Add(tabPage_edit_btn_changeFile);
+            tabPage_edit.Controls.Add(tabPage_edit_btn_save);
+            tabPage_edit.Controls.Add(tabPage_edit_pb_image);
+            tabPage_edit.Controls.Add(tabPage_edit_lbl_type_v);
+            tabPage_edit.Controls.Add(tabPage_edit_lbl_type);
+            tabPage_edit.Controls.Add(tabPage_edit_vtb_description);
+            tabPage_edit.Controls.Add(tabPage_edit_lbl_description);
+            tabPage_edit.Location = new Point(4, 24);
+            tabPage_edit.Name = "tabPage_edit";
+            tabPage_edit.Size = new Size(2032, 1077);
+            tabPage_edit.TabIndex = 3;
+            tabPage_edit.Text = "Edit";
+            tabPage_edit.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_edit_lbl_extension_v
+            // 
+            tabPage_edit_lbl_extension_v.AutoSize = true;
+            tabPage_edit_lbl_extension_v.Location = new Point(120, 70);
+            tabPage_edit_lbl_extension_v.Name = "tabPage_edit_lbl_extension_v";
+            tabPage_edit_lbl_extension_v.Size = new Size(70, 15);
+            tabPage_edit_lbl_extension_v.TabIndex = 19;
+            tabPage_edit_lbl_extension_v.Text = "--value--";
+            // 
+            // tabPage_edit_lbl_extension
+            // 
+            tabPage_edit_lbl_extension.AutoSize = true;
+            tabPage_edit_lbl_extension.Location = new Point(23, 70);
+            tabPage_edit_lbl_extension.Name = "tabPage_edit_lbl_extension";
+            tabPage_edit_lbl_extension.Size = new Size(77, 15);
+            tabPage_edit_lbl_extension.TabIndex = 18;
+            tabPage_edit_lbl_extension.Text = "Extension:";
+            // 
+            // tabPage_edit_tb_path
+            // 
+            tabPage_edit_tb_path.Location = new Point(23, 384);
+            tabPage_edit_tb_path.Name = "tabPage_edit_tb_path";
+            tabPage_edit_tb_path.Size = new Size(320, 21);
+            tabPage_edit_tb_path.TabIndex = 17;
+            tabPage_edit_tb_path.Visible = false;
+            // 
+            // tabPage_edit_btn_changeFile
+            // 
+            tabPage_edit_btn_changeFile.Location = new Point(193, 98);
+            tabPage_edit_btn_changeFile.Name = "tabPage_edit_btn_changeFile";
+            tabPage_edit_btn_changeFile.Size = new Size(150, 35);
+            tabPage_edit_btn_changeFile.TabIndex = 16;
+            tabPage_edit_btn_changeFile.Text = "Change File";
+            tabPage_edit_btn_changeFile.UseVisualStyleBackColor = true;
+            tabPage_edit_btn_changeFile.Click += TabPage_edit_btn_changeFile_Click;
+            // 
+            // tabPage_edit_btn_save
+            // 
+            tabPage_edit_btn_save.Location = new Point(23, 98);
+            tabPage_edit_btn_save.Name = "tabPage_edit_btn_save";
+            tabPage_edit_btn_save.Size = new Size(150, 35);
+            tabPage_edit_btn_save.TabIndex = 15;
+            tabPage_edit_btn_save.Text = "Save";
+            tabPage_edit_btn_save.UseVisualStyleBackColor = true;
+            tabPage_edit_btn_save.Click += TabPage_edit_btn_save_Click;
+            // 
+            // tabPage_edit_pb_image
+            // 
+            tabPage_edit_pb_image.Location = new Point(23, 138);
+            tabPage_edit_pb_image.Name = "tabPage_edit_pb_image";
+            tabPage_edit_pb_image.Size = new Size(320, 240);
+            tabPage_edit_pb_image.TabIndex = 14;
+            tabPage_edit_pb_image.TabStop = false;
+            tabPage_edit_pb_image.Visible = false;
+            // 
+            // tabPage_edit_lbl_type_v
+            // 
+            tabPage_edit_lbl_type_v.AutoSize = true;
+            tabPage_edit_lbl_type_v.Location = new Point(120, 55);
+            tabPage_edit_lbl_type_v.Name = "tabPage_edit_lbl_type_v";
+            tabPage_edit_lbl_type_v.Size = new Size(70, 15);
+            tabPage_edit_lbl_type_v.TabIndex = 13;
+            tabPage_edit_lbl_type_v.Text = "--value--";
+            // 
+            // tabPage_edit_lbl_type
+            // 
+            tabPage_edit_lbl_type.AutoSize = true;
+            tabPage_edit_lbl_type.Location = new Point(23, 55);
+            tabPage_edit_lbl_type.Name = "tabPage_edit_lbl_type";
+            tabPage_edit_lbl_type.Size = new Size(42, 15);
+            tabPage_edit_lbl_type.TabIndex = 12;
+            tabPage_edit_lbl_type.Text = "Type:";
+            // 
+            // tabPage_edit_vtb_description
+            // 
+            tabPage_edit_vtb_description.IsRequired = true;
+            tabPage_edit_vtb_description.Location = new Point(120, 26);
+            tabPage_edit_vtb_description.Name = "tabPage_edit_vtb_description";
+            tabPage_edit_vtb_description.Size = new Size(300, 23);
+            tabPage_edit_vtb_description.TabIndex = 11;
+            // 
+            // tabPage_edit_lbl_description
+            // 
+            tabPage_edit_lbl_description.AutoSize = true;
+            tabPage_edit_lbl_description.Location = new Point(23, 34);
+            tabPage_edit_lbl_description.Name = "tabPage_edit_lbl_description";
+            tabPage_edit_lbl_description.Size = new Size(91, 15);
+            tabPage_edit_lbl_description.TabIndex = 10;
+            tabPage_edit_lbl_description.Text = "Description:";
+            // 
             // Content
             // 
             ClientSize = new Size(2040, 1155);
@@ -251,6 +374,9 @@ namespace Shared.Modules
             ((System.ComponentModel.ISupportInitialize)tabPage_upload_pb_image).EndInit();
             tabPage_delete.ResumeLayout(false);
             tabPage_delete.PerformLayout();
+            tabPage_edit.ResumeLayout(false);
+            tabPage_edit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)tabPage_edit_pb_image).EndInit();
             ResumeLayout(false);
         }
 
@@ -275,5 +401,16 @@ namespace Shared.Modules
         private System.Windows.Forms.Button tabPage_delete_btn_no;
         private System.Windows.Forms.Button tabPage_delete_btn_yes;
         private System.Windows.Forms.Label tabPage_delete_lbl_message;
+        private System.Windows.Forms.TabPage tabPage_edit;
+        private System.Windows.Forms.Label tabPage_edit_lbl_extension_v;
+        private System.Windows.Forms.Label tabPage_edit_lbl_extension;
+        private System.Windows.Forms.TextBox tabPage_edit_tb_path;
+        private System.Windows.Forms.Button tabPage_edit_btn_changeFile;
+        private System.Windows.Forms.Button tabPage_edit_btn_save;
+        private System.Windows.Forms.PictureBox tabPage_edit_pb_image;
+        private System.Windows.Forms.Label tabPage_edit_lbl_type_v;
+        private System.Windows.Forms.Label tabPage_edit_lbl_type;
+        private UT.Data.Controls.Validated.ValidatedTextBox tabPage_edit_vtb_description;
+        private System.Windows.Forms.Label tabPage_edit_lbl_description;
     }
 }

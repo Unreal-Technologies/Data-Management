@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Shared.Efc.Tables;
 using Shared.Interfaces;
 using Shared.Modules;
 using System.Drawing;
@@ -28,20 +28,23 @@ namespace Shared.Controls
         #endregion //Properties
 
         #region Protected Methods
+        protected byte[]? Request<Tkey, Tinput>(Tkey key, Tinput input)
+            where Tkey : struct
+        {
+            return Client?.Send(
+                ModletStream.CreatePacket(
+                    key,
+                    input
+                ),
+                ModletCommands.Commands.Action,
+                this
+            );
+        }
+
         protected Tdata? Request<Tdata, Tkey, Tinput>(Tkey key, Tinput input)
             where Tkey : struct
         {
-            Tdata? result = ModletStream.GetContent<bool, Tdata>(
-                Client?.Send(
-                    ModletStream.CreatePacket(
-                        key,
-                        input
-                    ),
-                    ModletCommands.Commands.Action,
-                    this
-                )
-            );
-            return result;
+            return ModletStream.GetContent<bool, Tdata>(Request(key, input));
         }
         #endregion //Protected Methods
 
@@ -72,12 +75,17 @@ namespace Shared.Controls
             return default;
         }
 
-        private void Mpm_OnFullscreenChanged(object? sender, EventArgs e)
+        public User? AuthenticatedUser()
         {
-            if (sender is IMdiParentModlet mpm)
+            if(
+                Session != null &&
+                Session.TryGetValue("User-Authentication", out object? value) &&
+                value is User user
+            )
             {
-                WindowState = mpm.IsFullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+                return user;
             }
+            return null;
         }
 
         public void OnClientConfiguration(Form? form, ModletClient client, Session session)
@@ -109,5 +117,15 @@ namespace Shared.Controls
         {
         }
         #endregion //Public Methods
+
+        #region Private Methods
+        private void Mpm_OnFullscreenChanged(object? sender, EventArgs e)
+        {
+            if (sender is IMdiParentModlet mpm)
+            {
+                WindowState = mpm.IsFullScreen ? FormWindowState.Maximized : FormWindowState.Normal;
+            }
+        }
+        #endregion //Private Methods
     }
 }

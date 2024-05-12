@@ -10,7 +10,6 @@ using UT.Data.Attributes;
 using UT.Data.Controls;
 using UT.Data.Controls.Custom;
 using UT.Data.Extensions;
-using UT.Data.Modlet;
 
 namespace Shared.Modules
 {
@@ -18,10 +17,24 @@ namespace Shared.Modules
     public partial class Content : ExtendedMdiModletForm
     {
         #region Members
+        private Guid tempContentId = Guid.Empty;
         private States state;
         private Gridview<ContentDto>? gridviewList;
-        private Guid tempContentId = Guid.Empty;
         #endregion //Members
+
+        #region Enums
+        public enum States
+        {
+            Upload, List, Delete, Edit
+        }
+        #endregion //Enums
+
+        #region Constants
+        private const string Description = "Description";
+        private const string Extension = "Extension";
+        private const string Type = "Type";
+        private const string LastUpdate = "Last Update";
+        #endregion //Constants
 
         #region Constructors
         public Content()
@@ -34,33 +47,19 @@ namespace Shared.Modules
         }
         #endregion //Constructors
 
-        #region Enums
-        public enum States
-        {
-            Upload, List, Delete
-        }
-        #endregion //Enums
-
-        #region Constants
-        private const string Description = "Description";
-        private const string Extension = "Extension";
-        private const string Type = "Type";
-        private const string LastUpdate = "Last Update";
-        #endregion //Constants
-
         #region Public Methods
+        public void SetState(States state)
+        {
+            this.state = state;
+            UpdateState();
+        }
+
         public override void OnMenuCreation()
         {
             if (Root is IMainFormModlet && Root is IMainMenuContainer mmc)
             {
                 mmc.MenuStack.Add(this, ["Application", "Content"], OpenEdit);
             }
-        }
-
-        public void SetState(States state)
-        {
-            this.state = state;
-            UpdateState();
         }
 
         public override byte[]? OnLocalServerAction(byte[]? stream, IPAddress ip)
@@ -70,49 +69,17 @@ namespace Shared.Modules
         #endregion //Public Methods
 
         #region Private Methods
-        private void Content_Load(object? sender, EventArgs e)
-        {
-            gridviewList = new Gridview<ContentDto>(x => x.Id);
-            gridviewList.SetColumns([
-                gridviewList.Column(Description, x => x.Description ?? "", Sorting.Container),
-                gridviewList.Column(Extension, x => x.Extension ?? "", Sorting.Container),
-                gridviewList.Column(Type, x => x.Type.ToString(), Gridview.Alignment.Center, Sorting.Container),
-                gridviewList.Column(LastUpdate, x => x.TransStartDate.ToString("dd-MM-yyyy HH:mm"), Sorting.Container)
-            ]);
-
-            gridviewList.OnAdd += OnAdd;
-            //gridviewList.OnEdit += OnEdit;
-            gridviewList.OnRemove += OnRemove;
-
-            tabPage_list.Controls.Add(gridviewList);
-        }
-
-        private void OnRemove(Guid? id)
-        {
-            if (id != null)
-            {
-                tempContentId = id.Value;
-                SetState(States.Delete);
-                tempContentId = Guid.Empty;
-            }
-        }
-
-        private void OnAdd(Guid? id)
-        {
-            SetState(States.Upload);
-        }
-
-        private void OpenEdit()
-        {
-            Content? cu = ShowMdi<Content>();
-            cu?.SetState(States.List);
-        }
-
         private void ClearControls()
         {
             tabPage_upload_vtb_description.Control.Text = "";
             tabPage_upload_lbl_extension_v.Text = "";
             tabPage_upload_lbl_type_v.Text = "";
+            tabPage_upload_pb_image.Visible = false;
+
+            tabPage_edit_vtb_description.Control.Text = "";
+            tabPage_edit_lbl_extension_v.Text = "";
+            tabPage_edit_lbl_type_v.Text = "";
+            tabPage_edit_pb_image.Visible = false;
         }
 
         private void UpdateState()
@@ -145,7 +112,78 @@ namespace Shared.Modules
                     tabControl.SelectTab(tabPage_delete);
                     RenderDelete();
                     break;
+                case States.Edit:
+                    InfoBar.Subtitle = "Edit: " + tempContentId.ToString();
+                    tabControl.SelectTab(tabPage_edit);
+                    RenderEdit();
+                    break;
             }
+        }
+
+        private void RenderEdit()
+        {
+            Efc.Tables.Content? content = Request<Efc.Tables.Content, DataHandler.SharedActions, Guid>(
+                DataHandler.SharedActions.SelectContentById,
+                tempContentId
+            );
+
+            if (content == null)
+            {
+                return;
+            }
+
+            if (InfoBar != null)
+            {
+                InfoBar.Subtitle = "Edit: " + content.Description;
+            }
+
+            tabPage_edit_lbl_extension_v.Text = content.Extension;
+            tabPage_edit_lbl_type_v.Text = content.Type.ToString();
+            tabPage_edit_vtb_description.Control.Text = content.Description;
+
+            switch (content.Type)
+            {
+                case Efc.Tables.Content.Types.Image:
+                    if (content.Stream != null)
+                    {
+                        tabPage_edit_pb_image.Visible = true;
+                        tabPage_edit_pb_image.Image = Image.FromStream(content.Stream.AsBytes().FromBase64().ToStream());
+                        tabPage_edit_pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
+                    }
+                    break;
+            }
+        }
+
+        private void TabPage_edit_btn_changeFile_Click(object sender, EventArgs e)
+        {
+            if (ofdUpload.ShowDialog() != DialogResult.OK)
+            {
+                DialogResult = DialogResult.Abort;
+                Close();
+            }
+            string path = ofdUpload.FileName;
+            Efc.Tables.Content.Types type = DetermenType(path);
+
+            FileInfo fi = new(path);
+
+            tabPage_edit_tb_path.Text = path;
+            tabPage_edit_lbl_type_v.Text = type.ToString();
+            tabPage_edit_lbl_extension_v.Text = fi.Extension;
+
+            tabPage_edit_pb_image.Visible = false;
+            switch (type)
+            {
+                case Efc.Tables.Content.Types.Image:
+                    tabPage_edit_pb_image.Visible = true;
+                    tabPage_edit_pb_image.Image = Image.FromFile(path);
+                    tabPage_edit_pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
+                    break;
+            }
+        }
+
+        private void TabPage_edit_btn_save_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void RenderDelete()
@@ -156,7 +194,7 @@ namespace Shared.Modules
             }
 
             Efc.Tables.Content? content = Request<Efc.Tables.Content, DataHandler.SharedActions, Guid>(
-                DataHandler.SharedActions.SelectContentById, 
+                DataHandler.SharedActions.SelectContentById,
                 tempContentId
             );
 
@@ -178,14 +216,12 @@ namespace Shared.Modules
                 return;
             }
 
-            if (
-                Session != null &&
-                Session.TryGetValue("User-Authentication", out object? value) &&
-                value is User user
-            )
+            User? user = AuthenticatedUser();
+
+            if (user != null)
             {
                 ContentDto[]? content = Request<ContentDto[], DataHandler.SharedActions, Guid>(
-                    DataHandler.SharedActions.ListContentDtoByUserId, 
+                    DataHandler.SharedActions.ListContentDtoByUserId,
                     user.Id
                 );
                 if (content != null)
@@ -225,13 +261,74 @@ namespace Shared.Modules
             switch (type)
             {
                 case Efc.Tables.Content.Types.Image:
-                    tabPage_upload_pb_image.Image = Bitmap.FromFile(path);
+                    tabPage_upload_pb_image.Image = Image.FromFile(path);
                     tabPage_upload_pb_image.Visible = true;
                     tabPage_upload_pb_image.SizeMode = PictureBoxSizeMode.StretchImage;
                     break;
                 default:
                     break;
             }
+        }
+
+        private static Efc.Tables.Content.Types DetermenType(string path)
+        {
+            try
+            {
+                using Image img = Image.FromFile(path);
+                return Efc.Tables.Content.Types.Image;
+            }
+            catch (Exception)
+            {
+                return Efc.Tables.Content.Types.Undefined;
+            }
+        }
+
+        private void Content_Load(object? sender, EventArgs e)
+        {
+            gridviewList = new Gridview<ContentDto>(x => x.Id);
+            gridviewList.SetColumns([
+                gridviewList.Column(Description, x => x.Description ?? "", Sorting.Container),
+                gridviewList.Column(Extension, x => x.Extension ?? "", Sorting.Container),
+                gridviewList.Column(Type, x => x.Type.ToString(), Gridview.Alignment.Center, Sorting.Container),
+                gridviewList.Column(LastUpdate, x => x.TransStartDate.ToString("dd-MM-yyyy HH:mm"), Sorting.Container)
+            ]);
+
+            gridviewList.OnAdd += OnAdd;
+            gridviewList.OnEdit += OnEdit;
+            gridviewList.OnRemove += OnRemove;
+
+            tabPage_list.Controls.Add(gridviewList);
+        }
+
+        private void OnRemove(Guid? id)
+        {
+            if (id != null)
+            {
+                tempContentId = id.Value;
+                SetState(States.Delete);
+                tempContentId = Guid.Empty;
+            }
+        }
+
+        private void OnAdd(Guid? id)
+        {
+            SetState(States.Upload);
+        }
+
+        private void OnEdit(Guid? id)
+        {
+            if (id != null)
+            {
+                tempContentId = id.Value;
+                SetState(States.Edit);
+                tempContentId = Guid.Empty;
+            }
+        }
+
+        private void OpenEdit()
+        {
+            Content? cu = ShowMdi<Content>();
+            cu?.SetState(States.List);
         }
 
         private void TabPage_upload_btn_save_Click(object sender, EventArgs e)
@@ -245,12 +342,10 @@ namespace Shared.Modules
             Validator validator = new();
             validator.Add(tabPage_upload_vtb_description);
             validator.Validate();
-            if (
-                validator.IsValid &&
-                Session != null &&
-                Session.TryGetValue("User-Authentication", out object? value) &&
-                value is User user
-            )
+
+            User? user = AuthenticatedUser();
+
+            if (validator.IsValid && user != null)
             {
                 FileInfo fi = new(tabPage_upload_tb_path.Text);
                 Efc.Tables.Content input = new()
@@ -262,14 +357,8 @@ namespace Shared.Modules
                     Stream = File.ReadAllBytes(fi.FullName).ToBase64().AsString()
                 };
 
-                byte[]? result = Client?.Send(
-                ModletStream.CreatePacket(
-                        DataHandler.SharedActions.UploadContentByContent,
-                        input
-                    ),
-                    ModletCommands.Commands.Action,
-                    this
-                );
+                byte[]? result = Request(DataHandler.SharedActions.UploadContentByContent, input);
+
                 bool stateOk = ModletStream.GetKey<bool, object>(result);
                 if (stateOk)
                 {
@@ -292,19 +381,6 @@ namespace Shared.Modules
             RenderUpload();
         }
 
-        private static Efc.Tables.Content.Types DetermenType(string path)
-        {
-            try
-            {
-                using Image img = Image.FromFile(path);
-                return Efc.Tables.Content.Types.Image;
-            }
-            catch (Exception)
-            {
-                return Efc.Tables.Content.Types.Undefined;
-            }
-        }
-
         private void TabPage_delete_btn_no_Click(object sender, EventArgs e)
         {
             SetState(States.List);
@@ -313,16 +389,7 @@ namespace Shared.Modules
         private void TabPage_delete_btn_yes_Click(object sender, EventArgs e)
         {
             Guid contentId = Guid.Parse(tabPage_delete_tb_id.Text);
-            ModletStream.GetContent<bool, Efc.Tables.Content>(
-                Client?.Send(
-                    ModletStream.CreatePacket(
-                        DataHandler.SharedActions.DeleteContentById,
-                        contentId
-                    ),
-                    ModletCommands.Commands.Action,
-                    this
-                )
-            );
+            Request<Content, DataHandler.SharedActions, Guid>(DataHandler.SharedActions.DeleteContentById, contentId);
             SetState(States.List);
         }
         #endregion //Private Methods
